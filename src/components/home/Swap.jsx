@@ -1,6 +1,6 @@
 import React from 'react'
 import { Flex } from 'rebass'
-import { networks, title, token } from '../../constants/settings'
+import { title } from '../../constants/settings'
 
 import { Title } from '.'
 import { Box } from '../common/Container'
@@ -13,6 +13,7 @@ import ActionButton from './ActionButton'
 
 const Swap = ({ updateSelectedChain }) => {
   let { state } = useMuonState()
+
   return (
     <Flex
       flexDirection="column"
@@ -37,11 +38,19 @@ const Swap = ({ updateSelectedChain }) => {
             label="Select Network"
             onChange={(data) => updateSelectedChain(data)}
           />
-          <SelectBox label="from" amount={state.amount.pay} />
+          <SelectBox
+            label="from"
+            amount={state.amount.pay}
+            selectedToken={state.selectedtoken}
+          />
           <Flex justifyContent="center">
             <Image src="/media/common/ex.svg" alt="exchange" />
           </Flex>
-          <SelectBox label="to" amount={state.amount.receive} />
+          <SelectBox
+            label="to"
+            amount={state.amount.receive}
+            selectedToken={state.mainToken}
+          />
 
           <ActionButton
           //   wrongNetwork={wrongNetwork}

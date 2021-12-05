@@ -1,15 +1,29 @@
+import Web3 from 'web3'
+
 export const title = 'BLOOD TOKEN'
+
+const bscTestWeb3 = new Web3(
+  new Web3.providers.HttpProvider(
+    'https://data-seed-prebsc-1-s1.binance.org:8545/'
+  )
+)
+const rinkebyWeb3 = new Web3(
+  new Web3.providers.HttpProvider(
+    `https://rinkeby.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_KEY}`
+  )
+)
 
 export const networks = [
   {
     id: 4,
     name: 'Rinkeby',
     symbol: 'ETH',
+    web3: rinkebyWeb3,
     tokens: [
       {
         logo: '/media/tokens/eth.svg',
         symbol: 'ETH',
-        address: '0x5629227c1e2542dbc5aca0cecb7cd3e02c82ad0a',
+        address: '0x',
         decimals: 18
       },
       {
@@ -24,19 +38,21 @@ export const networks = [
     id: 97,
     name: 'BSCTest',
     symbol: 'BSC',
+    web3: bscTestWeb3,
     tokens: [
       {
         logo: '/media/tokens/bnb.svg',
         symbol: 'BNB',
-        address: '0x5629227c1e2542dbc5aca0cecb7cd3e02c82ad0a',
+        address: '0x',
         decimals: 18
       }
     ]
   }
 ]
 
-export const token = {
+export const mainToken = {
   name: 'Blood',
+  symbol: 'BT',
   address: '0xdc047b66e6CE32dcA3924d19cDC234777875F2Ea',
   logo: '/media/tokens/default.svg'
 }

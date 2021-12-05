@@ -1,4 +1,4 @@
-import { networks } from '../constants/settings'
+import { mainToken, networks } from '../constants/settings'
 
 export const initState = {
   account: '',
@@ -6,7 +6,10 @@ export const initState = {
   network: 'NaN',
   approve: false,
   actionBtnType: 'select',
+  data: networks,
+  mainToken: mainToken,
   selectedChain: networks[0],
+  selectedtoken: { ...networks[0].tokens[0], balance: '' },
   tokenSearchQuery: '',
   amount: { pay: '', receive: '' },
   transaction: {
@@ -30,18 +33,32 @@ export const reducer = (state, action) => {
         network: action.payload.network
       }
       break
+
     case 'UPDATE_TOKEN_SEARCH_QUERY':
       newState = {
         ...state,
         tokenSearchQuery: action.payload
       }
       break
+
+    case 'UPDATE_INFO':
+      newState = {
+        ...state,
+        data: action.payload.result,
+        selectedtoken: action.payload.result[0].tokens[0],
+        mainToken: {
+          ...state.mainToken,
+          balance: action.payload.mainTokenBalance
+        }
+      }
+      break
+
     case 'UPDATE_SELECTED_CHAIN':
       newState = { ...state, selectedChain: action.payload }
       break
+
     default:
       throw new Error(`${action.type} is not defined in this state!`)
-      break
   }
   return newState
 }

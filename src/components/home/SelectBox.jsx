@@ -1,13 +1,12 @@
 import React from 'react'
 import { Flex } from 'rebass'
-import { token } from '../../constants/settings'
 import { useMuonState } from '../../context'
 import { Selector, Select, Input, Image } from '../common/FormControlls'
 import { Type } from '../common/Text'
 
-const SelectBox = ({ label, amount, error }) => {
+const SelectBox = (props) => {
   const { state, dispatch } = useMuonState()
-
+  let { label, amount, error, selectedToken } = props
   return (
     <Selector
       padding="20px"
@@ -31,7 +30,8 @@ const SelectBox = ({ label, amount, error }) => {
             fontSize="12.5px"
             padding="5px 10px"
           >
-            Balance: 10
+            Balance:
+            {`${parseFloat(selectedToken?.balance)} ${selectedToken?.symbol}`}
           </Type.SM>
           {label === 'from' && (
             <Type.SM
@@ -39,7 +39,7 @@ const SelectBox = ({ label, amount, error }) => {
               color="#313144"
               fontSize="12.5px"
               padding="5px 10px"
-              onClick={(e) => handleAmount(defaultWallet.balance, label)}
+              onClick={(e) => handleAmount(selectedToken.balance, label)}
             >
               (Max)
             </Type.SM>
@@ -69,9 +69,9 @@ const SelectBox = ({ label, amount, error }) => {
           </Select>
         ) : (
           <Flex alignItems="center" padding="0 10px">
-            <Image src={token.logo} boxSizing="unset" />
+            <Image src={selectedToken.logo} boxSizing="unset" />
             <Type.LG fontFamily="FH Oscar" color="#313144" fontSizeXS="16px">
-              {token.name}
+              {selectedToken.name}
             </Type.LG>
           </Flex>
         )}

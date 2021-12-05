@@ -8,7 +8,6 @@ import { Type } from '../common/Text'
 const Modal = dynamic(() => import('../common/Modal'))
 // import Modal from '../common/Modal'
 import { useMuonState } from '../../context'
-import { networks } from '../../constants/settings'
 
 const Wrapper = styled.div`
   margin-bottom: ${({ marginBottom }) =>
@@ -32,20 +31,11 @@ const Arrow = styled.img`
 `
 
 const Network = (props) => {
-  const {
-    label,
-    placeholder,
-    data,
-    type,
-    onChange,
-    value,
-    marginBottom,
-    border
-  } = props
+  const { label, placeholder, type, onChange, marginBottom, border } = props
   const [open, setOpen] = React.useState(false)
   const { state, dispatch } = useMuonState()
 
-  const contentModal = networks.map((item, index) => (
+  const contentModal = state.data.map((item, index) => (
     <Item key={index}>
       <ContentItem
         alignItems="center"
