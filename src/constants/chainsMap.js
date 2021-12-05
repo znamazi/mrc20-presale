@@ -27,7 +27,8 @@ export const NameChainMap = {
   4002: 'FTM TEST',
   128: 'HECO',
   256: 'HECOT',
-  43114: 'AVAX'
+  43114: 'AVAX',
+  undefined: 'NaN'
 }
 
 export const rpcConfig = {

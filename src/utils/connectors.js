@@ -61,7 +61,7 @@ export const ConnectorNames = {
 export const ConnectorByName = {
   [ConnectorNames.Injected]: injected,
   [ConnectorNames.WalletConnect]: walletconnect,
-  [ConnectorNames.WalletLink]: walletlink,
-  [ConnectorNames.Frame]: frame,
-  [ConnectorNames.Fortmatic]: fortmatic
+  [ConnectorNames.WalletLink]: walletlink
+  // [ConnectorNames.Frame]: frame,
+  // [ConnectorNames.Fortmatic]: fortmatic
 }
