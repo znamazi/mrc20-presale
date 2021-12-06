@@ -31,7 +31,11 @@ const SelectBox = (props) => {
             padding="5px 10px"
           >
             Balance:
-            {`${parseFloat(selectedToken?.balance)} ${selectedToken?.symbol}`}
+            {`${
+              parseFloat(selectedToken.balance)
+                ? parseFloat(selectedToken.balance)
+                : ''
+            } ${selectedToken?.symbol}`}
           </Type.SM>
           {label === 'from' && (
             <Type.SM

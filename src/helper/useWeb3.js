@@ -9,13 +9,15 @@ const useWeb3 = () => {
   const [web3, setweb3] = useState(
     library ? new Web3(library) : getWeb3NoAccount()
   )
+  console.log({ library, web3, refEth: refEth.current })
   useEffect(() => {
     if (library !== refEth.current) {
+      alert('hi')
       setweb3(library ? new Web3(library) : getWeb3NoAccount())
       refEth.current = library
     }
   }, [library])
-
+  console.log({ web3 })
   return web3
 }
 

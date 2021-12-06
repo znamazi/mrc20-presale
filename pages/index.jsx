@@ -10,10 +10,8 @@ import { title } from '../src/constants/settings'
 import { useMuonState } from '../src/context'
 import { NameChainMap } from '../src/constants/chainsMap'
 import getAssetBalances from '../src/helper/getAssetBalances'
-import { getContract } from '../src/helper/contractHelpers'
 import { BLOOD_ABI } from '../src/constants/ABI'
 import useWeb3 from '../src/helper/useWeb3'
-import { getBalanceNumber } from '../src/helper/formatBalance'
 import { getTokenBalance } from '../src/helper/getTokenBalance'
 
 const CustomTransaction = dynamic(() =>
@@ -31,7 +29,6 @@ const Home = () => {
   React.useEffect(() => {
     const fetchBalances = async () => {
       if (account) {
-        let result = await getAssetBalances(account)
         const mainTokenBalance = await getTokenBalance(
           BLOOD_ABI,
           state.mainToken.address,
@@ -39,6 +36,7 @@ const Home = () => {
           account,
           web3
         )
+        let result = await getAssetBalances(account)
 
         dispatch({
           type: 'UPDATE_INFO',
@@ -68,7 +66,9 @@ const Home = () => {
       payload: value
     })
   }
-
+  const handleConnectWallet = () => {
+    setOpen(true)
+  }
   return (
     <>
       <Head>
@@ -79,7 +79,10 @@ const Home = () => {
         <Wrapper maxWidth="340px" width="100%"></Wrapper>
 
         <Wrapper maxWidth="600px" width="100%">
-          <Swap updateSelectedChain={updateSelectedChain} />
+          <Swap
+            updateSelectedChain={updateSelectedChain}
+            handleConnectWallet={handleConnectWallet}
+          />
         </Wrapper>
         <Wrapper maxWidth="340px" width="100%">
           <CustomTransaction />

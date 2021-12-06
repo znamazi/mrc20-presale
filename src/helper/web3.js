@@ -9,6 +9,7 @@ export function useActiveWeb3React() {
 }
 
 const RPC_URL = getNodeUrl()
+console.log({ RPC_URL })
 const httpProvider = new Web3.providers.HttpProvider(RPC_URL, {
   timeout: 10000
 })

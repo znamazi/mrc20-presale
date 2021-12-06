@@ -11,9 +11,16 @@ import { useMuonState } from '../../context'
 import { Image } from '../common/FormControlls'
 import ActionButton from './ActionButton'
 
-const Swap = ({ updateSelectedChain }) => {
+const Swap = (props) => {
   let { state } = useMuonState()
-
+  const {
+    wrongNetwork,
+    updateSelectedChain,
+    handleConnectWallet,
+    handleDeposit,
+    handleApprove,
+    errorAmount
+  } = props
   return (
     <Flex
       flexDirection="column"
@@ -53,10 +60,10 @@ const Swap = ({ updateSelectedChain }) => {
           />
 
           <ActionButton
-          //   wrongNetwork={wrongNetwork}
-          //   handleConnectWallet={handleConnectWallet}
-          //   handleDeposit={handleDeposit}
-          //   handleApprove={handleApprove}
+            //   wrongNetwork={wrongNetwork}
+            handleConnectWallet={handleConnectWallet}
+            //   handleDeposit={handleDeposit}
+            //   handleApprove={handleApprove}
           />
           <Flex justifyContent="center" margin="50px 0 20px">
             <Image src="/media/common/logo.svg" alt="Muon Logo" />

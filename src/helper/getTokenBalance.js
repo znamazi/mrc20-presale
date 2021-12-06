@@ -9,12 +9,14 @@ export const getTokenBalance = async (
   account,
   web3
 ) => {
+  console.log({ abi, address, decimals, account, web3 })
   const contract = getContract(abi, address, web3)
   let balance
   if (!isAddress(address)) {
     balance = await web3.eth.getBalance(account)
   } else {
     balance = await contract.methods.balanceOf(account).call()
+    console.log('bbbbbbbb', balance)
   }
   balance = getBalanceNumber(balance, decimals)
   return balance

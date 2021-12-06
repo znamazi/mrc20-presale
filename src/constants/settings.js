@@ -53,6 +53,7 @@ export const networks = [
 export const mainToken = {
   name: 'Blood',
   symbol: 'BT',
+  decimals: 18,
   address: '0xdc047b66e6CE32dcA3924d19cDC234777875F2Ea',
   logo: '/media/tokens/default.svg'
 }
