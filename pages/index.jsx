@@ -6,7 +6,7 @@ import { useWeb3React } from '@web3-react/core'
 
 import { Container, Wrapper } from '../src/components/home'
 import WalletModal from '../src/components/common/WalletModal'
-import { title } from '../src/constants/settings'
+import { title, validChains } from '../src/constants/settings'
 import { useMuonState } from '../src/context'
 import { NameChainMap } from '../src/constants/chainsMap'
 import getAssetBalances from '../src/helper/getAssetBalances'
@@ -25,10 +25,20 @@ const Home = () => {
   const web3 = useWeb3()
 
   const [open, setOpen] = React.useState(false)
+  const [wrongNetwork, setWrongNetwork] = React.useState(false)
+
+  React.useEffect(() => {
+    if (!validChains.includes(chainId)) {
+      setWrongNetwork(true)
+    }
+    return () => {
+      setWrongNetwork(false)
+    }
+  }, [chainId, state.bridge, account])
 
   React.useEffect(() => {
     const fetchBalances = async () => {
-      if (account) {
+      if (account && validChains.includes(chainId)) {
         const mainTokenBalance = await getTokenBalance(
           BLOOD_ABI,
           state.mainToken.address,
@@ -45,7 +55,7 @@ const Home = () => {
       }
     }
     fetchBalances()
-  }, [account])
+  }, [account, chainId])
 
   React.useEffect(() => {
     if (account) {
@@ -82,6 +92,7 @@ const Home = () => {
           <Swap
             updateSelectedChain={updateSelectedChain}
             handleConnectWallet={handleConnectWallet}
+            wrongNetwork={wrongNetwork}
           />
         </Wrapper>
         <Wrapper maxWidth="340px" width="100%">

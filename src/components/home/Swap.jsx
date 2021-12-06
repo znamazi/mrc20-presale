@@ -60,7 +60,7 @@ const Swap = (props) => {
           />
 
           <ActionButton
-            //   wrongNetwork={wrongNetwork}
+            wrongNetwork={wrongNetwork}
             handleConnectWallet={handleConnectWallet}
             //   handleDeposit={handleDeposit}
             //   handleApprove={handleApprove}

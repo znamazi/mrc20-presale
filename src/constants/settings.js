@@ -57,3 +57,5 @@ export const mainToken = {
   address: '0xdc047b66e6CE32dcA3924d19cDC234777875F2Ea',
   logo: '/media/tokens/default.svg'
 }
+
+export const validChains = [4, 97]
