@@ -9,9 +9,9 @@ export const initState = {
   data: networks,
   mainToken: mainToken,
   selectedChain: networks[0],
-  selectedtoken: { ...networks[0].tokens[0], balance: '' },
+  selectedToken: { ...networks[0].tokens[0], balance: '' },
   tokenSearchQuery: '',
-  amount: { pay: '', receive: '' },
+  amount: { from: '', to: '' },
   transaction: {
     type: '',
     message: '',
@@ -23,6 +23,7 @@ export const initState = {
 }
 
 export const reducer = (state, action) => {
+  console.log(action)
   let newState
   switch (action.type) {
     case 'UPDATE_NETWORK_INFO':
@@ -45,7 +46,7 @@ export const reducer = (state, action) => {
       newState = {
         ...state,
         data: action.payload.result,
-        selectedtoken: action.payload.result[0].tokens[0],
+        selectedToken: action.payload.result[0].tokens[0],
         mainToken: {
           ...state.mainToken,
           balance: action.payload.mainTokenBalance
@@ -55,6 +56,22 @@ export const reducer = (state, action) => {
 
     case 'UPDATE_SELECTED_CHAIN':
       newState = { ...state, selectedChain: action.payload }
+      break
+
+    case 'UPDATE_SELECTED_Token':
+      newState = { ...state, selectedToken: action.payload }
+      break
+
+    case 'UPDATE_AMOUNT':
+      newState = {
+        ...state,
+        amount: action.payload.amount,
+        actionBtnType: action.payload.btnType
+      }
+      break
+
+    case 'UPDATE_APPROVE':
+      newState = { ...state, approve: action.payload }
       break
 
     default:

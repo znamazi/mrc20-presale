@@ -63,16 +63,8 @@ const CustomTransaction = () => {
         marginTop="15px"
         alignItems="center"
       >
-        {state.transaction.fromChain && (
-          <>
-            <Type.SM fontSize="12.5px" color="#313144" fontFamily="FH Oscar">
-              {state.transaction.fromChain}
-            </Type.SM>
-            <Arrow>&rarr;</Arrow>
-          </>
-        )}
         <Type.SM fontSize="12.5px" color="#313144" fontFamily="FH Oscar">
-          {state.transaction.toChain}
+          {state.transaction.chainId}
         </Type.SM>
       </Flex>
       <Flex justifyContent="flex-start" width="100%" marginTop="3px">

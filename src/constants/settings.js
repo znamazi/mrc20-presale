@@ -2,6 +2,10 @@ import Web3 from 'web3'
 
 export const title = 'BLOOD TOKEN'
 
+// Launch price of 0.1 USD
+
+export const LAUNCH_PRICE = 0.1
+
 const bscTestWeb3 = new Web3(
   new Web3.providers.HttpProvider(
     'https://data-seed-prebsc-1-s1.binance.org:8545/'

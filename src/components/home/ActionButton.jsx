@@ -18,48 +18,10 @@ const ActionButton = (props) => {
   const { chainId } = useWeb3React()
 
   let validChainId = null
-  // if (state.bridge.fromChain && state.bridge.toChain) {
-  //   if (
-  //     state.actionBtnType === 'bridgeToChain' &&
-  //     state.bridge.toChain.id !== chainId
-  //   )
-  //     validChainId = state.bridge.toChain.id
-  //   else if (
-  //     state.actionBtnType !== 'bridgeToChain' &&
-  //     state.bridge.fromChain.id !== chainId
-  //   )
-  //     validChainId = state.bridge.fromChain.id
-  // }
+  if (state.actionBtnType === 'deposit' && state.selectedChain.id !== chainId)
+    validChainId = state.selectedChain.id
 
   switch (state.actionBtnType) {
-    case 'bridgeFromChain':
-      content = (
-        <Button margin="50px 0 0" cursor="default">
-          <Type.LG
-            color="#909090"
-            fontFamily="FH Oscar"
-            fontSizeXS="16px"
-            fontSizeXXS="14px"
-          >
-            Select Asset and Chains
-          </Type.LG>
-        </Button>
-      )
-      break
-    case 'bridgeToChain':
-      content = (
-        <Button margin="50px 0 0" cursor="default">
-          <Type.LG
-            color="#909090"
-            fontFamily="FH Oscar"
-            fontSizeXS="16px"
-            fontSizeXXS="14px"
-          >
-            Select Asset and Chains
-          </Type.LG>
-        </Button>
-      )
-      break
     case 'approve':
       let approveStatus =
         state.transaction.status === TransactionStatus.PENDING &&
@@ -116,7 +78,7 @@ const ActionButton = (props) => {
             fontSizeXS="16px"
             fontSizeXXS="14px"
           >
-            Select Asset and Chains
+            Enter amount
           </Type.LG>
         </Button>
       )

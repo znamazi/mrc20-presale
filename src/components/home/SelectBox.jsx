@@ -5,8 +5,8 @@ import { Selector, Select, Input, Image } from '../common/FormControlls'
 import { Type } from '../common/Text'
 
 const SelectBox = (props) => {
-  const { state, dispatch } = useMuonState()
-  let { label, amount, error, selectedToken } = props
+  const { state } = useMuonState()
+  let { label, amount, error, selectedToken, changeToken, handleAmount } = props
   return (
     <Selector
       padding="20px"
@@ -31,7 +31,7 @@ const SelectBox = (props) => {
             padding="5px 10px"
           >
             Balance:
-            {`${
+            {` ${
               parseFloat(selectedToken.balance)
                 ? parseFloat(selectedToken.balance)
                 : ''
@@ -62,11 +62,11 @@ const SelectBox = (props) => {
         {label === 'from' ? (
           <Select
             id={label}
-            onChange={(e) => changeWallet(e.target.value, label)}
+            onChange={(e) => changeToken(e.target.value)}
             // value={defaultWallet.name}
           >
             {state.selectedChain.tokens.map((token) => (
-              <option key={token.address} value={token}>
+              <option key={token.address} value={token.address}>
                 {token.symbol}
               </option>
             ))}

@@ -49,8 +49,7 @@ export const Select = styled.select`
   border: ${({ border }) => (border ? border : '1px solid #838995')};
   background: ${({ background }) => (background ? background : '#838995')};
 
-  border-radius: ${({ borderRadius }) =>
-    borderRadius ? borderRadius : '10px'};
+  border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius : '2px')};
   box-sizing: border-box;
   font-family: ${({ fontFamily }) => (fontFamily ? fontFamily : 'FH Oscar')};
   font-style: normal;

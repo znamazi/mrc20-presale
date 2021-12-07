@@ -17,6 +17,8 @@ const Swap = (props) => {
     wrongNetwork,
     updateSelectedChain,
     handleConnectWallet,
+    changeToken,
+    handleAmount,
     handleDeposit,
     handleApprove,
     errorAmount
@@ -47,23 +49,26 @@ const Swap = (props) => {
           />
           <SelectBox
             label="from"
-            amount={state.amount.pay}
-            selectedToken={state.selectedtoken}
+            amount={state.amount?.from}
+            selectedToken={state.selectedToken}
+            changeToken={changeToken}
+            handleAmount={handleAmount}
           />
           <Flex justifyContent="center">
             <Image src="/media/common/ex.svg" alt="exchange" />
           </Flex>
           <SelectBox
             label="to"
-            amount={state.amount.receive}
+            amount={state.amount?.to}
             selectedToken={state.mainToken}
+            handleAmount={handleAmount}
           />
 
           <ActionButton
             wrongNetwork={wrongNetwork}
             handleConnectWallet={handleConnectWallet}
             //   handleDeposit={handleDeposit}
-            //   handleApprove={handleApprove}
+            handleApprove={handleApprove}
           />
           <Flex justifyContent="center" margin="50px 0 20px">
             <Image src="/media/common/logo.svg" alt="Muon Logo" />
