@@ -16,4 +16,22 @@ const useWeb3 = () => {
   return web3
 }
 
+export const useCrossWeb3 = (targetChainId) => {
+  const { library, chainId } = useWeb3React()
+  const [web3, setweb3] = useState(
+    library && chainId === targetChainId
+      ? new Web3(library)
+      : getWeb3NoAccount(targetChainId)
+  )
+
+  useEffect(() => {
+    setweb3(
+      library && chainId === targetChainId
+        ? new Web3(library)
+        : getWeb3NoAccount(targetChainId)
+    )
+  }, [chainId, library, targetChainId])
+
+  return web3
+}
 export default useWeb3

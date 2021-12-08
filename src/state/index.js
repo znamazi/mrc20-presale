@@ -46,7 +46,7 @@ export const reducer = (state, action) => {
       newState = {
         ...state,
         data: action.payload.result,
-        selectedToken: action.payload.result[0].tokens[0],
+        selectedToken: action.payload.selectedToken,
         mainToken: {
           ...state.mainToken,
           balance: action.payload.mainTokenBalance

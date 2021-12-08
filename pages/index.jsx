@@ -20,6 +20,7 @@ import {
   TransactionStatus,
   TransactionType
 } from '../src/constants/transactionStatus'
+import { useUsedAmount } from '../src/helper/useUsedAmount'
 
 const CustomTransaction = dynamic(() =>
   import('../src/components/common/CustomTransaction')
@@ -34,6 +35,8 @@ const Home = () => {
   const [open, setOpen] = React.useState(false)
   const [wrongNetwork, setWrongNetwork] = React.useState(false)
   const [prices, setPrices] = React.useState()
+  const [maxAllocation, setMaxAllocation] = React.useState()
+  let amount = useUsedAmount()
 
   React.useEffect(() => {
     if (!validChains.includes(chainId)) {
@@ -53,15 +56,23 @@ const Home = () => {
         account,
         web3
       )
-      let result = await getAssetBalances(account)
+      let result = await getAssetBalances(account, web3, chainId)
+      let chain = result.find((item) => item.id === state.selectedChain.id)
+      let selectedToken = chain.tokens.find(
+        (token) => token.address === state.selectedToken.address
+      )
 
       dispatch({
         type: 'UPDATE_INFO',
-        payload: { result, mainTokenBalance }
+        payload: {
+          result,
+          mainTokenBalance,
+          selectedToken: selectedToken ? selectedToken : { ...chain.tokens[0] }
+        }
       })
     }
     if (account && validChains.includes(chainId) && web3) fetchBalances()
-  }, [account, chainId, web3])
+  }, [account, chainId, web3, state.selectedChain])
 
   React.useEffect(() => {
     if (account) {
@@ -78,14 +89,32 @@ const Home = () => {
 
   React.useEffect(() => {
     const fetchPrice = async () => {
-      let result = await fetchApi('https://app.deus.finance/prices.json', {
+      let tokens = await fetchApi('https://app.deus.finance/prices.json', {
         cache: 'no-cache'
       })
 
-      setPrices(result)
+      setPrices(tokens)
     }
     fetchPrice()
   }, [])
+  React.useEffect(() => {
+    const fetchMaxAllocation = async () => {
+      // TODO: fetchMaxAllocation api
+      let allocations = {
+        '0x5629227C1E2542DbC5ACA0cECb7Cd3E02C82AD0a': 10000,
+        '0x8b9C5d6c73b4d11a362B62Bd4B4d3E52AF55C630': 500,
+        '0xbb49a68c8EA9C2374082B738A7297c28EF3Fda26': 20000,
+        '0x3Be0B18d954DF829dE5E7d968002B856bB89f104': 200000
+      }
+      const userAllocationAmount = allocations[account]
+      if (userAllocationAmount) {
+        setMaxAllocation(userAllocationAmount)
+      } else {
+        setMaxAllocation(0)
+      }
+    }
+    if (account) fetchMaxAllocation()
+  }, [account])
 
   React.useEffect(() => {
     dispatch({
@@ -125,10 +154,10 @@ const Home = () => {
     if (account) checkApprove()
   }, [account, state.selectedToken])
 
-  const updateSelectedChain = (value) => {
+  const updateSelectedChain = (chain) => {
     dispatch({
       type: 'UPDATE_SELECTED_CHAIN',
-      payload: value
+      payload: chain
     })
   }
   const handleConnectWallet = () => {

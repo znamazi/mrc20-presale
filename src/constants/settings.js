@@ -1,28 +1,14 @@
-import Web3 from 'web3'
-
 export const title = 'BLOOD TOKEN'
 
 // Launch price of 0.1 USD
 
 export const LAUNCH_PRICE = 0.1
 
-const bscTestWeb3 = new Web3(
-  new Web3.providers.HttpProvider(
-    'https://data-seed-prebsc-1-s1.binance.org:8545/'
-  )
-)
-const rinkebyWeb3 = new Web3(
-  new Web3.providers.HttpProvider(
-    `https://rinkeby.infura.io/v3/${process.env.NEXT_PUBLIC_INFURA_KEY}`
-  )
-)
-
 export const networks = [
   {
     id: 4,
     name: 'Rinkeby',
     symbol: 'ETH',
-    web3: rinkebyWeb3,
     tokens: [
       {
         logo: '/media/tokens/eth.svg',
@@ -42,7 +28,6 @@ export const networks = [
     id: 97,
     name: 'BSCTest',
     symbol: 'BSC',
-    web3: bscTestWeb3,
     tokens: [
       {
         logo: '/media/tokens/bnb.svg',

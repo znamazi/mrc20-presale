@@ -7,7 +7,7 @@ import {
 import { useMuonState } from '../../context'
 import { Button } from '../common/FormControlls'
 import { Type } from '../common/Text'
-// import { addRPC } from '../../helper/addRPC'
+import { addRPC } from '../../helper/addRPC'
 import { NameChainMap } from '../../constants/chainsMap'
 
 const ActionButton = (props) => {
@@ -18,8 +18,7 @@ const ActionButton = (props) => {
   const { chainId } = useWeb3React()
 
   let validChainId = null
-  if (state.actionBtnType === 'deposit' && state.selectedChain.id !== chainId)
-    validChainId = state.selectedChain.id
+  if (state.selectedChain.id !== chainId) validChainId = state.selectedChain.id
 
   switch (state.actionBtnType) {
     case 'approve':
