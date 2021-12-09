@@ -7,6 +7,29 @@ import { Type } from '../common/Text'
 const SelectBox = (props) => {
   const { state } = useMuonState()
   let { label, amount, error, selectedToken, changeToken, handleAmount } = props
+  console.log('bbbbbbbbbbbbbbbb', parseFloat(selectedToken.balance))
+
+  let content =
+    state.selectedChain.tokens.length > 1 ? (
+      <Select
+        id={label}
+        onChange={(e) => changeToken(e.target.value)}
+        // value={defaultWallet.name}
+      >
+        {state.selectedChain.tokens.map((token) => (
+          <option key={token.address} value={token.address}>
+            {token.symbol}
+          </option>
+        ))}
+      </Select>
+    ) : (
+      <Flex alignItems="center" padding="0 10px">
+        <Image src={state.selectedChain.tokens[0].logo} boxSizing="unset" />
+        <Type.LG fontFamily="FH Oscar" color="#313144" fontSizeXS="16px">
+          {state.selectedChain.tokens[0].symbol}
+        </Type.LG>
+      </Flex>
+    )
   return (
     <Selector
       padding="20px"
@@ -32,7 +55,7 @@ const SelectBox = (props) => {
           >
             Balance:
             {` ${
-              parseFloat(selectedToken.balance)
+              !isNaN(parseFloat(selectedToken.balance))
                 ? parseFloat(selectedToken.balance)
                 : ''
             } ${selectedToken?.symbol}`}
@@ -60,17 +83,7 @@ const SelectBox = (props) => {
           border={error && error.label === label && '1px solid red'}
         />
         {label === 'from' ? (
-          <Select
-            id={label}
-            onChange={(e) => changeToken(e.target.value)}
-            // value={defaultWallet.name}
-          >
-            {state.selectedChain.tokens.map((token) => (
-              <option key={token.address} value={token.address}>
-                {token.symbol}
-              </option>
-            ))}
-          </Select>
+          content
         ) : (
           <Flex alignItems="center" padding="0 10px">
             <Image src={selectedToken.logo} boxSizing="unset" />

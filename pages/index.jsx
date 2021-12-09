@@ -118,11 +118,9 @@ const Home = () => {
   }, [account])
 
   React.useEffect(() => {
-    dispatch({
-      type: 'UPDATE_AMOUNT',
-      payload: { amount: { from: '', to: '' }, btnType: 'select' }
-    })
-  }, [state.selectedToken])
+    if (prices && state.amount.from > 0)
+      handleAmount(state.amount[state.amount.type], state.amount.type)
+  }, [state.selectedToken, prices])
 
   React.useEffect(() => {
     let approve
@@ -152,8 +150,8 @@ const Home = () => {
         })
       }
     }
-    if (account) checkApprove()
-  }, [account, state.selectedToken])
+    if (account && web3 && state.selectedChain.id === chainId) checkApprove()
+  }, [account, state.selectedToken, web3, chainId, state.selectedChain])
 
   React.useEffect(() => {
     if (maxAllocation && usedAmount) setAllocation(maxAllocation - usedAmount)
@@ -162,7 +160,10 @@ const Home = () => {
   const updateSelectedChain = (chain) => {
     dispatch({
       type: 'UPDATE_SELECTED_CHAIN',
-      payload: chain
+      payload: {
+        chain,
+        selectedToken: { ...chain.tokens[0] }
+      }
     })
   }
   const handleConnectWallet = () => {
@@ -182,9 +183,17 @@ const Home = () => {
     let amount
     let token = prices[state.selectedToken.symbol.toLowerCase()]
     if (label === 'from') {
-      amount = { from: value, to: token.price / LAUNCH_PRICE }
+      amount = {
+        from: value,
+        to: (token.price * value) / LAUNCH_PRICE,
+        type: 'from'
+      }
     } else {
-      amount = { from: (value * LAUNCH_PRICE) / token.price, to: value }
+      amount = {
+        from: (value * LAUNCH_PRICE) / token.price,
+        to: value,
+        type: 'to'
+      }
     }
 
     dispatch({

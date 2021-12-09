@@ -30,9 +30,9 @@ export const networks = [
     symbol: 'matic',
     tokens: [
       {
-        logo: '/media/tokens/matic.svg',
-        symbol: 'MATIC',
-        address: '0x',
+        logo: '/media/tokens/ert.svg',
+        symbol: 'ERT',
+        address: '0x701048911b1f1121E33834d3633227A954978d53',
         decimals: 18
       }
     ]

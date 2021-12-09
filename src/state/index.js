@@ -55,7 +55,11 @@ export const reducer = (state, action) => {
       break
 
     case 'UPDATE_SELECTED_CHAIN':
-      newState = { ...state, selectedChain: action.payload }
+      newState = {
+        ...state,
+        selectedChain: action.payload.chain,
+        selectedToken: action.payload.selectedToken
+      }
       break
 
     case 'UPDATE_SELECTED_Token':
@@ -71,7 +75,11 @@ export const reducer = (state, action) => {
       break
 
     case 'UPDATE_APPROVE':
-      newState = { ...state, approve: action.payload }
+      newState = {
+        ...state,
+        approve: action.payload,
+        actionBtnType: action.payload ? 'deposit' : 'approve'
+      }
       break
 
     default:
