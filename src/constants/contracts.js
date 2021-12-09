@@ -1,4 +1,4 @@
 export const MRC20Presale = {
-  4: '',
-  97: ''
+  80001: '0x56149dfF72e26114eA87F2c0209f9efa82d6f334',
+  4: '0xdB340f1a47A0bA3bE42F123B194d2b07Dc3E456E'
 }

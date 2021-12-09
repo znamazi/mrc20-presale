@@ -25,9 +25,9 @@ export const networks = [
     ]
   },
   {
-    id: 97,
-    name: 'BSCTest',
-    symbol: 'BSC',
+    id: 80001,
+    name: 'Mumbai',
+    symbol: 'matic',
     tokens: [
       {
         logo: '/media/tokens/bnb.svg',
@@ -47,4 +47,4 @@ export const mainToken = {
   logo: '/media/tokens/default.svg'
 }
 
-export const validChains = [4, 97]
+export const validChains = [4, 80001]
