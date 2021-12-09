@@ -6,8 +6,15 @@ import { Type } from '../common/Text'
 
 const SelectBox = (props) => {
   const { state } = useMuonState()
-  let { label, amount, error, selectedToken, changeToken, handleAmount } = props
-  console.log('bbbbbbbbbbbbbbbb', parseFloat(selectedToken.balance))
+  let {
+    label,
+    amount,
+    error,
+    selectedToken,
+    changeToken,
+    handleAmount,
+    handleMax
+  } = props
 
   let content =
     state.selectedChain.tokens.length > 1 ? (
@@ -66,7 +73,8 @@ const SelectBox = (props) => {
               color="#313144"
               fontSize="12.5px"
               padding="5px 10px"
-              onClick={(e) => handleAmount(selectedToken.balance, label)}
+              cursor="pointer"
+              onClick={(e) => handleMax(selectedToken.balance)}
             >
               (Max)
             </Type.SM>
@@ -80,7 +88,9 @@ const SelectBox = (props) => {
           placeholder="Enter Amount"
           onChange={(e) => handleAmount(e.target.value, label)}
           value={amount}
-          border={error && error.label === label && '1px solid red'}
+          border={
+            error && error.type && error.label === label && '1px solid red'
+          }
         />
         {label === 'from' ? (
           content

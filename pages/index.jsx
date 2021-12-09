@@ -21,6 +21,7 @@ import {
   TransactionType
 } from '../src/constants/transactionStatus'
 import { useUsedAmount } from '../src/helper/useUsedAmount'
+import { getMaxAllow } from '../src/utils/getMaxAllow'
 
 const CustomTransaction = dynamic(() =>
   import('../src/components/common/CustomTransaction')
@@ -37,6 +38,7 @@ const Home = () => {
   const [prices, setPrices] = React.useState()
   const [maxAllocation, setMaxAllocation] = React.useState()
   const [allocation, setAllocation] = React.useState(0)
+  const [error, setError] = React.useState('')
   let usedAmount = useUsedAmount()
 
   React.useEffect(() => {
@@ -102,7 +104,7 @@ const Home = () => {
     const fetchMaxAllocation = async () => {
       // TODO: fetchMaxAllocation api
       let allocations = {
-        '0x5629227C1E2542DbC5ACA0cECb7Cd3E02C82AD0a': 10000,
+        '0x5629227C1E2542DbC5ACA0cECb7Cd3E02C82AD0a': 1000,
         '0x8b9C5d6c73b4d11a362B62Bd4B4d3E52AF55C630': 500,
         '0xbb49a68c8EA9C2374082B738A7297c28EF3Fda26': 20000,
         '0x3Be0B18d954DF829dE5E7d968002B856bB89f104': 200000
@@ -180,28 +182,38 @@ const Home = () => {
     })
   }
   const handleAmount = (value, label) => {
-    let amount
+    let valueFrom, valueTo
     let token = prices[state.selectedToken.symbol.toLowerCase()]
-    if (label === 'from') {
-      amount = {
-        from: value,
-        to: (token.price * value) / LAUNCH_PRICE,
-        type: 'from'
-      }
-    } else {
-      amount = {
-        from: (value * LAUNCH_PRICE) / token.price,
-        to: value,
-        type: 'to'
-      }
-    }
 
+    if (label === 'from') {
+      valueFrom = value
+      valueTo = (token.price * value) / LAUNCH_PRICE
+    } else {
+      valueFrom = (value * LAUNCH_PRICE) / token.price
+      valueTo = value
+    }
+    let max = getMaxAllow(token, valueFrom, allocation)
+
+    let amount = {
+      from: valueFrom,
+      to: valueTo,
+      type: label
+    }
+    console.log(valueFrom, max, valueFrom > max)
+    setError({ type: valueFrom > max, label })
     dispatch({
       type: 'UPDATE_AMOUNT',
       payload: { amount, btnType: state.approve ? 'deposit' : 'approve' }
     })
   }
-  console.log(state)
+
+  const handleMax = (balance) => {
+    console.log({ prices, state })
+    let token = prices[state.selectedToken.symbol.toLowerCase()]
+
+    const max = getMaxAllow(token, balance, allocation)
+    handleAmount(max, 'from')
+  }
   const handleApprove = async () => {
     try {
       if (!state.account || state.approve) return
@@ -308,11 +320,12 @@ const Home = () => {
             changeToken={changeToken}
             handleAmount={handleAmount}
             handleApprove={handleApprove}
+            handleMax={handleMax}
+            error={error}
           />
         </Wrapper>
         <Wrapper maxWidth="340px" width="100%">
           {state.transaction.status && <CustomTransaction />}
-          <CustomTransaction />
         </Wrapper>
       </Container>
 

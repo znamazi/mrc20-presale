@@ -21,7 +21,8 @@ const Swap = (props) => {
     handleAmount,
     handleDeposit,
     handleApprove,
-    errorAmount
+    handleMax,
+    error
   } = props
   return (
     <Flex
@@ -53,6 +54,8 @@ const Swap = (props) => {
             selectedToken={state.selectedToken}
             changeToken={changeToken}
             handleAmount={handleAmount}
+            handleMax={handleMax}
+            error={error}
           />
           <Flex justifyContent="center">
             <Image src="/media/common/ex.svg" alt="exchange" />
