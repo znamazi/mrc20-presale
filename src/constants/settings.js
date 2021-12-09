@@ -30,8 +30,8 @@ export const networks = [
     symbol: 'matic',
     tokens: [
       {
-        logo: '/media/tokens/bnb.svg',
-        symbol: 'BNB',
+        logo: '/media/tokens/matic.svg',
+        symbol: 'MATIC',
         address: '0x',
         decimals: 18
       }

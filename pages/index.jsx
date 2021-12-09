@@ -11,7 +11,7 @@ import { useMuonState } from '../src/context'
 import { NameChainMap } from '../src/constants/chainsMap'
 import getAssetBalances from '../src/helper/getAssetBalances'
 import { ERC20_ABI } from '../src/constants/ABI'
-import useWeb3 from '../src/helper/useWeb3'
+import useWeb3, { useCrossWeb3 } from '../src/helper/useWeb3'
 import { getTokenBalance } from '../src/helper/getTokenBalance'
 import { fetchApi } from '../src/helper/fetchApi'
 import { getContract } from '../src/helper/contractHelpers'
@@ -36,7 +36,8 @@ const Home = () => {
   const [wrongNetwork, setWrongNetwork] = React.useState(false)
   const [prices, setPrices] = React.useState()
   const [maxAllocation, setMaxAllocation] = React.useState()
-  let amount = useUsedAmount()
+  const [allocation, setAllocation] = React.useState(0)
+  let usedAmount = useUsedAmount()
 
   React.useEffect(() => {
     if (!validChains.includes(chainId)) {
@@ -129,16 +130,16 @@ const Home = () => {
       if (state.selectedToken.address == '0x') {
         approve = true
       } else {
-        // const Contract = getContract(
-        //   ERC20_ABI,
-        //   state.selectedToken.address,
-        //   state.selectedChain.web3
-        // )
-        // approve = await Contract.methods
-        //   .allowance(account, MRC20Presale[state.selectedChain.id])
-        //   .call()
+        const Contract = getContract(
+          ERC20_ABI,
+          state.selectedToken.address,
+          web3
+        )
+        approve = await Contract.methods
+          .allowance(account, MRC20Presale[state.selectedChain.id])
+          .call()
       }
-
+      console.log({ approve })
       if (approve !== '0') {
         dispatch({
           type: 'UPDATE_APPROVE',
@@ -153,6 +154,10 @@ const Home = () => {
     }
     if (account) checkApprove()
   }, [account, state.selectedToken])
+
+  React.useEffect(() => {
+    if (maxAllocation && usedAmount) setAllocation(maxAllocation - usedAmount)
+  }, [usedAmount, maxAllocation])
 
   const updateSelectedChain = (chain) => {
     dispatch({
