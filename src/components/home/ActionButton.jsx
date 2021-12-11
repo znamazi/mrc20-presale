@@ -12,8 +12,7 @@ import { NameChainMap } from '../../constants/chainsMap'
 
 const ActionButton = (props) => {
   const { state } = useMuonState()
-  const { wrongNetwork, handleConnectWallet, handleDeposit, handleApprove } =
-    props
+  const { wrongNetwork, handleConnectWallet, handleSwap, handleApprove } = props
   let content = ''
   const { chainId } = useWeb3React()
 
@@ -45,25 +44,25 @@ const ActionButton = (props) => {
         </Button>
       )
       break
-    case 'deposit':
-      let depositStatus =
+    case 'swap':
+      let swapStatus =
         state.transaction.status === TransactionStatus.PENDING &&
-        state.transaction.type === TransactionType.DEPOSIT
+        state.transaction.type === TransactionType.SWAP
       content = (
         <Button
           margin="50px 0 0"
-          background={depositStatus ? '#B4B3FD' : '#5F5CFE'}
-          border={depositStatus ? '1px solid #5F5CFE' : 'transparent'}
-          onClick={handleDeposit}
-          cursor={depositStatus ? 'default' : 'pointer'}
+          background={swapStatus ? '#B4B3FD' : '#5F5CFE'}
+          border={swapStatus ? '1px solid #5F5CFE' : 'transparent'}
+          onClick={handleSwap}
+          cursor={swapStatus ? 'default' : 'pointer'}
         >
           <Type.LG
-            color={depositStatus ? '#313144' : '#ffffff'}
+            color={swapStatus ? '#313144' : '#ffffff'}
             fontFamily="FH Oscar"
             fontSizeXS="16px"
             cursor="pointer"
           >
-            {depositStatus ? 'Depositing ...' : 'Deposit Asset'}
+            {swapStatus ? 'Swaping ...' : 'Swap Asset'}
           </Type.LG>
         </Button>
       )

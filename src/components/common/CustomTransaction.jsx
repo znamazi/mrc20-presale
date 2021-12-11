@@ -25,14 +25,10 @@ const Image = styled.img`
   padding: 0 10px;
 `
 
-const Arrow = styled.span`
-  // transform: rotate(270deg);
-  padding: 0 3px 5px;
-`
-
 const CustomTransaction = () => {
   const { state, dispatch } = useMuonState()
   const [copy, setCopy] = React.useState(false)
+  const chain = state.data.find((item) => item.id === state.transaction.chainId)
   React.useEffect(() => {
     setCopy(false)
     return () => {
@@ -64,7 +60,7 @@ const CustomTransaction = () => {
         alignItems="center"
       >
         <Type.SM fontSize="12.5px" color="#313144" fontFamily="FH Oscar">
-          {state.transaction.chainId}
+          {chain.name}
         </Type.SM>
       </Flex>
       <Flex justifyContent="flex-start" width="100%" marginTop="3px">
@@ -138,7 +134,7 @@ const CustomTransaction = () => {
           </Flex>
         </Button>
       </Flex>
-      {state.transaction.type === TransactionType.DEPOSIT &&
+      {state.transaction.type === TransactionType.SWAP &&
         state.transaction.status === TransactionStatus.SUCCESS && (
           <ChangeNetwork padding="0 10px 7px">
             <Span> Change to the destination Network </Span>

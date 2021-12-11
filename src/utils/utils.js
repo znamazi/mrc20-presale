@@ -13,7 +13,9 @@ export const formatAddress = (address) => {
 export const fromWei = (web3, n) => {
   return web3.utils.fromWei(n, 'ether')
 }
-
+export const toWei = (web3, n) => {
+  return web3.utils.toWei(n)
+}
 export const getUsedAmount = async (account, chainId, web3) => {
   const contract = getContract(MRC20Presale_ABI, MRC20Presale[chainId], web3)
 

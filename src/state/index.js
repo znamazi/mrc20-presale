@@ -1,4 +1,4 @@
-import { mainToken, networks } from '../constants/settings'
+import { presaleToken, networks } from '../constants/settings'
 
 export const initState = {
   account: '',
@@ -7,7 +7,7 @@ export const initState = {
   approve: false,
   actionBtnType: 'select',
   data: networks,
-  mainToken: mainToken,
+  presaleToken: presaleToken,
   selectedChain: networks[0],
   selectedToken: { ...networks[0].tokens[0], balance: '' },
   tokenSearchQuery: '',
@@ -17,8 +17,7 @@ export const initState = {
     message: '',
     status: '',
     icon: '',
-    fromChain: '',
-    toChain: ''
+    chainId: 4
   }
 }
 
@@ -46,9 +45,9 @@ export const reducer = (state, action) => {
         ...state,
         data: action.payload.result,
         selectedToken: action.payload.selectedToken,
-        mainToken: {
-          ...state.mainToken,
-          balance: action.payload.mainTokenBalance
+        presaleToken: {
+          ...state.presaleToken,
+          balance: action.payload.presaleTokenBalance
         }
       }
       break
@@ -77,10 +76,20 @@ export const reducer = (state, action) => {
       newState = {
         ...state,
         approve: action.payload,
-        actionBtnType: action.payload ? 'deposit' : 'approve'
+        actionBtnType: action.payload ? 'swap' : 'approve'
       }
       break
-
+    case 'UPDATE_TRANSACTION':
+      newState = {
+        ...state,
+        transaction: {
+          ...action.payload
+        }
+      }
+      break
+    case 'UPDATE_ACTION_BUTTON_TYPE':
+      newState = { ...state, actionBtnType: action.payload }
+      break
     default:
       throw new Error(`${action.type} is not defined in this state!`)
   }

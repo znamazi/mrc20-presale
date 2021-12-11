@@ -19,7 +19,7 @@ const Swap = (props) => {
     handleConnectWallet,
     changeToken,
     handleAmount,
-    handleDeposit,
+    handleSwap,
     handleApprove,
     handleMax,
     error
@@ -63,14 +63,14 @@ const Swap = (props) => {
           <SelectBox
             label="to"
             amount={state.amount?.to}
-            selectedToken={state.mainToken}
+            selectedToken={state.presaleToken}
             handleAmount={handleAmount}
           />
 
           <ActionButton
             wrongNetwork={wrongNetwork}
             handleConnectWallet={handleConnectWallet}
-            //   handleDeposit={handleDeposit}
+            handleSwap={handleSwap}
             handleApprove={handleApprove}
           />
           <Flex justifyContent="center" margin="50px 0 20px">

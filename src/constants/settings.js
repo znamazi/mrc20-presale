@@ -39,10 +39,11 @@ export const networks = [
   }
 ]
 
-export const mainToken = {
+export const presaleToken = {
   name: 'Blood',
   symbol: 'BT',
   decimals: 18,
+  price: LAUNCH_PRICE,
   address: '0xdc047b66e6CE32dcA3924d19cDC234777875F2Ea',
   logo: '/media/tokens/default.svg'
 }

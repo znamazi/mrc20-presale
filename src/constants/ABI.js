@@ -205,7 +205,10 @@ export const MultiCall_ABI = [
 
 export const MRC20Presale_ABI = [
   {
-    inputs: [{ internalType: 'address', name: '_muon', type: 'address' }],
+    inputs: [
+      { internalType: 'address', name: '_muon', type: 'address' },
+      { internalType: 'address', name: '_presaleToken', type: 'address' }
+    ],
     stateMutability: 'nonpayable',
     type: 'constructor'
   },
@@ -221,19 +224,7 @@ export const MRC20Presale_ABI = [
       {
         indexed: false,
         internalType: 'uint256',
-        name: 'tokenPrice',
-        type: 'uint256'
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'amount',
-        type: 'uint256'
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'time',
+        name: 'presaleTokenPrice',
         type: 'uint256'
       },
       {
@@ -250,9 +241,9 @@ export const MRC20Presale_ABI = [
       },
       {
         indexed: false,
-        internalType: 'uint256[]',
-        name: 'addressMaxCap',
-        type: 'uint256[]'
+        internalType: 'uint256[5]',
+        name: 'extraParameters',
+        type: 'uint256[5]'
       }
     ],
     name: 'Deposit',
@@ -287,20 +278,22 @@ export const MRC20Presale_ABI = [
   {
     inputs: [
       { internalType: 'address', name: 'token', type: 'address' },
-      { internalType: 'uint256', name: 'tokenPrice', type: 'uint256' },
-      { internalType: 'uint256', name: 'amount', type: 'uint256' },
-      { internalType: 'uint256', name: 'time', type: 'uint256' },
+      { internalType: 'uint256', name: 'presaleTokenPrice', type: 'uint256' },
       { internalType: 'address', name: 'forAddress', type: 'address' },
-      { internalType: 'uint256[]', name: 'addressMaxCap', type: 'uint256[]' },
-      { internalType: 'bytes', name: '_reqId', type: 'bytes' },
+      {
+        internalType: 'uint256[5]',
+        name: 'extraParameters',
+        type: 'uint256[5]'
+      },
+      { internalType: 'bytes', name: 'reqId', type: 'bytes' },
       {
         components: [
           { internalType: 'uint256', name: 'signature', type: 'uint256' },
           { internalType: 'address', name: 'owner', type: 'address' },
           { internalType: 'address', name: 'nonce', type: 'address' }
         ],
-        internalType: 'struct SchnorrSign[]',
-        name: '_sigs',
+        internalType: 'struct IMuonV02.SchnorrSign[]',
+        name: 'sigs',
         type: 'tuple[]'
       }
     ],
@@ -353,7 +346,21 @@ export const MRC20Presale_ABI = [
   },
   {
     inputs: [],
+    name: 'muon',
+    outputs: [{ internalType: 'contract IMuonV02', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
     name: 'owner',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'presaleToken',
     outputs: [{ internalType: 'address', name: '', type: 'address' }],
     stateMutability: 'view',
     type: 'function'
@@ -389,6 +396,13 @@ export const MRC20Presale_ABI = [
   {
     inputs: [{ internalType: 'address', name: 'addr', type: 'address' }],
     name: 'setMuonContract',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [{ internalType: 'address', name: 'addr', type: 'address' }],
+    name: 'setpresaleToken',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function'

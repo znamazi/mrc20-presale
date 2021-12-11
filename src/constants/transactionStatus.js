@@ -11,5 +11,5 @@ export const LinkType = {
 
 export const TransactionType = {
   Approve: 'approve',
-  DEPOSIT: 'deposit'
+  SWAP: 'swap'
 }

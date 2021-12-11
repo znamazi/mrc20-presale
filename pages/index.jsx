@@ -1,12 +1,12 @@
 import React from 'react'
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
-
+import Muon from 'muon'
 import { useWeb3React } from '@web3-react/core'
 
 import { Container, Wrapper } from '../src/components/home'
 import WalletModal from '../src/components/common/WalletModal'
-import { LAUNCH_PRICE, title, validChains } from '../src/constants/settings'
+import { presaleToken, title, validChains } from '../src/constants/settings'
 import { useMuonState } from '../src/context'
 import { NameChainMap } from '../src/constants/chainsMap'
 import getAssetBalances from '../src/helper/getAssetBalances'
@@ -22,6 +22,8 @@ import {
 } from '../src/constants/transactionStatus'
 import { useUsedAmount } from '../src/helper/useUsedAmount'
 import { getMaxAllow } from '../src/utils/getMaxAllow'
+import { toWei } from '../src/utils/utils'
+import { signMsg } from '../src/utils/signMsg'
 
 const CustomTransaction = dynamic(() =>
   import('../src/components/common/CustomTransaction')
@@ -32,6 +34,7 @@ const Home = () => {
   const { account, chainId } = useWeb3React()
   const { state, dispatch } = useMuonState()
   const web3 = useWeb3()
+  const muon = new Muon(process.env.NEXT_PUBLIC_MUON_NODE_GATEWAY)
 
   const [open, setOpen] = React.useState(false)
   const [wrongNetwork, setWrongNetwork] = React.useState(false)
@@ -52,10 +55,10 @@ const Home = () => {
 
   React.useEffect(() => {
     const fetchBalances = async () => {
-      const mainTokenBalance = await getTokenBalance(
+      const presaleTokenBalance = await getTokenBalance(
         ERC20_ABI,
-        state.mainToken.address,
-        state.mainToken.decimals,
+        state.presaleToken.address,
+        state.presaleToken.decimals,
         account,
         web3
       )
@@ -69,7 +72,7 @@ const Home = () => {
         type: 'UPDATE_INFO',
         payload: {
           result,
-          mainTokenBalance,
+          presaleTokenBalance,
           selectedToken: selectedToken ? selectedToken : { ...chain.tokens[0] }
         }
       })
@@ -187,9 +190,9 @@ const Home = () => {
 
     if (label === 'from') {
       valueFrom = value
-      valueTo = (token.price * value) / LAUNCH_PRICE
+      valueTo = (token.price * value) / presaleToken.price
     } else {
-      valueFrom = (value * LAUNCH_PRICE) / token.price
+      valueFrom = (value * presaleToken.price) / token.price
       valueTo = value
     }
     let max = getMaxAllow(token, valueFrom, allocation)
@@ -199,11 +202,13 @@ const Home = () => {
       to: valueTo,
       type: label
     }
-    console.log(valueFrom, max, valueFrom > max)
-    setError({ type: valueFrom > max, label })
+    setError({
+      type: valueFrom > max || valueFrom > state.selectedToken.balance,
+      label
+    })
     dispatch({
       type: 'UPDATE_AMOUNT',
-      payload: { amount, btnType: state.approve ? 'deposit' : 'approve' }
+      payload: { amount, btnType: state.approve ? 'swap' : 'approve' }
     })
   }
 
@@ -234,7 +239,7 @@ const Home = () => {
       Contract.methods
         .approve(
           MRC20Presale[state.selectedChain.id],
-          toWei('1000000000000000000')
+          toWei(web3, '1000000000000000000')
         )
         .send({ from: state.account })
         .once('transactionHash', (tx) => {
@@ -269,7 +274,7 @@ const Home = () => {
           })
           dispatch({
             type: 'UPDATE_ACTION_BUTTON_TYPE',
-            payload: 'deposit'
+            payload: 'swap'
           })
         })
         .once('error', (error) => {
@@ -303,6 +308,47 @@ const Home = () => {
       console.log('error happend in Approve', error)
     }
   }
+
+  const handleSwap = async () => {
+    if (!state.amount.from || state.amount.from === '0') {
+      setError({
+        type: true,
+        label: 'from'
+      })
+      return
+    }
+    const sign = await signMsg(account, web3)
+    if (!sign) {
+      dispatch({
+        type: 'UPDATE_TRANSACTION',
+        payload: {
+          type: TransactionType.SWAP,
+          message: 'Failed to sign',
+          status: TransactionStatus.FAILED,
+          chainId: state.selectedChain.id,
+          tokenSymbol: state.selectedToken.symbol
+        }
+      })
+    }
+
+    const muonResponse = await muon
+      .app('mrc20_presale')
+      .method('deposit', {
+        hashTimestamp: true,
+        forAddress: account,
+        token: state.selectedToken.symbol,
+        chainId: state.selectedChain.id,
+        sign,
+        amount: toWei(web3, state.amount.from),
+        presaleToken: {
+          decimals: state.presaleToken.decimals,
+          price: state.presaleToken.price
+        }
+      })
+      .call()
+    console.log(muonResponse)
+    let { sigs, reqId } = muonResponse
+  }
   return (
     <>
       <Head>
@@ -321,6 +367,7 @@ const Home = () => {
             handleAmount={handleAmount}
             handleApprove={handleApprove}
             handleMax={handleMax}
+            handleSwap={handleSwap}
             error={error}
           />
         </Wrapper>
