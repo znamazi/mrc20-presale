@@ -14,7 +14,6 @@ import { getTransactionLink } from '../../utils/explorers'
 import { Box } from './Container'
 import { Button, Link, ImageSpin } from './FormControlls'
 import { Type } from './Text'
-import { ChangeNetwork, Span } from '../home'
 
 const Close = styled.span`
   fontsize: 12.5px;

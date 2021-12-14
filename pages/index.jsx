@@ -42,6 +42,7 @@ const Home = () => {
   const [maxAllocation, setMaxAllocation] = React.useState()
   const [allocation, setAllocation] = React.useState(0)
   const [error, setError] = React.useState('')
+  const [lock, setLock] = React.useState(0)
   let usedAmount = useUsedAmount()
 
   React.useEffect(() => {
@@ -392,11 +393,12 @@ const Home = () => {
           }
         })
         .call()
+      console.log(muonResponse)
       if (!muonResponse.confirmed) {
-        const errorMessage = muonOutput.error.message
-          ? muonOutput.error.message
-          : muonOutput.error
-          ? muonOutput.error
+        const errorMessage = muonResponse.error?.message
+          ? muonResponse.error.message
+          : muonResponse.error
+          ? muonResponse.error
           : 'Muon response failed'
         dispatch({
           type: 'UPDATE_TRANSACTION',
@@ -408,6 +410,9 @@ const Home = () => {
             tokenSymbol: state.selectedToken.symbol
           }
         })
+        if (muonResponse.error.lockTime) {
+          setLock(muonResponse.error.expireAt)
+        }
         return
       }
       let {
@@ -535,6 +540,8 @@ const Home = () => {
             handleMax={handleMax}
             handleSwap={handleSwap}
             error={error}
+            lock={lock}
+            setLock={() => setLock(0)}
           />
         </Wrapper>
         <Wrapper maxWidth="340px" width="100%">

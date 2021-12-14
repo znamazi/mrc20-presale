@@ -85,3 +85,5 @@ export const toBaseUnit = (value, decimals) => {
 
   return new BN(wei.toString(10), 10)
 }
+
+export const getTimestamp = () => Math.floor(Date.now() / 1000)

@@ -10,6 +10,7 @@ import SelectBox from './SelectBox'
 import { useMuonState } from '../../context'
 import { Image } from '../common/FormControlls'
 import ActionButton from './ActionButton'
+import CountDown from '../common/CountDown'
 
 const Swap = (props) => {
   let { state } = useMuonState()
@@ -22,6 +23,8 @@ const Swap = (props) => {
     handleSwap,
     handleApprove,
     handleMax,
+    lock,
+    setLock,
     error
   } = props
   return (
@@ -66,12 +69,28 @@ const Swap = (props) => {
             selectedToken={state.presaleToken}
             handleAmount={handleAmount}
           />
+          {lock !== 0 && (
+            <Flex
+              justifyContent="center"
+              alignItems="center"
+              flexDirection="column"
+              marginTop="20px"
+              backgroundColor="#e7e8ea"
+              padding="5px"
+            >
+              <CountDown date={lock} setLock={setLock} />
 
+              <Type.MD mt="2" color="#ff4646">
+                Next Swap available after timer is at zero
+              </Type.MD>
+            </Flex>
+          )}
           <ActionButton
             wrongNetwork={wrongNetwork}
             handleConnectWallet={handleConnectWallet}
             handleSwap={handleSwap}
             handleApprove={handleApprove}
+            disable={lock}
           />
           <Flex justifyContent="center" margin="50px 0 20px">
             <Image src="/media/common/logo.svg" alt="Muon Logo" />

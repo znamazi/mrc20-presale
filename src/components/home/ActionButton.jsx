@@ -12,7 +12,13 @@ import { NameChainMap } from '../../constants/chainsMap'
 
 const ActionButton = (props) => {
   const { state } = useMuonState()
-  const { wrongNetwork, handleConnectWallet, handleSwap, handleApprove } = props
+  const {
+    wrongNetwork,
+    handleConnectWallet,
+    handleSwap,
+    handleApprove,
+    disable
+  } = props
   let content = ''
   const { chainId } = useWeb3React()
 
@@ -55,6 +61,7 @@ const ActionButton = (props) => {
           border={swapStatus ? '1px solid #5F5CFE' : 'transparent'}
           onClick={handleSwap}
           cursor={swapStatus ? 'default' : 'pointer'}
+          disabled={disable}
         >
           <Type.LG
             color={swapStatus ? '#313144' : '#ffffff'}
