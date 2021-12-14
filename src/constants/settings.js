@@ -13,7 +13,7 @@ export const networks = [
       {
         logo: '/media/tokens/eth.svg',
         symbol: 'ETH',
-        address: '0x',
+        address: '0x0000000000000000000000000000000000000000',
         decimals: 18
       },
       {
@@ -25,13 +25,26 @@ export const networks = [
     ]
   },
   {
+    id: 97,
+    name: 'BSC_Test',
+    symbol: 'BSC',
+    tokens: [
+      {
+        logo: '/media/tokens/bnb.svg',
+        symbol: 'BNB',
+        address: '0x0000000000000000000000000000000000000000',
+        decimals: 18
+      }
+    ]
+  },
+  {
     id: 80001,
     name: 'Mumbai',
     symbol: 'matic',
     tokens: [
       {
         logo: '/media/tokens/ert.svg',
-        symbol: 'ERT',
+        symbol: 'ERTMumbai',
         address: '0x701048911b1f1121E33834d3633227A954978d53',
         decimals: 18
       }
@@ -48,4 +61,4 @@ export const presaleToken = {
   logo: '/media/tokens/default.svg'
 }
 
-export const validChains = [4, 80001]
+export const validChains = [4, 97, 80001]

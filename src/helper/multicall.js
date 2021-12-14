@@ -12,7 +12,7 @@ const multicall = async (web3, abi, calls, chainId) => {
     ])
     const { returnData } = await multi.methods.aggregate(calldata).call()
     const res = returnData
-      .filter((item) => item !== '0x')
+      .filter((item) => item !== '0x0000000000000000000000000000000000000000')
       .map((call, i) => itf.decodeFunctionResult(calls[i].name, call))
     return res
   } catch (error) {

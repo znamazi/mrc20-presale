@@ -10,7 +10,7 @@ import { presaleToken, title, validChains } from '../src/constants/settings'
 import { useMuonState } from '../src/context'
 import { NameChainMap } from '../src/constants/chainsMap'
 import getAssetBalances from '../src/helper/getAssetBalances'
-import { ERC20_ABI } from '../src/constants/ABI'
+import { ERC20_ABI, MRC20Presale_ABI } from '../src/constants/ABI'
 import useWeb3, { useCrossWeb3 } from '../src/helper/useWeb3'
 import { getTokenBalance } from '../src/helper/getTokenBalance'
 import { fetchApi } from '../src/helper/fetchApi'
@@ -22,7 +22,7 @@ import {
 } from '../src/constants/transactionStatus'
 import { useUsedAmount } from '../src/helper/useUsedAmount'
 import { getMaxAllow } from '../src/utils/getMaxAllow'
-import { toWei } from '../src/utils/utils'
+import { BN, fromWei, toBaseUnit, toBN, toWei } from '../src/utils/utils'
 import { signMsg } from '../src/utils/signMsg'
 
 const CustomTransaction = dynamic(() =>
@@ -95,10 +95,31 @@ const Home = () => {
 
   React.useEffect(() => {
     const fetchPrice = async () => {
-      let tokens = await fetchApi('https://app.deus.finance/prices.json', {
-        cache: 'no-cache'
-      })
-
+      // let tokens = await fetchApi('https://app.deus.finance/prices.json', {
+      //   cache: 'no-cache'
+      // })
+      let tokens = {
+        eth: {
+          decimals: 18,
+          address: '0x0000000000000000000000000000000000000000',
+          price: 4010.92
+        },
+        bnb: {
+          decimals: 18,
+          address: '0x0000000000000000000000000000000000000000',
+          price: 554.7
+        },
+        ert: {
+          decimals: 18,
+          address: '0xb9B5FFC3e1404E3Bb7352e656316D6C5ce6940A1',
+          price: 10
+        },
+        ertmumbai: {
+          decimals: 18,
+          address: '0x701048911b1f1121E33834d3633227A954978d53',
+          price: 1
+        }
+      }
       setPrices(tokens)
     }
     fetchPrice()
@@ -130,7 +151,10 @@ const Home = () => {
   React.useEffect(() => {
     let approve
     const checkApprove = async () => {
-      if (state.selectedToken.address == '0x') {
+      if (
+        state.selectedToken.address ==
+        '0x0000000000000000000000000000000000000000'
+      ) {
         approve = true
       } else {
         const Contract = getContract(
@@ -142,7 +166,6 @@ const Home = () => {
           .allowance(account, MRC20Presale[state.selectedChain.id])
           .call()
       }
-      console.log({ approve })
       if (approve !== '0') {
         dispatch({
           type: 'UPDATE_APPROVE',
@@ -187,12 +210,31 @@ const Home = () => {
   const handleAmount = (value, label) => {
     let valueFrom, valueTo
     let token = prices[state.selectedToken.symbol.toLowerCase()]
+    let tokenPrice = toBN(
+      toBaseUnit(token.price.toString(), token.decimals).toString()
+    )
+    let presaleTokenPrice = toBN(
+      toBaseUnit(
+        presaleToken.price.toString(),
+        presaleToken.decimals
+      ).toString()
+    )
 
+    let baseToken = toBN(10).pow(toBN(token.decimals))
+    let basePresale = toBN(10).pow(toBN(presaleToken.decimals))
     if (label === 'from') {
+      let amount = toBN(toBaseUnit(value.toString(), token.decimals).toString())
+      let usdAmount = amount.mul(tokenPrice).div(baseToken)
+      let mintAmount = toBN(usdAmount).mul(basePresale).div(presaleTokenPrice)
       valueFrom = value
-      valueTo = (token.price * value) / presaleToken.price
+      valueTo = fromWei(mintAmount.toString(), presaleToken.decimals)
     } else {
-      valueFrom = (value * presaleToken.price) / token.price
+      let amount = toBN(
+        toBaseUnit(value.toString(), presaleToken.decimals).toString()
+      )
+      let usdAmount = amount.mul(presaleTokenPrice).div(basePresale)
+      let transforAmount = toBN(usdAmount).mul(baseToken).div(tokenPrice)
+      valueFrom = fromWei(transforAmount)
       valueTo = value
     }
     let max = getMaxAllow(token, valueFrom, allocation)
@@ -213,7 +255,6 @@ const Home = () => {
   }
 
   const handleMax = (balance) => {
-    console.log({ prices, state })
     let token = prices[state.selectedToken.symbol.toLowerCase()]
 
     const max = getMaxAllow(token, balance, allocation)
@@ -239,7 +280,7 @@ const Home = () => {
       Contract.methods
         .approve(
           MRC20Presale[state.selectedChain.id],
-          toWei(web3, '1000000000000000000')
+          toWei('1000000000000000000')
         )
         .send({ from: state.account })
         .once('transactionHash', (tx) => {
@@ -329,25 +370,150 @@ const Home = () => {
           tokenSymbol: state.selectedToken.symbol
         }
       })
+      return
     }
 
-    const muonResponse = await muon
-      .app('mrc20_presale')
-      .method('deposit', {
-        hashTimestamp: true,
-        forAddress: account,
-        token: state.selectedToken.symbol,
-        chainId: state.selectedChain.id,
-        sign,
-        amount: toWei(web3, state.amount.from),
-        presaleToken: {
-          decimals: state.presaleToken.decimals,
-          price: state.presaleToken.price
+    try {
+      const muonResponse = await muon
+        .app('fear_presale')
+        .method('deposit', {
+          hashTimestamp: true,
+          forAddress: account,
+          token: state.selectedToken.symbol,
+          chainId: state.selectedChain.id,
+          sign,
+          amount: toBaseUnit(
+            state.amount.from,
+            state.selectedToken.decimals
+          ).toString(),
+          presaleToken: {
+            decimals: presaleToken.decimals,
+            price: presaleToken.price
+          }
+        })
+        .call()
+      if (!muonResponse.confirmed) {
+        const errorMessage = muonOutput.error.message
+          ? muonOutput.error.message
+          : muonOutput.error
+          ? muonOutput.error
+          : 'Muon response failed'
+        dispatch({
+          type: 'UPDATE_TRANSACTION',
+          payload: {
+            type: TransactionType.SWAP,
+            message: errorMessage,
+            status: TransactionStatus.FAILED,
+            chainId: state.selectedChain.id,
+            tokenSymbol: state.selectedToken.symbol
+          }
+        })
+        return
+      }
+      let {
+        sigs,
+        reqId,
+        data: {
+          result: { extraParameters }
+        }
+      } = muonResponse
+      let hash = ''
+      let Contract = getContract(
+        MRC20Presale_ABI,
+        MRC20Presale[state.selectedChain.id],
+        web3
+      )
+      let sendArguments = { from: state.account }
+      if (
+        (state.selectedToken.address =
+          '0x0000000000000000000000000000000000000000')
+      ) {
+        sendArguments['value'] = extraParameters[3]
+      }
+      Contract.methods
+        .deposit(
+          state.selectedToken.address,
+          toBaseUnit(
+            presaleToken.price.toString(),
+            presaleToken.decimals
+          ).toString(),
+          account,
+          extraParameters,
+          reqId,
+          sigs
+        )
+        .send(sendArguments)
+        .once('transactionHash', (tx) => {
+          hash = tx
+          dispatch({
+            type: 'UPDATE_TRANSACTION',
+            payload: {
+              type: TransactionType.SWAP,
+              hash,
+              message: 'Swap transaction is pending',
+              amount: state.amount.from,
+              status: TransactionStatus.PENDING,
+              chainId: state.selectedChain.id,
+              tokenSymbol: state.selectedToken.symbol
+            }
+          })
+        })
+        .once('receipt', ({ transactionHash }) => {
+          dispatch({
+            type: 'UPDATE_TRANSACTION',
+            payload: {
+              type: TransactionType.SWAP,
+              hash: transactionHash,
+              message: 'Transaction successfull',
+              amount: state.amount.from,
+              status: TransactionStatus.SUCCESS,
+              chainId: state.selectedChain.id,
+              tokenSymbol: state.selectedToken.symbol
+            }
+          })
+        })
+        .once('error', (error) => {
+          if (!hash) {
+            dispatch({
+              type: 'UPDATE_TRANSACTION',
+              payload: {
+                type: TransactionType.SWAP,
+                message: 'Transaction rejected',
+                amount: state.amount.from,
+                status: TransactionStatus.FAILED,
+                chainId: state.selectedChain.id,
+                tokenSymbol: state.selectedToken.symbol
+              }
+            })
+            return
+          }
+
+          dispatch({
+            type: 'UPDATE_TRANSACTION',
+            payload: {
+              type: TransactionType.SWAP,
+              hash,
+              message: 'Transaction failed',
+              amount: state.amount.from,
+              status: TransactionStatus.FAILED,
+              chainId: state.selectedChain.id,
+              tokenSymbol: state.selectedToken.symbol
+            }
+          })
+        })
+    } catch (error) {
+      dispatch({
+        type: 'UPDATE_TRANSACTION',
+        payload: {
+          type: TransactionType.SWAP,
+          message: error.message,
+          status: TransactionStatus.FAILED,
+          chainId: state.selectedChain.id,
+          tokenSymbol: state.selectedToken.symbol
         }
       })
-      .call()
-    console.log(muonResponse)
-    let { sigs, reqId } = muonResponse
+      console.log('error happend in Swap', error)
+    }
   }
   return (
     <>

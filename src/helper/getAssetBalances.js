@@ -6,7 +6,11 @@ import { networks } from '../constants/settings'
 const getAssetBalances = async (account, web3, chainId) => {
   const chain = networks.find((item) => item.id === chainId)
   const calls = chain.tokens
-    .filter((item) => item.address && item.address != '0x')
+    .filter(
+      (item) =>
+        item.address &&
+        item.address != '0x0000000000000000000000000000000000000000'
+    )
     .map((token) => {
       return {
         address: token.address,
@@ -24,7 +28,9 @@ const getAssetBalances = async (account, web3, chainId) => {
       token.balance = getBalanceNumber(balance, token.decimals)
     }
   }
-  let token = chain.tokens.find((token) => token.address === '0x')
+  let token = chain.tokens.find(
+    (token) => token.address === '0x0000000000000000000000000000000000000000'
+  )
   if (token) {
     const ethBalance = await web3.eth.getBalance(account)
     token.balance = getBalanceNumber(ethBalance, token.decimals)

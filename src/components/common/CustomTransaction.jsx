@@ -134,13 +134,6 @@ const CustomTransaction = () => {
           </Flex>
         </Button>
       </Flex>
-      {state.transaction.type === TransactionType.SWAP &&
-        state.transaction.status === TransactionStatus.SUCCESS && (
-          <ChangeNetwork padding="0 10px 7px">
-            <Span> Change to the destination Network </Span>
-            to claim your token on respective networks.
-          </ChangeNetwork>
-        )}
     </Box>
   )
 }
