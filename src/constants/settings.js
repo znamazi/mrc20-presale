@@ -21,6 +21,12 @@ export const networks = [
         symbol: 'ERT',
         address: '0xb9B5FFC3e1404E3Bb7352e656316D6C5ce6940A1',
         decimals: 18
+      },
+      {
+        logo: '/media/tokens/ert.svg',
+        symbol: 'ERT_d6',
+        address: '0xfBB0Aa52B82dD2173D8ce97065b2f421216A312A',
+        decimals: 6
       }
     ]
   },
@@ -34,6 +40,12 @@ export const networks = [
         symbol: 'BNB',
         address: '0x0000000000000000000000000000000000000000',
         decimals: 18
+      },
+      {
+        logo: '/media/tokens/ert.svg',
+        symbol: 'ERT_d6',
+        address: '0xfBB0Aa52B82dD2173D8ce97065b2f421216A312A',
+        decimals: 6
       }
     ]
   },

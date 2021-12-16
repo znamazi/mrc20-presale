@@ -5,10 +5,11 @@ import {
   TransactionType
 } from '../../constants/transactionStatus'
 import { useMuonState } from '../../context'
-import { Button } from '../common/FormControlls'
+import { Button, ImageSpin } from '../common/FormControlls'
 import { Type } from '../common/Text'
 import { addRPC } from '../../helper/addRPC'
 import { NameChainMap } from '../../constants/chainsMap'
+import { Flex } from 'rebass'
 
 const ActionButton = (props) => {
   const { state } = useMuonState()
@@ -17,7 +18,8 @@ const ActionButton = (props) => {
     handleConnectWallet,
     handleSwap,
     handleApprove,
-    disable
+    disable,
+    loading
   } = props
   let content = ''
   const { chainId } = useWeb3React()
@@ -63,14 +65,19 @@ const ActionButton = (props) => {
           cursor={swapStatus ? 'default' : 'pointer'}
           disabled={disable}
         >
-          <Type.LG
-            color={swapStatus ? '#313144' : '#ffffff'}
-            fontFamily="FH Oscar"
-            fontSizeXS="16px"
-            cursor="pointer"
-          >
-            {swapStatus ? 'Swaping ...' : 'Swap Asset'}
-          </Type.LG>
+          <Flex justifyContent="center" alignItems="center">
+            <Type.LG
+              color={swapStatus ? '#313144' : '#ffffff'}
+              fontFamily="FH Oscar"
+              fontSizeXS="16px"
+              cursor="pointer"
+            >
+              {swapStatus ? 'Swaping ...' : 'Swap Asset'}
+            </Type.LG>
+            {loading && (
+              <ImageSpin src="/media/common/loading.svg" alt="loading" />
+            )}
+          </Flex>
         </Button>
       )
       break

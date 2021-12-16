@@ -24,6 +24,7 @@ import { useUsedAmount } from '../src/helper/useUsedAmount'
 import { getMaxAllow } from '../src/utils/getMaxAllow'
 import { BN, fromWei, toBaseUnit, toBN, toWei } from '../src/utils/utils'
 import { signMsg } from '../src/utils/signMsg'
+import allocations from '../src/constants/allocations.json'
 
 const CustomTransaction = dynamic(() =>
   import('../src/components/common/CustomTransaction')
@@ -43,6 +44,7 @@ const Home = () => {
   const [allocation, setAllocation] = React.useState(0)
   const [error, setError] = React.useState('')
   const [lock, setLock] = React.useState(0)
+  const [loading, setLoading] = React.useState(false)
   let usedAmount = useUsedAmount()
 
   React.useEffect(() => {
@@ -55,6 +57,8 @@ const Home = () => {
   }, [chainId, state.bridge, account])
 
   React.useEffect(() => {
+    console.log(state)
+
     const fetchBalances = async () => {
       const presaleTokenBalance = await getTokenBalance(
         ERC20_ABI,
@@ -68,7 +72,7 @@ const Home = () => {
       let selectedToken = chain.tokens.find(
         (token) => token.address === state.selectedToken.address
       )
-
+      console.log(selectedToken)
       dispatch({
         type: 'UPDATE_INFO',
         payload: {
@@ -78,7 +82,29 @@ const Home = () => {
         }
       })
     }
-    if (account && validChains.includes(chainId) && web3) fetchBalances()
+    if (account && validChains.includes(chainId) && web3) {
+      fetchBalances()
+
+      let subscription = web3.eth.subscribe(
+        'newBlockHeaders',
+        (error, result) => {
+          if (!error) {
+            fetchBalances()
+            return
+          }
+
+          console.error(error)
+        }
+      )
+      return () => {
+        // unsubscribes the subscription
+        subscription.unsubscribe(function (error, success) {
+          if (success) {
+            console.log('Successfully unsubscribed!')
+          }
+        })
+      }
+    }
   }, [account, chainId, web3, state.selectedChain])
 
   React.useEffect(() => {
@@ -115,6 +141,11 @@ const Home = () => {
           address: '0xb9B5FFC3e1404E3Bb7352e656316D6C5ce6940A1',
           price: 10
         },
+        ert_d6: {
+          decimals: 6,
+          address: '0xfBB0Aa52B82dD2173D8ce97065b2f421216A312A',
+          price: 1
+        },
         ertmumbai: {
           decimals: 18,
           address: '0x701048911b1f1121E33834d3633227A954978d53',
@@ -127,13 +158,6 @@ const Home = () => {
   }, [])
   React.useEffect(() => {
     const fetchMaxAllocation = async () => {
-      // TODO: fetchMaxAllocation api
-      let allocations = {
-        '0x5629227C1E2542DbC5ACA0cECb7Cd3E02C82AD0a': 1000,
-        '0x8b9C5d6c73b4d11a362B62Bd4B4d3E52AF55C630': 500,
-        '0xbb49a68c8EA9C2374082B738A7297c28EF3Fda26': 20000,
-        '0x3Be0B18d954DF829dE5E7d968002B856bB89f104': 200000
-      }
       const userAllocationAmount = allocations[account]
       if (userAllocationAmount) {
         setMaxAllocation(userAllocationAmount)
@@ -212,7 +236,7 @@ const Home = () => {
     let valueFrom, valueTo
     let token = prices[state.selectedToken.symbol.toLowerCase()]
     let tokenPrice = toBN(
-      toBaseUnit(token.price.toString(), token.decimals).toString()
+      toBaseUnit(token.price.toString(), presaleToken.decimals).toString()
     )
     let presaleTokenPrice = toBN(
       toBaseUnit(
@@ -223,10 +247,13 @@ const Home = () => {
 
     let baseToken = toBN(10).pow(toBN(token.decimals))
     let basePresale = toBN(10).pow(toBN(presaleToken.decimals))
+
     if (label === 'from') {
       let amount = toBN(toBaseUnit(value.toString(), token.decimals).toString())
+
       let usdAmount = amount.mul(tokenPrice).div(baseToken)
       let mintAmount = toBN(usdAmount).mul(basePresale).div(presaleTokenPrice)
+
       valueFrom = value
       valueTo = fromWei(mintAmount.toString(), presaleToken.decimals)
     } else {
@@ -235,7 +262,7 @@ const Home = () => {
       )
       let usdAmount = amount.mul(presaleTokenPrice).div(basePresale)
       let transforAmount = toBN(usdAmount).mul(baseToken).div(tokenPrice)
-      valueFrom = fromWei(transforAmount)
+      valueFrom = fromWei(transforAmount, token.decimals)
       valueTo = value
     }
     let max = getMaxAllow(token, valueFrom, allocation)
@@ -359,6 +386,9 @@ const Home = () => {
       })
       return
     }
+    if (error && error.type) {
+      return
+    }
     const sign = await signMsg(account, web3)
     if (!sign) {
       dispatch({
@@ -373,7 +403,7 @@ const Home = () => {
       })
       return
     }
-
+    setLoading(true)
     try {
       const muonResponse = await muon
         .app('fear_presale')
@@ -393,7 +423,6 @@ const Home = () => {
           }
         })
         .call()
-      console.log(muonResponse)
       if (!muonResponse.confirmed) {
         const errorMessage = muonResponse.error?.message
           ? muonResponse.error.message
@@ -413,15 +442,18 @@ const Home = () => {
         if (muonResponse.error.lockTime) {
           setLock(muonResponse.error.expireAt)
         }
+        setLoading(false)
+
         return
       }
       let {
         sigs,
         reqId,
         data: {
-          result: { extraParameters }
+          result: { extraParameters, token, presaleTokenPrice, forAddress }
         }
       } = muonResponse
+      setLoading(false)
       let hash = ''
       let Contract = getContract(
         MRC20Presale_ABI,
@@ -430,19 +462,17 @@ const Home = () => {
       )
       let sendArguments = { from: state.account }
       if (
-        (state.selectedToken.address =
-          '0x0000000000000000000000000000000000000000')
+        state.selectedToken.address ===
+        '0x0000000000000000000000000000000000000000'
       ) {
         sendArguments['value'] = extraParameters[3]
       }
+      console.log({ token, presaleTokenPrice, forAddress, extraParameters })
       Contract.methods
         .deposit(
-          state.selectedToken.address,
-          toBaseUnit(
-            presaleToken.price.toString(),
-            presaleToken.decimals
-          ).toString(),
-          account,
+          token,
+          presaleTokenPrice,
+          forAddress,
           extraParameters,
           reqId,
           sigs
@@ -542,6 +572,7 @@ const Home = () => {
             error={error}
             lock={lock}
             setLock={() => setLock(0)}
+            loading={loading}
           />
         </Wrapper>
         <Wrapper maxWidth="340px" width="100%">

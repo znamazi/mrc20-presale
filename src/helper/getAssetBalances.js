@@ -35,7 +35,8 @@ const getAssetBalances = async (account, web3, chainId) => {
     const ethBalance = await web3.eth.getBalance(account)
     token.balance = getBalanceNumber(ethBalance, token.decimals)
   }
-
+  const index = networks.findIndex((item) => item.id === chainId)
+  networks.splice(index, 1, chain)
   return networks
 }
 

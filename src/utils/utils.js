@@ -20,8 +20,13 @@ export const getUsedAmount = async (account, chainId, web3) => {
   return fromWei(amount)
 }
 
-export const fromWei = (n) => {
-  return Web3.utils.fromWei(n, 'ether')
+export const fromWei = (n, decimals = 18) => {
+  let unitMap = Web3.utils.unitMap
+  let unit = Object.keys(unitMap).find(
+    (item) => unitMap[item] === new BN(10).pow(new BN(decimals)).toString()
+  )
+  console.log(unit)
+  return Web3.utils.fromWei(n, unit)
 }
 
 export const toWei = (n) => {
@@ -36,8 +41,7 @@ export const toBaseUnit = (value, decimals) => {
   if (!isString(value)) {
     throw new Error('Pass strings to prevent floating point precision issues.')
   }
-  const ten = new BN(10)
-  const base = ten.pow(new BN(decimals))
+  const base = new BN(10).pow(new BN(decimals))
 
   // Is it negative?
   let negative = value.substring(0, 1) === '-'

@@ -25,6 +25,7 @@ const Swap = (props) => {
     handleMax,
     lock,
     setLock,
+    loading,
     error
   } = props
   return (
@@ -91,6 +92,7 @@ const Swap = (props) => {
             handleSwap={handleSwap}
             handleApprove={handleApprove}
             disable={lock}
+            loading={loading}
           />
           <Flex justifyContent="center" margin="50px 0 20px">
             <Image src="/media/common/logo.svg" alt="Muon Logo" />

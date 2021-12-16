@@ -22,6 +22,7 @@ export const initState = {
 }
 
 export const reducer = (state, action) => {
+  console.log(action)
   let newState
   switch (action.type) {
     case 'UPDATE_NETWORK_INFO':
@@ -44,7 +45,10 @@ export const reducer = (state, action) => {
       newState = {
         ...state,
         data: action.payload.result,
-        selectedToken: action.payload.selectedToken,
+        selectedToken: {
+          ...state.selectedToken,
+          balance: action.payload.selectedToken.balance
+        },
         presaleToken: {
           ...state.presaleToken,
           balance: action.payload.presaleTokenBalance
