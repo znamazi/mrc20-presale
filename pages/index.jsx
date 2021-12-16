@@ -235,14 +235,9 @@ const Home = () => {
   const handleAmount = (value, label) => {
     let valueFrom, valueTo
     let token = prices[state.selectedToken.symbol.toLowerCase()]
-    let tokenPrice = toBN(
-      toBaseUnit(token.price.toString(), presaleToken.decimals).toString()
-    )
+    let tokenPrice = toBN(toBaseUnit(token.price.toString(), 18).toString())
     let presaleTokenPrice = toBN(
-      toBaseUnit(
-        presaleToken.price.toString(),
-        presaleToken.decimals
-      ).toString()
+      toBaseUnit(presaleToken.price.toString(), 18).toString()
     )
 
     let baseToken = toBN(10).pow(toBN(token.decimals))
