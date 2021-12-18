@@ -31,7 +31,11 @@ const SelectBox = (props) => {
       </Select>
     ) : (
       <Flex alignItems="center" padding="0 10px">
-        <Image src={state.selectedChain.tokens[0].logo} boxSizing="unset" />
+        <Image
+          src={state.selectedChain.tokens[0].logo}
+          boxSizing="unset"
+          alt={state.selectedChain.tokens[0].symbol}
+        />
         <Type.LG fontFamily="FH Oscar" color="#313144" fontSizeXS="16px">
           {state.selectedChain.tokens[0].symbol}
         </Type.LG>
@@ -96,7 +100,11 @@ const SelectBox = (props) => {
           content
         ) : (
           <Flex alignItems="center" padding="0 10px">
-            <Image src={selectedToken.logo} boxSizing="unset" />
+            <Image
+              src={selectedToken.logo}
+              boxSizing="unset"
+              alt={selectedToken.name}
+            />
             <Type.LG fontFamily="FH Oscar" color="#313144" fontSizeXS="16px">
               {selectedToken.name}
             </Type.LG>

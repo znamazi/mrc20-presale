@@ -5,9 +5,9 @@ import dynamic from 'next/dynamic'
 import styled from 'styled-components'
 import { Type } from '../common/Text'
 import { formatAddress } from '../../utils/utils'
-import { useMuonState } from '../../context'
 import { useWeb3React } from '@web3-react/core'
 import { NameChainMap } from '../../constants/chainsMap'
+import { Image } from '../common/FormControlls'
 // import WalletModal from '../common/WalletModal'
 const WalletModal = dynamic(() => import('../common/WalletModal'))
 
@@ -74,9 +74,9 @@ const Menu = () => {
   return (
     <>
       <AppInfo>
-        <img src="/media/common/logo.svg" alt="logo" />
+        <Image src="/media/common/logo.svg" alt="logo" />
         <Media>
-          <img src="/media/common/muon.svg" alt="Muon Network" />
+          <Image src="/media/common/muon.svg" alt="Muon Network" />
         </Media>
         <Media>
           <Type.LG color="#5F5CFE">Tools</Type.LG>

@@ -23,9 +23,7 @@ const ContentItem = styled(Flex)`
   box-sizing: unset !important;
   cursor: pointer;
 `
-const WrapToken = styled.div`
-  cursor: pointer;
-`
+
 const Arrow = styled.img`
   cursor: pointer;
 `
@@ -47,6 +45,7 @@ const Network = (props) => {
         <Image
           src={`/media/chains/${item.symbol.toLowerCase()}.svg`}
           boxSizing="unset"
+          alt="chain"
         />
         <Type.LG
           fontFamily="FH Oscar"
@@ -84,6 +83,7 @@ const Network = (props) => {
               src={`/media/chains/${state.selectedChain.symbol.toLowerCase()}.svg`}
               onError={(e) => (e.target.src = '/media/tokens/default.svg')}
               boxSizing="unset"
+              alt="chain"
             />
             <Type.LG
               fontFamily="FH Oscar"
