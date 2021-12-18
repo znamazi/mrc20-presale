@@ -308,7 +308,7 @@ const Home = () => {
 
   const handleApprove = async () => {
     try {
-      if (!state.account || state.approve) return
+      if (!account || state.approve) return
 
       if (state.selectedChain.id !== state.chainId) {
         setWrongNetwork(true)

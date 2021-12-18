@@ -45,6 +45,7 @@ export const reducer = (state, action) => {
       newState = {
         ...state,
         data: action.payload.result,
+
         presaleToken: {
           ...state.presaleToken,
           balance: action.payload.presaleTokenBalance
