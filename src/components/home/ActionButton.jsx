@@ -22,7 +22,7 @@ const ActionButton = (props) => {
     loading
   } = props
   let content = ''
-  const { chainId } = useWeb3React()
+  const { chainId, account } = useWeb3React()
 
   let validChainId = null
   if (state.selectedChain.id !== chainId) validChainId = state.selectedChain.id
@@ -102,7 +102,7 @@ const ActionButton = (props) => {
 
   return (
     <>
-      {state.account ? (
+      {account ? (
         wrongNetwork || validChainId ? (
           <Button
             margin="50px 0 0"

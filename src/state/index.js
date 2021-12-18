@@ -10,6 +10,7 @@ export const initState = {
   presaleToken: presaleToken,
   selectedChain: networks[0],
   selectedToken: { ...networks[0].tokens[0], balance: '' },
+  tokenSearchQuery: '',
   amount: { from: '', to: '' },
   transaction: {
     type: '',
@@ -21,7 +22,7 @@ export const initState = {
 }
 
 export const reducer = (state, action) => {
-  console.log(action, state)
+  console.log(action)
   let newState
   switch (action.type) {
     case 'UPDATE_NETWORK_INFO':
@@ -33,14 +34,17 @@ export const reducer = (state, action) => {
       }
       break
 
+    case 'UPDATE_TOKEN_SEARCH_QUERY':
+      newState = {
+        ...state,
+        tokenSearchQuery: action.payload
+      }
+      break
+
     case 'UPDATE_INFO':
       newState = {
         ...state,
         data: action.payload.result,
-        // selectedToken: {
-        //   ...state.selectedToken,
-        //   balance: action.payload.selectedToken.balance
-        // },
         presaleToken: {
           ...state.presaleToken,
           balance: action.payload.presaleTokenBalance
@@ -89,6 +93,5 @@ export const reducer = (state, action) => {
     default:
       throw new Error(`${action.type} is not defined in this state!`)
   }
-  console.log({ newState })
   return newState
 }

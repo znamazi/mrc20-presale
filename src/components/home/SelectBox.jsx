@@ -21,7 +21,7 @@ const SelectBox = (props) => {
       <Select
         id={label}
         onChange={(e) => changeToken(e.target.value)}
-        // value={defaultWallet.name}
+        // value={selectedToken.symbol}
       >
         {state.selectedChain.tokens.map((token) => (
           <option key={token.address} value={token.address}>

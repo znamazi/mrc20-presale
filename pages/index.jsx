@@ -119,6 +119,17 @@ const Home = () => {
     }
   }, [account, chainId, web3, state.selectedChain, fetch])
 
+  React.useEffect(() => {
+    let chain = state.data.find((item) => item.id === state.selectedChain.id)
+    let selectedToken = chain.tokens.find(
+      (token) => token.address === state.selectedToken.address
+    )
+    dispatch({
+      type: 'UPDATE_SELECTED_Token',
+      payload: selectedToken
+    })
+  }, [state.data, state.selectedToken])
+
   // Fetch Price
   React.useEffect(() => {
     const fetchPrice = async () => {
@@ -216,11 +227,14 @@ const Home = () => {
   }, [usedAmount, maxAllocation])
 
   const changeChain = (chain) => {
+    let selectedToken = chain.tokens.find(
+      (token) => token.address === state.selectedToken.address
+    )
     dispatch({
       type: 'UPDATE_SELECTED_CHAIN',
       payload: {
         chain,
-        selectedToken: { ...chain.tokens[0] }
+        selectedToken: selectedToken ? selectedToken : { ...chain.tokens[0] }
       }
     })
   }

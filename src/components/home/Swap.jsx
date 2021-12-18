@@ -28,11 +28,7 @@ const Swap = (props) => {
     loading,
     error
   } = props
-  let chain = state.data.find((item) => item.id === state.selectedChain.id)
-  let selectedToken = chain.tokens.find(
-    (token) => token.address === state.selectedToken.address
-  )
-  console.log(selectedToken)
+
   return (
     <Flex
       flexDirection="column"
@@ -60,7 +56,7 @@ const Swap = (props) => {
           <SelectBox
             label="from"
             amount={state.amount?.from}
-            selectedToken={selectedToken || { ...chain.tokens[0] }}
+            selectedToken={state.selectedToken}
             changeToken={changeToken}
             handleAmount={handleAmount}
             handleMax={handleMax}

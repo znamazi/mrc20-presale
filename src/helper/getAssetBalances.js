@@ -5,7 +5,6 @@ import { networks } from '../constants/settings'
 
 const getAssetBalances = async (account, web3, chainId) => {
   const chain = networks.find((item) => item.id === chainId)
-  console.log({ chain })
   const calls = chain.tokens
     .filter(
       (item) =>
@@ -19,7 +18,6 @@ const getAssetBalances = async (account, web3, chainId) => {
         params: [account]
       }
     })
-  console.log({ calls })
   const result = await multicall(web3, ERC20_ABI, calls, chainId)
   if (result && result.length > 0) {
     for (let i = 0; i < result.length; i++) {

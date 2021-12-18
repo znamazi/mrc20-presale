@@ -6,6 +6,8 @@ import styled from 'styled-components'
 import { Type } from '../common/Text'
 import { formatAddress } from '../../utils/utils'
 import { useMuonState } from '../../context'
+import { useWeb3React } from '@web3-react/core'
+import { NameChainMap } from '../../constants/chainsMap'
 // import WalletModal from '../common/WalletModal'
 const WalletModal = dynamic(() => import('../common/WalletModal'))
 
@@ -61,12 +63,14 @@ const Label = styled.span`
 `
 
 const Menu = () => {
-  const { state } = useMuonState()
+  const { account, chainId } = useWeb3React()
+
   const [open, setOpen] = React.useState(false)
 
   const handleConnect = async () => {
     setOpen(true)
   }
+
   return (
     <>
       <AppInfo>
@@ -80,10 +84,10 @@ const Menu = () => {
       </AppInfo>
       <AppInfo>
         <Button padding="0 17px !important">
-          <Status active={state.account} />
-          {state.account ? (
+          <Status active={account} />
+          {account ? (
             <Type.SM fontSize="15px" fontFamily="FH Oscar" color="#313144">
-              {formatAddress(state.account)}
+              {formatAddress(account)}
             </Type.SM>
           ) : (
             <Type.SM
@@ -97,7 +101,8 @@ const Menu = () => {
             </Type.SM>
           )}
         </Button>
-        <Button hide={state.network === 'NaN'}>
+
+        <Button hide={!NameChainMap[chainId]}>
           <Label>Network:</Label>
           <Type.SM
             fontSize="15px"
@@ -105,7 +110,7 @@ const Menu = () => {
             color="#313144"
             padding="0 0 0 3px"
           >
-            {state.network}
+            {NameChainMap[chainId] || 'NaN'}
           </Type.SM>
         </Button>
       </AppInfo>
