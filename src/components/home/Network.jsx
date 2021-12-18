@@ -116,10 +116,6 @@ const Network = (props) => {
         open={open}
         hide={() => {
           setOpen(!open)
-          dispatch({
-            type: 'UPDATE_TOKEN_SEARCH_QUERY',
-            payload: ''
-          })
         }}
         title={label}
         search={type === 'token'}

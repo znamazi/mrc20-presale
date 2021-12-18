@@ -16,7 +16,7 @@ const Swap = (props) => {
   let { state } = useMuonState()
   const {
     wrongNetwork,
-    updateSelectedChain,
+    changeChain,
     handleConnectWallet,
     changeToken,
     handleAmount,
@@ -28,6 +28,11 @@ const Swap = (props) => {
     loading,
     error
   } = props
+  let chain = state.data.find((item) => item.id === state.selectedChain.id)
+  let selectedToken = chain.tokens.find(
+    (token) => token.address === state.selectedToken.address
+  )
+  console.log(selectedToken)
   return (
     <Flex
       flexDirection="column"
@@ -50,12 +55,12 @@ const Swap = (props) => {
         <Flex width="100%" flexDirection="column">
           <Network
             label="Select Network"
-            onChange={(data) => updateSelectedChain(data)}
+            onChange={(data) => changeChain(data)}
           />
           <SelectBox
             label="from"
             amount={state.amount?.from}
-            selectedToken={state.selectedToken}
+            selectedToken={selectedToken || { ...chain.tokens[0] }}
             changeToken={changeToken}
             handleAmount={handleAmount}
             handleMax={handleMax}

@@ -61,13 +61,6 @@ const Modal = (props) => {
     }
   }
 
-  const handleSearch = (data) => {
-    dispatch({
-      type: 'UPDATE_TOKEN_SEARCH_QUERY',
-      payload: data
-    })
-  }
-
   return (
     <ReactModal
       isOpen={open}
@@ -92,18 +85,6 @@ const Modal = (props) => {
             onClick={hide}
           />
         </Flex>
-        {search && (
-          <Flex
-            justifyContent="center"
-            alignItems="center"
-            padding="0 25px 30px"
-          >
-            <Input
-              placeholder={placeholderSearch}
-              onChange={(e) => handleSearch(e.target.value)}
-            />
-          </Flex>
-        )}
         <BorderBottom />
         <Wrapper>{children}</Wrapper>
       </Flex>

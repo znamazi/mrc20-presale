@@ -45,8 +45,10 @@ const Home = () => {
   const [error, setError] = React.useState('')
   const [lock, setLock] = React.useState(0)
   const [loading, setLoading] = React.useState(false)
+  const [fetch, setFetch] = React.useState()
   let usedAmount = useUsedAmount()
 
+  // check Network
   React.useEffect(() => {
     if (!validChains.includes(chainId)) {
       setWrongNetwork(true)
@@ -56,10 +58,24 @@ const Home = () => {
     }
   }, [chainId, state.bridge, account])
 
+  //  set ChainId and account
   React.useEffect(() => {
-    console.log(state)
+    if (account) {
+      dispatch({
+        type: 'UPDATE_NETWORK_INFO',
+        payload: {
+          account,
+          chainId,
+          network: NameChainMap[chainId]
+        }
+      })
+    }
+  }, [chainId, account])
 
+  // Fetch balances
+  React.useEffect(() => {
     const fetchBalances = async () => {
+      console.log(state)
       const presaleTokenBalance = await getTokenBalance(
         ERC20_ABI,
         state.presaleToken.address,
@@ -68,17 +84,12 @@ const Home = () => {
         web3
       )
       let result = await getAssetBalances(account, web3, chainId)
-      let chain = result.find((item) => item.id === state.selectedChain.id)
-      let selectedToken = chain.tokens.find(
-        (token) => token.address === state.selectedToken.address
-      )
-      console.log(selectedToken)
+
       dispatch({
         type: 'UPDATE_INFO',
         payload: {
           result,
-          presaleTokenBalance,
-          selectedToken: selectedToken ? selectedToken : { ...chain.tokens[0] }
+          presaleTokenBalance
         }
       })
     }
@@ -90,6 +101,7 @@ const Home = () => {
         (error, result) => {
           if (!error) {
             fetchBalances()
+
             return
           }
 
@@ -105,21 +117,9 @@ const Home = () => {
         })
       }
     }
-  }, [account, chainId, web3, state.selectedChain])
+  }, [account, chainId, web3, state.selectedChain, fetch])
 
-  React.useEffect(() => {
-    if (account) {
-      dispatch({
-        type: 'UPDATE_NETWORK_INFO',
-        payload: {
-          account,
-          chainId,
-          network: NameChainMap[chainId]
-        }
-      })
-    }
-  }, [chainId, account])
-
+  // Fetch Price
   React.useEffect(() => {
     const fetchPrice = async () => {
       // let tokens = await fetchApi('https://app.deus.finance/prices.json', {
@@ -156,6 +156,8 @@ const Home = () => {
     }
     fetchPrice()
   }, [])
+
+  // Max allocation
   React.useEffect(() => {
     const fetchMaxAllocation = async () => {
       const userAllocationAmount = allocations[account]
@@ -168,11 +170,13 @@ const Home = () => {
     if (account) fetchMaxAllocation()
   }, [account])
 
+  // handle Amount
   React.useEffect(() => {
     if (prices && state.amount.from > 0)
       handleAmount(state.amount[state.amount.type], state.amount.type)
   }, [state.selectedToken, prices])
 
+  // check Approve
   React.useEffect(() => {
     let approve
     const checkApprove = async () => {
@@ -206,11 +210,12 @@ const Home = () => {
     if (account && web3 && state.selectedChain.id === chainId) checkApprove()
   }, [account, state.selectedToken, web3, chainId, state.selectedChain])
 
+  // Set allocation
   React.useEffect(() => {
     if (maxAllocation && usedAmount) setAllocation(maxAllocation - usedAmount)
   }, [usedAmount, maxAllocation])
 
-  const updateSelectedChain = (chain) => {
+  const changeChain = (chain) => {
     dispatch({
       type: 'UPDATE_SELECTED_CHAIN',
       payload: {
@@ -219,6 +224,7 @@ const Home = () => {
       }
     })
   }
+
   const handleConnectWallet = () => {
     setOpen(true)
   }
@@ -227,11 +233,13 @@ const Home = () => {
     const token = state.data
       .find((chain) => chain.id === state.selectedChain.id)
       .tokens.find((item) => item.address === address)
+
     dispatch({
       type: 'UPDATE_SELECTED_Token',
       payload: token
     })
   }
+
   const handleAmount = (value, label) => {
     let valueFrom, valueTo
     let token = prices[state.selectedToken.symbol.toLowerCase()]
@@ -283,6 +291,7 @@ const Home = () => {
     const max = getMaxAllow(token, balance, allocation)
     handleAmount(max, 'from')
   }
+
   const handleApprove = async () => {
     try {
       if (!state.account || state.approve) return
@@ -462,7 +471,6 @@ const Home = () => {
       ) {
         sendArguments['value'] = extraParameters[3]
       }
-      console.log({ token, presaleTokenPrice, forAddress, extraParameters })
       Contract.methods
         .deposit(
           token,
@@ -501,6 +509,7 @@ const Home = () => {
               tokenSymbol: state.selectedToken.symbol
             }
           })
+          setFetch(transactionHash)
         })
         .once('error', (error) => {
           if (!hash) {
@@ -545,6 +554,7 @@ const Home = () => {
       console.log('error happend in Swap', error)
     }
   }
+
   return (
     <>
       <Head>
@@ -556,7 +566,7 @@ const Home = () => {
 
         <Wrapper maxWidth="600px" width="100%">
           <Swap
-            updateSelectedChain={updateSelectedChain}
+            changeChain={changeChain}
             handleConnectWallet={handleConnectWallet}
             wrongNetwork={wrongNetwork}
             changeToken={changeToken}
