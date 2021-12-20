@@ -5,7 +5,7 @@ import { useCrossWeb3 } from './useWeb3'
 import { getUsedAmount } from '../utils/utils'
 import { useMuonState } from '../context'
 
-export const useUsedAmount = () => {
+export const useUsedAmount = (fetch) => {
   const { state } = useMuonState()
   let crossWeb3 = {}
   for (let index = 0; index < validChains.length; index++) {
@@ -31,7 +31,7 @@ export const useUsedAmount = () => {
       setUsed(sumUsed)
     }
     if (state.account && validChains.includes(state.chainId)) get()
-  }, [state.account, validChains, state.chainId])
+  }, [state.account, validChains, state.chainId, fetch])
 
   return used
 }

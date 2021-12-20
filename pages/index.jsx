@@ -46,7 +46,7 @@ const Home = () => {
   const [lock, setLock] = React.useState(0)
   const [loading, setLoading] = React.useState(false)
   const [fetch, setFetch] = React.useState()
-  let usedAmount = useUsedAmount()
+  let usedAmount = useUsedAmount(fetch)
 
   // check Network
   React.useEffect(() => {
@@ -71,6 +71,7 @@ const Home = () => {
       })
     }
   }, [chainId, account])
+
   // Fetch Price
   React.useEffect(() => {
     const fetchPrice = async () => {
@@ -121,6 +122,7 @@ const Home = () => {
     }
     if (account) fetchMaxAllocation()
   }, [account])
+
   // Set allocation
   React.useEffect(() => {
     if (maxAllocation && usedAmount)
@@ -424,6 +426,7 @@ const Home = () => {
     }
     setLoading(true)
     try {
+      console.log({ amount: state.amount.from, type: typeof state.amount.from })
       const muonResponse = await muon
         .app('fear_presale')
         .method('deposit', {
@@ -433,7 +436,7 @@ const Home = () => {
           chainId: state.selectedChain.id,
           sign,
           amount: toBaseUnit(
-            state.amount.from,
+            state.amount.from.toString(),
             state.selectedToken.decimals
           ).toString(),
           presaleToken: {
