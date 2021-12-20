@@ -48,20 +48,20 @@ export const networks = [
         decimals: 6
       }
     ]
-  },
-  {
-    id: 80001,
-    name: 'Mumbai',
-    symbol: 'matic',
-    tokens: [
-      {
-        logo: '/media/tokens/ert.svg',
-        symbol: 'ERTMumbai',
-        address: '0x701048911b1f1121E33834d3633227A954978d53',
-        decimals: 18
-      }
-    ]
   }
+  // {
+  //   id: 80001,
+  //   name: 'Mumbai',
+  //   symbol: 'matic',
+  //   tokens: [
+  //     {
+  //       logo: '/media/tokens/ert.svg',
+  //       symbol: 'ERTMumbai',
+  //       address: '0x701048911b1f1121E33834d3633227A954978d53',
+  //       decimals: 18
+  //     }
+  //   ]
+  // }
 ]
 
 export const presaleToken = {
@@ -73,4 +73,4 @@ export const presaleToken = {
   logo: '/media/tokens/default.svg'
 }
 
-export const validChains = [4, 97, 80001]
+export const validChains = [4, 97]

@@ -17,6 +17,7 @@ export const getUsedAmount = async (account, chainId, web3) => {
   const contract = getContract(MRC20Presale_ABI, MRC20Presale[chainId], web3)
 
   const amount = await contract.methods.balances(account).call()
+  console.log(amount)
   return fromWei(amount)
 }
 

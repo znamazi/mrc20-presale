@@ -11,7 +11,7 @@ import { useMuonState } from '../src/context'
 import { NameChainMap } from '../src/constants/chainsMap'
 import getAssetBalances from '../src/helper/getAssetBalances'
 import { ERC20_ABI, MRC20Presale_ABI } from '../src/constants/ABI'
-import useWeb3, { useCrossWeb3 } from '../src/helper/useWeb3'
+import useWeb3, { useCrossWeb3 } from '../src/hook/useWeb3'
 import { getTokenBalance } from '../src/helper/getTokenBalance'
 import { fetchApi } from '../src/helper/fetchApi'
 import { getContract } from '../src/helper/contractHelpers'
@@ -20,7 +20,7 @@ import {
   TransactionStatus,
   TransactionType
 } from '../src/constants/transactionStatus'
-import { useUsedAmount } from '../src/helper/useUsedAmount'
+import { useUsedAmount } from '../src/hook/useUsedAmount'
 import { getMaxAllow } from '../src/utils/getMaxAllow'
 import { BN, fromWei, toBaseUnit, toBN, toWei } from '../src/utils/utils'
 import { signMsg } from '../src/utils/signMsg'
@@ -71,65 +71,6 @@ const Home = () => {
       })
     }
   }, [chainId, account])
-
-  // Fetch balances
-  React.useEffect(() => {
-    const fetchBalances = async () => {
-      console.log(state)
-      const presaleTokenBalance = await getTokenBalance(
-        ERC20_ABI,
-        state.presaleToken.address,
-        state.presaleToken.decimals,
-        account,
-        web3
-      )
-      let result = await getAssetBalances(account, web3, chainId)
-
-      dispatch({
-        type: 'UPDATE_INFO',
-        payload: {
-          result,
-          presaleTokenBalance
-        }
-      })
-    }
-    if (account && validChains.includes(chainId) && web3) {
-      fetchBalances()
-
-      let subscription = web3.eth.subscribe(
-        'newBlockHeaders',
-        (error, result) => {
-          if (!error) {
-            fetchBalances()
-
-            return
-          }
-
-          console.error(error)
-        }
-      )
-      return () => {
-        // unsubscribes the subscription
-        subscription.unsubscribe(function (error, success) {
-          if (success) {
-            console.log('Successfully unsubscribed!')
-          }
-        })
-      }
-    }
-  }, [account, chainId, web3, state.selectedChain, fetch])
-
-  React.useEffect(() => {
-    let chain = state.data.find((item) => item.id === state.selectedChain.id)
-    let selectedToken = chain.tokens.find(
-      (token) => token.address === state.selectedToken.address
-    )
-    dispatch({
-      type: 'UPDATE_SELECTED_Token',
-      payload: selectedToken
-    })
-  }, [state.data, state.selectedToken])
-
   // Fetch Price
   React.useEffect(() => {
     const fetchPrice = async () => {
@@ -180,6 +121,71 @@ const Home = () => {
     }
     if (account) fetchMaxAllocation()
   }, [account])
+  // Set allocation
+  React.useEffect(() => {
+    if (maxAllocation && usedAmount)
+      setAllocation(toBN(maxAllocation).sub(toBN(usedAmount)).toNumber())
+  }, [usedAmount, maxAllocation])
+
+  // Fetch balances
+  React.useEffect(() => {
+    const fetchBalances = async () => {
+      try {
+        console.log(state)
+        const presaleTokenBalance = await getTokenBalance(
+          ERC20_ABI,
+          state.presaleToken.address,
+          state.presaleToken.decimals,
+          account,
+          web3
+        )
+        let result = await getAssetBalances(account, web3, chainId)
+
+        dispatch({
+          type: 'UPDATE_INFO',
+          payload: {
+            result,
+            presaleTokenBalance
+          }
+        })
+      } catch (error) {}
+    }
+    if (account && validChains.includes(chainId) && web3) {
+      fetchBalances()
+
+      let subscription = web3.eth.subscribe(
+        'newBlockHeaders',
+        (error, result) => {
+          if (!error) {
+            fetchBalances()
+
+            return
+          }
+
+          console.error(error)
+        }
+      )
+      return () => {
+        // unsubscribes the subscription
+        subscription.unsubscribe(function (error, success) {
+          if (success) {
+            console.log('Successfully unsubscribed!')
+          }
+        })
+      }
+    }
+  }, [account, chainId, web3, state.selectedChain, fetch])
+
+  React.useEffect(() => {
+    let chain = state.data.find((item) => item.id === state.selectedChain.id)
+    let selectedToken = chain.tokens.find(
+      (token) => token.address === state.selectedToken.address
+    )
+    dispatch({
+      type: 'UPDATE_SELECTED_Token',
+      payload: selectedToken
+    })
+  }, [state.data, state.selectedToken])
 
   // handle Amount
   React.useEffect(() => {
@@ -220,11 +226,6 @@ const Home = () => {
     }
     if (account && web3 && state.selectedChain.id === chainId) checkApprove()
   }, [account, state.selectedToken, web3, chainId, state.selectedChain])
-
-  // Set allocation
-  React.useEffect(() => {
-    if (maxAllocation && usedAmount) setAllocation(maxAllocation - usedAmount)
-  }, [usedAmount, maxAllocation])
 
   const changeChain = (chain) => {
     let selectedToken = chain.tokens.find(
@@ -283,7 +284,7 @@ const Home = () => {
       valueTo = value
     }
     let max = getMaxAllow(token, valueFrom, allocation)
-
+    console.log({ valueFrom, max })
     let amount = {
       from: valueFrom,
       to: valueTo,
