@@ -22,7 +22,7 @@ export const initState = {
 }
 
 export const reducer = (state, action) => {
-  console.log(action)
+  // console.log(action)
   let newState
   switch (action.type) {
     case 'UPDATE_NETWORK_INFO':

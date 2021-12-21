@@ -30,8 +30,12 @@ export const fromWei = (n, decimals = 18) => {
   return Web3.utils.fromWei(n, unit)
 }
 
-export const toWei = (n) => {
-  return Web3.utils.toWei(n)
+export const toWei = (n, decimals = 18) => {
+  let unitMap = Web3.utils.unitMap
+  let unit = Object.keys(unitMap).find(
+    (item) => unitMap[item] === new BN(10).pow(new BN(decimals)).toString()
+  )
+  return Web3.utils.toWei(n, unit)
 }
 
 function isString(s) {

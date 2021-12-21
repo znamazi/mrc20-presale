@@ -64,7 +64,13 @@ const CustomTransaction = () => {
       </Flex>
       <Flex justifyContent="flex-start" width="100%" marginTop="3px">
         <Type.LG color="#313144" fontFamily="FH Oscar" fontSizeXS="16px">
-          {`${state.transaction.amount ? state.transaction.amount : ''} ${
+          {`${
+            state.transaction.amount
+              ? Number(state.transaction.amount).toFixed(
+                  state.transaction.decimals
+                )
+              : ''
+          } ${
             state.transaction.tokenSymbol ? state.transaction.tokenSymbol : ''
           }`}
         </Type.LG>

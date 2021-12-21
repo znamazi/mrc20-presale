@@ -22,9 +22,11 @@ import {
 } from '../src/constants/transactionStatus'
 import { useUsedAmount } from '../src/hook/useUsedAmount'
 import { getMaxAllow } from '../src/utils/getMaxAllow'
-import { BN, fromWei, toBaseUnit, toBN, toWei } from '../src/utils/utils'
+import { BN, fromWei, toBN, toWei } from '../src/utils/utils'
 import { signMsg } from '../src/utils/signMsg'
 import allocations from '../src/constants/allocations.json'
+import BigNumber from 'bignumber.js'
+import calculateAmount from '../src/utils/calculateAmount'
 
 const CustomTransaction = dynamic(() =>
   import('../src/components/common/CustomTransaction')
@@ -125,15 +127,18 @@ const Home = () => {
 
   // Set allocation
   React.useEffect(() => {
-    if (maxAllocation && usedAmount)
-      setAllocation(toBN(maxAllocation).sub(toBN(usedAmount)).toNumber())
+    try {
+      if (maxAllocation && usedAmount)
+        setAllocation(new BigNumber(maxAllocation).minus(usedAmount).toFixed(3))
+    } catch (error) {
+      console.log('Error happend in set allocation')
+    }
   }, [usedAmount, maxAllocation])
 
   // Fetch balances
   React.useEffect(() => {
     const fetchBalances = async () => {
       try {
-        console.log(state)
         const presaleTokenBalance = await getTokenBalance(
           ERC20_ABI,
           state.presaleToken.address,
@@ -178,6 +183,7 @@ const Home = () => {
     }
   }, [account, chainId, web3, state.selectedChain, fetch])
 
+  // update Select token
   React.useEffect(() => {
     let chain = state.data.find((item) => item.id === state.selectedChain.id)
     let selectedToken = chain.tokens.find(
@@ -258,55 +264,49 @@ const Home = () => {
   }
 
   const handleAmount = (value, label) => {
-    let valueFrom, valueTo
-    let token = prices[state.selectedToken.symbol.toLowerCase()]
-    let tokenPrice = toBN(toBaseUnit(token.price.toString(), 18).toString())
-    let presaleTokenPrice = toBN(
-      toBaseUnit(presaleToken.price.toString(), 18).toString()
-    )
+    try {
+      let token = prices[state.selectedToken.symbol.toLowerCase()]
 
-    let baseToken = toBN(10).pow(toBN(token.decimals))
-    let basePresale = toBN(10).pow(toBN(presaleToken.decimals))
-
-    if (label === 'from') {
-      let amount = toBN(toBaseUnit(value.toString(), token.decimals).toString())
-
-      let usdAmount = amount.mul(tokenPrice).div(baseToken)
-      let mintAmount = toBN(usdAmount).mul(basePresale).div(presaleTokenPrice)
-
-      valueFrom = value
-      valueTo = fromWei(mintAmount.toString(), presaleToken.decimals)
-    } else {
-      let amount = toBN(
-        toBaseUnit(value.toString(), presaleToken.decimals).toString()
+      let { valueFrom, valueTo } = calculateAmount(
+        token,
+        presaleToken,
+        label,
+        value
       )
-      let usdAmount = amount.mul(presaleTokenPrice).div(basePresale)
-      let transforAmount = toBN(usdAmount).mul(baseToken).div(tokenPrice)
-      valueFrom = fromWei(transforAmount, token.decimals)
-      valueTo = value
+      let max = getMaxAllow(token, valueFrom, allocation)
+
+      let amount = {
+        from: valueFrom,
+        to: valueTo,
+        type: label
+      }
+      setError({
+        type:
+          parseFloat(valueFrom) > parseFloat(max) ||
+          parseFloat(valueFrom) > state.selectedToken.balance,
+        label
+      })
+      dispatch({
+        type: 'UPDATE_AMOUNT',
+        payload: { amount, btnType: state.approve ? 'swap' : 'approve' }
+      })
+    } catch (error) {
+      console.log('Error happend in HandleAmount', error)
     }
-    let max = getMaxAllow(token, valueFrom, allocation)
-    console.log({ valueFrom, max })
-    let amount = {
-      from: valueFrom,
-      to: valueTo,
-      type: label
-    }
-    setError({
-      type: valueFrom > max || valueFrom > state.selectedToken.balance,
-      label
-    })
-    dispatch({
-      type: 'UPDATE_AMOUNT',
-      payload: { amount, btnType: state.approve ? 'swap' : 'approve' }
-    })
   }
 
   const handleMax = (balance) => {
-    let token = prices[state.selectedToken.symbol.toLowerCase()]
+    if (balance) {
+      try {
+        let token = prices[state.selectedToken.symbol.toLowerCase()]
 
-    const max = getMaxAllow(token, balance, allocation)
-    handleAmount(max, 'from')
+        const max = getMaxAllow(token, balance, allocation)
+        console.log({ max })
+        handleAmount(max, 'from')
+      } catch (error) {
+        console.log('Error happend in handleMax', error)
+      }
+    }
   }
 
   const handleApprove = async () => {
@@ -419,7 +419,8 @@ const Home = () => {
           message: 'Failed to sign',
           status: TransactionStatus.FAILED,
           chainId: state.selectedChain.id,
-          tokenSymbol: state.selectedToken.symbol
+          tokenSymbol: state.selectedToken.symbol,
+          decimals: state.selectedToken.decimals
         }
       })
       return
@@ -427,6 +428,9 @@ const Home = () => {
     setLoading(true)
     try {
       console.log({ amount: state.amount.from, type: typeof state.amount.from })
+      let fixedValue = Number(state.amount.from).toFixed(
+        state.selectedToken.decimals
+      )
       const muonResponse = await muon
         .app('fear_presale')
         .method('deposit', {
@@ -435,10 +439,7 @@ const Home = () => {
           token: state.selectedToken.symbol,
           chainId: state.selectedChain.id,
           sign,
-          amount: toBaseUnit(
-            state.amount.from.toString(),
-            state.selectedToken.decimals
-          ).toString(),
+          amount: toWei(fixedValue, state.selectedToken.decimals),
           presaleToken: {
             decimals: presaleToken.decimals,
             price: presaleToken.price
@@ -458,7 +459,8 @@ const Home = () => {
             message: errorMessage,
             status: TransactionStatus.FAILED,
             chainId: state.selectedChain.id,
-            tokenSymbol: state.selectedToken.symbol
+            tokenSymbol: state.selectedToken.symbol,
+            decimals: state.selectedToken.decimals
           }
         })
         if (muonResponse.error.lockTime) {
@@ -510,7 +512,8 @@ const Home = () => {
               amount: state.amount.from,
               status: TransactionStatus.PENDING,
               chainId: state.selectedChain.id,
-              tokenSymbol: state.selectedToken.symbol
+              tokenSymbol: state.selectedToken.symbol,
+              decimals: state.selectedToken.decimals
             }
           })
         })
@@ -524,10 +527,18 @@ const Home = () => {
               amount: state.amount.from,
               status: TransactionStatus.SUCCESS,
               chainId: state.selectedChain.id,
-              tokenSymbol: state.selectedToken.symbol
+              tokenSymbol: state.selectedToken.symbol,
+              decimals: state.selectedToken.decimals
             }
           })
           setFetch(transactionHash)
+          dispatch({
+            type: 'UPDATE_AMOUNT',
+            payload: {
+              amount: { from: '', to: '' },
+              btnType: 'swap'
+            }
+          })
         })
         .once('error', (error) => {
           if (!hash) {
@@ -539,7 +550,8 @@ const Home = () => {
                 amount: state.amount.from,
                 status: TransactionStatus.FAILED,
                 chainId: state.selectedChain.id,
-                tokenSymbol: state.selectedToken.symbol
+                tokenSymbol: state.selectedToken.symbol,
+                decimals: state.selectedToken.decimals
               }
             })
             return
@@ -554,11 +566,14 @@ const Home = () => {
               amount: state.amount.from,
               status: TransactionStatus.FAILED,
               chainId: state.selectedChain.id,
-              tokenSymbol: state.selectedToken.symbol
+              tokenSymbol: state.selectedToken.symbol,
+              decimals: state.selectedToken.decimals
             }
           })
         })
     } catch (error) {
+      setLoading(false)
+
       dispatch({
         type: 'UPDATE_TRANSACTION',
         payload: {
@@ -566,7 +581,8 @@ const Home = () => {
           message: error.message,
           status: TransactionStatus.FAILED,
           chainId: state.selectedChain.id,
-          tokenSymbol: state.selectedToken.symbol
+          tokenSymbol: state.selectedToken.symbol,
+          decimals: state.selectedToken.decimals
         }
       })
       console.log('error happend in Swap', error)
