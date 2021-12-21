@@ -130,7 +130,10 @@ const Home = () => {
     try {
       if (maxAllocation && usedAmount) {
         setAllocation(new BigNumber(maxAllocation).minus(usedAmount).toFixed(3))
-        console.log(new BigNumber(maxAllocation).minus(usedAmount).toFixed(3))
+        console.log(
+          { maxAllocation, usedAmount: usedAmount.toString() },
+          new BigNumber(maxAllocation).minus(usedAmount).toFixed(3)
+        )
       }
     } catch (error) {
       console.log('Error happend in set allocation')
