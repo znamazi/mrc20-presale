@@ -128,8 +128,10 @@ const Home = () => {
   // Set allocation
   React.useEffect(() => {
     try {
-      if (maxAllocation && usedAmount)
+      if (maxAllocation && usedAmount) {
         setAllocation(new BigNumber(maxAllocation).minus(usedAmount).toFixed(3))
+        console.log(new BigNumber(maxAllocation).minus(usedAmount).toFixed(3))
+      }
     } catch (error) {
       console.log('Error happend in set allocation')
     }

@@ -1,8 +1,9 @@
 export const getMaxAllow = (token, amount, allocation) => {
-  console.log({ token, amount, allocation })
-  const amountUsed = token.price * amount
+  const amountUsed = token.price * parseFloat(amount)
   let max =
-    amountUsed > allocation ? (allocation / token.price).toFixed(3) : amount
+    amountUsed > parseFloat(allocation)
+      ? (parseFloat(allocation) / token.price).toFixed(3)
+      : amount
 
   return max
 }
