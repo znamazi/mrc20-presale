@@ -115,7 +115,7 @@ export const rpcConfig = {
       symbol: 'MATIC',
       decimals: 18
     },
-    rpcUrls: ['https://rpc-endpoints.superfluid.dev/mumbai'],
+    rpcUrls: ['https://rpc-mumbai.maticvigil.com/'],
     blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
     iconUrls: []
   },
