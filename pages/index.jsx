@@ -400,7 +400,11 @@ const Home = () => {
   }
 
   const handleSwap = async () => {
-    if (!state.amount.from || state.amount.from === '0') {
+    if (
+      !state.amount.from ||
+      state.amount.from === '0' ||
+      parseFloat(state.amount.from) <= 0
+    ) {
       setError({
         type: true,
         label: 'from'

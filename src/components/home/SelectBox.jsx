@@ -90,6 +90,7 @@ const SelectBox = (props) => {
           aria-label={`${label}-input`}
           type="number"
           placeholder="Enter Amount"
+          min={0}
           onChange={(e) => handleAmount(e.target.value, label)}
           value={amount}
           border={
