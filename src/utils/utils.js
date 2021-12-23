@@ -17,7 +17,6 @@ export const getUsedAmount = async (account, chainId, web3) => {
   const contract = getContract(MRC20Presale_ABI, MRC20Presale[chainId], web3)
 
   const amount = await contract.methods.balances(account).call()
-  console.log(amount)
   return fromWei(amount)
 }
 
@@ -26,7 +25,6 @@ export const fromWei = (n, decimals = 18) => {
   let unit = Object.keys(unitMap).find(
     (item) => unitMap[item] === new BN(10).pow(new BN(decimals)).toString()
   )
-  console.log(unit)
   return Web3.utils.fromWei(n, unit)
 }
 

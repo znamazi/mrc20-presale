@@ -130,10 +130,6 @@ const Home = () => {
     try {
       if (maxAllocation && usedAmount) {
         setAllocation(new BigNumber(maxAllocation).minus(usedAmount).toFixed(3))
-        console.log(
-          { maxAllocation, usedAmount: usedAmount.toString() },
-          new BigNumber(maxAllocation).minus(usedAmount).toFixed(3)
-        )
       }
     } catch (error) {
       console.log('Error happend in set allocation')
@@ -306,7 +302,6 @@ const Home = () => {
         let token = prices[state.selectedToken.symbol.toLowerCase()]
 
         const max = getMaxAllow(token, balance, allocation)
-        console.log({ max })
         handleAmount(max, 'from')
       } catch (error) {
         console.log('Error happend in handleMax', error)
@@ -432,7 +427,6 @@ const Home = () => {
     }
     setLoading(true)
     try {
-      console.log({ amount: state.amount.from, type: typeof state.amount.from })
       let fixedValue = Number(state.amount.from).toFixed(
         state.selectedToken.decimals
       )

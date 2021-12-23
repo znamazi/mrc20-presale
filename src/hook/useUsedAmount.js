@@ -25,7 +25,6 @@ export const useUsedAmount = (fetch) => {
           chainId,
           crossWeb3[chainId]
         )
-        console.log({ amount })
         sumUsed = new BigNumber(amount).plus(sumUsed)
       }
       setUsed(sumUsed)
