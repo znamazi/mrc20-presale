@@ -76,7 +76,12 @@ const Menu = () => {
       <AppInfo>
         <Image src="/media/common/logo.svg" alt="logo" />
         <Media>
-          <Image src="/media/common/muon.svg" alt="Muon Network" />
+          <Image
+            src="/media/common/muon.svg"
+            alt="Muon Network"
+            width="135px"
+            height="15px"
+          />
         </Media>
         <Media>
           <Type.LG color="#5F5CFE">Tools</Type.LG>

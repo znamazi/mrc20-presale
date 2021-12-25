@@ -66,8 +66,10 @@ const CustomTransaction = () => {
         <Type.LG color="#313144" fontFamily="FH Oscar" fontSizeXS="16px">
           {`${
             state.transaction.amount
-              ? Number(state.transaction.amount).toFixed(
-                  state.transaction.decimals
+              ? parseFloat(
+                  Number(state.transaction.amount).toFixed(
+                    state.transaction.decimals
+                  )
                 )
               : ''
           } ${
