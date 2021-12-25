@@ -113,13 +113,14 @@ const Home = () => {
   }, [])
 
   // Max allocation
+  // TODO change 500 into 0 for production
   React.useEffect(() => {
     const fetchMaxAllocation = async () => {
       const userAllocationAmount = allocations[account]
       if (userAllocationAmount) {
         setMaxAllocation(userAllocationAmount)
       } else {
-        setMaxAllocation(0)
+        setMaxAllocation(500)
       }
     }
     if (account) fetchMaxAllocation()
@@ -129,6 +130,11 @@ const Home = () => {
   React.useEffect(() => {
     try {
       if (maxAllocation && usedAmount) {
+        console.log({
+          allocation: new BigNumber(maxAllocation).minus(usedAmount).toFixed(3),
+          max: maxAllocation,
+          used: usedAmount.toString()
+        })
         setAllocation(new BigNumber(maxAllocation).minus(usedAmount).toFixed(3))
       }
     } catch (error) {
