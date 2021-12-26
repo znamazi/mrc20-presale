@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Flex } from 'rebass'
 
 export const Selector = styled.div`
   display: flex;
@@ -15,11 +16,14 @@ export const Selector = styled.div`
   color: ${({ color }) => (color ? color : '#919191')};
   padding: ${({ padding }) => padding};
   margin: ${({ margin }) => margin};
+  cursor: pointer;
   &:focus {
     outline: none;
   }
 `
-
+export const Arrow = styled.img`
+  cursor: pointer;
+`
 export const Button = styled.button`
   display: flex;
   justify-content: center;
@@ -34,6 +38,7 @@ export const Button = styled.button`
   margin: ${({ margin }) => margin};
   box-sizing: border-box;
   cursor: ${({ cursor }) => (cursor ? cursor : 'pointer')};
+
   &:focus {
     outline: none;
   }
@@ -174,4 +179,8 @@ export const ImageSpin = styled.img`
       transform: rotate(360deg);
     }
   }
+`
+export const ContentItem = styled(Flex)`
+  box-sizing: unset !important;
+  cursor: pointer;
 `

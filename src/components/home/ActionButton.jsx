@@ -59,10 +59,10 @@ const ActionButton = (props) => {
       content = (
         <Button
           margin="50px 0 0"
-          background={swapStatus ? '#B4B3FD' : '#5F5CFE'}
+          background={disable ? '#9d9d9d' : swapStatus ? '#B4B3FD' : '#5F5CFE'}
           border={swapStatus ? '1px solid #5F5CFE' : 'transparent'}
           onClick={handleSwap}
-          cursor={swapStatus ? 'default' : 'pointer'}
+          cursor={swapStatus || disable ? 'default' : 'pointer'}
           disabled={disable}
         >
           <Flex justifyContent="center" alignItems="center">
@@ -70,7 +70,6 @@ const ActionButton = (props) => {
               color={swapStatus ? '#313144' : '#ffffff'}
               fontFamily="FH Oscar"
               fontSizeXS="16px"
-              cursor="pointer"
             >
               {swapStatus ? 'Swaping ...' : 'Swap Asset'}
             </Type.LG>

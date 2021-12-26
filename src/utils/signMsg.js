@@ -16,7 +16,6 @@ const doSignTypedData = (dataToSign, account, web3) => {
           console.error(result.error.message)
           resolve(false)
         } else {
-          console.log('Signature: ' + result.result)
           resolve(result.result)
         }
       }

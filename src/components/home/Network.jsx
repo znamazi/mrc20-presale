@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Flex } from 'rebass'
 import dynamic from 'next/dynamic'
 
-import { Selector, Image } from '../common/FormControlls'
+import { Selector, Arrow, Image, ContentItem } from '../common/FormControlls'
 import { Type } from '../common/Text'
 const Modal = dynamic(() => import('../common/Modal'))
 // import Modal from '../common/Modal'
@@ -19,19 +19,11 @@ const Item = styled.div`
   justify-content: space-between;
   align-items: center;
 `
-const ContentItem = styled(Flex)`
-  box-sizing: unset !important;
-  cursor: pointer;
-`
-
-const Arrow = styled.img`
-  cursor: pointer;
-`
 
 const Network = (props) => {
-  const { label, placeholder, type, onChange, marginBottom, border } = props
+  const { onChange, label } = props
   const [open, setOpen] = React.useState(false)
-  const { state, dispatch } = useMuonState()
+  const { state } = useMuonState()
 
   const contentModal = state.data.map((item, index) => (
     <Item key={index}>
@@ -63,7 +55,7 @@ const Network = (props) => {
     setOpen(true)
   }
   return (
-    <Wrapper marginBottom={marginBottom}>
+    <Wrapper>
       <Type.SM
         fontFamily="FH Oscar"
         color="#313144"
@@ -72,11 +64,7 @@ const Network = (props) => {
       >
         {label}
       </Type.SM>
-      <Selector
-        padding="0 18px 0 15px"
-        onClick={handleOpenModal}
-        border={border}
-      >
+      <Selector padding="0 18px 0 15px" onClick={handleOpenModal}>
         {state.selectedChain ? (
           <Flex alignItems="center">
             <Image
@@ -101,7 +89,7 @@ const Network = (props) => {
             fontSizeXS="16px"
             fontSizeXXS="14px"
           >
-            {placeholder ? placeholder : label}
+            Select a Chain
           </Type.LG>
         )}
 
@@ -118,8 +106,6 @@ const Network = (props) => {
           setOpen(!open)
         }}
         title={label}
-        search={type === 'token'}
-        placeholderSearch="Search name or paste address"
       >
         {contentModal}
       </Modal>

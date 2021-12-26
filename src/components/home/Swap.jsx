@@ -50,7 +50,7 @@ const Swap = (props) => {
         </Type.SM>
         <Flex width="100%" flexDirection="column">
           <Network
-            label="Select Network"
+            label="Select Chain"
             onChange={(data) => changeChain(data)}
           />
           <SelectBox

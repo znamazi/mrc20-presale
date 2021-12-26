@@ -23,7 +23,7 @@ export const networks = [
         decimals: 18
       },
       {
-        logo: '/media/tokens/ert.svg',
+        logo: '/media/tokens/usdc.svg',
         symbol: 'ERT_d6',
         address: '0xfBB0Aa52B82dD2173D8ce97065b2f421216A312A',
         decimals: 6
@@ -42,7 +42,7 @@ export const networks = [
         decimals: 18
       },
       {
-        logo: '/media/tokens/ert.svg',
+        logo: '/media/tokens/usdc.svg',
         symbol: 'ERT_d6',
         address: '0xfBB0Aa52B82dD2173D8ce97065b2f421216A312A',
         decimals: 6

@@ -1,8 +1,16 @@
 import React from 'react'
 import { Flex } from 'rebass'
+import dynamic from 'next/dynamic'
 import { useMuonState } from '../../context'
-import { Selector, Select, Input, Image } from '../common/FormControlls'
+import {
+  Selector,
+  ContentItem,
+  Input,
+  Image,
+  Arrow
+} from '../common/FormControlls'
 import { Type } from '../common/Text'
+const Modal = dynamic(() => import('../common/Modal'))
 
 const SelectBox = (props) => {
   const { state } = useMuonState()
@@ -15,20 +23,77 @@ const SelectBox = (props) => {
     handleAmount,
     handleMax
   } = props
+  const [open, setOpen] = React.useState(false)
 
+  const handleOpenModal = () => {
+    setOpen(true)
+  }
+  let contentModal = state.selectedChain.tokens.map((token) => (
+    <ContentItem
+      key={token.address}
+      justifyContent="space-between"
+      paddingBottom="20px"
+      onClick={() => {
+        changeToken(token.address)
+        setOpen(!open)
+      }}
+    >
+      <Flex>
+        <Image src={token.logo} boxSizing="unset" alt={token.symbol} />
+        <Type.LG
+          fontFamily="FH Oscar"
+          color="#313144"
+          cursor="pointer"
+          fontSizeXS="16px"
+        >
+          {token.symbol}
+        </Type.LG>
+      </Flex>
+      <Flex>{token.balance}</Flex>
+    </ContentItem>
+  ))
   let content =
     state.selectedChain.tokens.length > 1 ? (
-      <Select
-        id={label}
-        onChange={(e) => changeToken(e.target.value)}
-        // value={selectedToken.symbol}
+      <Selector
+        padding="0 18px 0 15px"
+        background="#ced0d3"
+        maxWidth="200px"
+        height="40px"
+        onClick={handleOpenModal}
       >
-        {state.selectedChain.tokens.map((token) => (
-          <option key={token.address} value={token.address}>
-            {token.symbol}
-          </option>
-        ))}
-      </Select>
+        {selectedToken ? (
+          <Flex alignItems="center">
+            <Image
+              src={selectedToken.logo}
+              onError={(e) => (e.target.src = '/media/tokens/default.svg')}
+              boxSizing="unset"
+              alt={selectedToken.symbol}
+            />
+            <Type.LG
+              fontFamily="FH Oscar"
+              color="#313144"
+              cursor="pointer"
+              fontSizeXS="16px"
+            >
+              {selectedToken.symbol}
+            </Type.LG>
+          </Flex>
+        ) : (
+          <Type.LG
+            fontFamily="FH Oscar"
+            color="#919191"
+            fontSizeXS="16px"
+            fontSizeXXS="14px"
+          >
+            "Select a Token"
+          </Type.LG>
+        )}
+        <Arrow
+          src="/media/common/arrow-down.svg"
+          alt="arrow-down"
+          cursor="pointer"
+        />
+      </Selector>
     ) : (
       <Flex alignItems="center" padding="0 10px">
         <Image
@@ -112,6 +177,15 @@ const SelectBox = (props) => {
           </Flex>
         )}
       </Flex>
+      <Modal
+        open={open}
+        hide={() => {
+          setOpen(!open)
+        }}
+        title="Select Token"
+      >
+        {contentModal}
+      </Modal>
     </Selector>
   )
 }

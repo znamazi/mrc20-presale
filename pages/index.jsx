@@ -27,6 +27,7 @@ import { signMsg } from '../src/utils/signMsg'
 import allocations from '../src/constants/allocations.json'
 import BigNumber from 'bignumber.js'
 import calculateAmount from '../src/utils/calculateAmount'
+import { useMuonLock } from '../src/hook/useMuonLock'
 
 const CustomTransaction = dynamic(() =>
   import('../src/components/common/CustomTransaction')
@@ -49,6 +50,7 @@ const Home = () => {
   const [loading, setLoading] = React.useState(false)
   const [fetch, setFetch] = React.useState()
   let usedAmount = useUsedAmount(fetch)
+  let muonLock = useMuonLock(fetch)
 
   // check Network
   React.useEffect(() => {
@@ -73,6 +75,11 @@ const Home = () => {
       })
     }
   }, [chainId, account])
+
+  // check lock
+  React.useEffect(() => {
+    setLock(muonLock)
+  }, [muonLock])
 
   // Fetch Price
   React.useEffect(() => {

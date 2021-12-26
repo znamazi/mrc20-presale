@@ -13,8 +13,7 @@ if (typeof window !== 'undefined') {
 const Wrapper = styled.div`
   padding: ${({ padding }) => (padding ? padding : '30px')};
   overflow-y: auto;
-  height: 50vh;
-  // height: calc(50vh - 100px);
+  // height: 50vh;
   box-sizing: border-box;
 `
 
