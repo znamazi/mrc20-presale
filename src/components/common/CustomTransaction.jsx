@@ -46,7 +46,7 @@ const CustomTransaction = () => {
   return (
     <Box padding="14px 20px" borderRadius="10px">
       <Flex justifyContent="space-between" width="100%">
-        <Type.SM fontSize="12.5px" color="#919191" fontFamily="FH Oscar">
+        <Type.SM fontSize="12.5px" color="#919191">
           {state.transaction.type.charAt(0).toUpperCase() +
             state.transaction.type.slice(1)}
         </Type.SM>
@@ -58,21 +58,13 @@ const CustomTransaction = () => {
         marginTop="15px"
         alignItems="center"
       >
-        <Type.SM fontSize="12.5px" color="#313144" fontFamily="FH Oscar">
+        <Type.SM fontSize="12.5px" color="#313144">
           {chain.name}
         </Type.SM>
       </Flex>
       <Flex justifyContent="flex-start" width="100%" marginTop="3px">
-        <Type.LG color="#313144" fontFamily="FH Oscar" fontSizeXS="16px">
-          {`${
-            state.transaction.amount
-              ? parseFloat(
-                  Number(state.transaction.amount).toFixed(
-                    state.transaction.decimals
-                  )
-                )
-              : ''
-          } ${
+        <Type.LG color="#313144" fontSizeXS="16px">
+          {`${state.transaction.amount ? state.transaction.amount : ''} ${
             state.transaction.tokenSymbol ? state.transaction.tokenSymbol : ''
           }`}
         </Type.LG>
@@ -118,12 +110,7 @@ const CustomTransaction = () => {
                   LinkType.Transaction
                 )}
               >
-                <Type.SM
-                  fontSize="12.5px"
-                  color="#313144"
-                  fontFamily="FH Oscar"
-                  fontSizeXS="10px"
-                >
+                <Type.SM fontSize="12.5px" color="#313144" fontSizeXS="10px">
                   {state.transaction.message}
                 </Type.SM>
               </Link>

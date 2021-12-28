@@ -16,7 +16,7 @@ export const Selector = styled.div`
   color: ${({ color }) => (color ? color : '#919191')};
   padding: ${({ padding }) => padding};
   margin: ${({ margin }) => margin};
-  cursor: pointer;
+  cursor: ${({ cursor }) => (cursor ? cursor : 'default')};
   &:focus {
     outline: none;
   }
@@ -32,8 +32,7 @@ export const Button = styled.button`
   width: 100%;
   height: ${({ height }) => (height ? height : '55px')};
   background: ${({ background }) => (background ? background : '#D7D7D7')};
-  border-radius: ${({ borderRadius }) =>
-    borderRadius ? borderRadius : '10px'};
+  border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius : '5px')};
   border: ${({ border }) => (border ? border : 'transparent')};
   margin: ${({ margin }) => margin};
   box-sizing: border-box;
@@ -56,7 +55,6 @@ export const Select = styled.select`
 
   border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius : '2px')};
   box-sizing: border-box;
-  font-family: ${({ fontFamily }) => (fontFamily ? fontFamily : 'FH Oscar')};
   font-style: normal;
   font-weight: normal;
   font-size: ${({ fontSize }) => (fontSize ? fontSize : '20px')};
@@ -104,7 +102,6 @@ export const Input = styled.input`
   border-radius: ${({ borderRadius }) =>
     borderRadius ? borderRadius : '10px'};
   box-sizing: border-box;
-  font-family: ${({ fontFamily }) => (fontFamily ? fontFamily : 'FH Oscar')};
   font-style: normal;
   font-weight: normal;
   font-size: ${({ fontSize }) => (fontSize ? fontSize : '15px')};

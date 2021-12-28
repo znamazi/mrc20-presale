@@ -8,6 +8,7 @@ import { formatAddress } from '../../utils/utils'
 import { useWeb3React } from '@web3-react/core'
 import { NameChainMap } from '../../constants/chainsMap'
 import { Image } from '../common/FormControlls'
+import MuonNetwork from '../common/MuonNetwork'
 // import WalletModal from '../common/WalletModal'
 const WalletModal = dynamic(() => import('../common/WalletModal'))
 
@@ -24,7 +25,6 @@ const Button = styled.button`
   border: 0.5px solid #d2d2d2;
   box-sizing: border-box;
   border-radius: 10px;
-  font-family: 'FH Oscar';
   font-style: normal;
   font-weight: normal;
   font-size: 15px;
@@ -74,30 +74,18 @@ const Menu = () => {
   return (
     <>
       <AppInfo>
-        <Image src="/media/common/logo.svg" alt="logo" />
-        <Media>
-          <Image
-            src="/media/common/muon.svg"
-            alt="Muon Network"
-            width="135px"
-            height="15px"
-          />
-        </Media>
-        <Media>
-          <Type.LG color="#5F5CFE">Tools</Type.LG>
-        </Media>
+        <MuonNetwork logo="muonNetwork" />
       </AppInfo>
       <AppInfo>
         <Button padding="0 17px !important">
           <Status active={account} />
           {account ? (
-            <Type.SM fontSize="15px" fontFamily="FH Oscar" color="#313144">
+            <Type.SM fontSize="15px" color="#313144">
               {formatAddress(account)}
             </Type.SM>
           ) : (
             <Type.SM
               fontSize="15px"
-              fontFamily="FH Oscar"
               color="#313144"
               cursor="pointer"
               onClick={handleConnect}
@@ -109,12 +97,7 @@ const Menu = () => {
 
         <Button hide={!NameChainMap[chainId]}>
           <Label>Network:</Label>
-          <Type.SM
-            fontSize="15px"
-            fontFamily="FH Oscar"
-            color="#313144"
-            padding="0 0 0 3px"
-          >
+          <Type.SM fontSize="15px" color="#313144" padding="0 0 0 3px">
             {NameChainMap[chainId] || 'NaN'}
           </Type.SM>
         </Button>

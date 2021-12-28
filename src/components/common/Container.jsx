@@ -19,6 +19,7 @@ export const FlexCenter = styled.div`
 export const Box = styled.div`
   max-width: ${({ maxWidth }) => maxWidth};
   width: 100%;
+  min-height: ${({ minHeight }) => minHeight};
   background: ${({ background }) =>
     background ? background : 'rgba(255, 255, 255, 0.35)'};
   border: ${({ borderSize }) => (borderSize ? borderSize : '0.5px')} solid
@@ -29,12 +30,11 @@ export const Box = styled.div`
   box-shadow: 0px 4px 4px
     ${({ shadowColor }) =>
       shadowColor ? shadowColor : 'rgba(239, 239, 239, 0.25)'};
-  border-radius: ${({ borderRadius }) =>
-    borderRadius ? borderRadius : '20px'};
+  border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius : '5px')};
   margin-top: ${({ marginTop }) => `${marginTop}px`};
   display: flex;
-  justify-content: center;
+  // justify-content: center;
   flex-direction: column;
-  align-items: center;
+  // align-items: center;
   padding: ${({ padding }) => (padding ? padding : '20px')};
 `

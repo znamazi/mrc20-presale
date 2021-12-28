@@ -1,5 +1,5 @@
 export const ChainMap = {
-  MAINNET: 1,
+  ETH: 1,
   ROPSTEN: 3,
   RINKEBY: 4,
   BSC: 56,

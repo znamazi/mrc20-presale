@@ -73,7 +73,7 @@ const Modal = (props) => {
           alignItems="center"
           padding={padding ? padding : '30px 30px 25px'}
         >
-          <Type.LG fontFamily="FH Oscar" color="#313144" fontSizeXS="16px">
+          <Type.LG color="#313144" fontSizeXS="16px">
             {title}
           </Type.LG>
           <ImageWithCursor

@@ -21,7 +21,8 @@ const SelectBox = (props) => {
     selectedToken,
     changeToken,
     handleAmount,
-    handleMax
+    handleMax,
+    lock
   } = props
   const [open, setOpen] = React.useState(false)
 
@@ -40,12 +41,7 @@ const SelectBox = (props) => {
     >
       <Flex>
         <Image src={token.logo} boxSizing="unset" alt={token.symbol} />
-        <Type.LG
-          fontFamily="FH Oscar"
-          color="#313144"
-          cursor="pointer"
-          fontSizeXS="16px"
-        >
+        <Type.LG color="#313144" cursor="pointer" fontSizeXS="16px">
           {token.symbol}
         </Type.LG>
       </Flex>
@@ -56,8 +52,7 @@ const SelectBox = (props) => {
     state.selectedChain.tokens.length > 1 ? (
       <Selector
         padding="0 18px 0 15px"
-        background="#ced0d3"
-        maxWidth="200px"
+        maxWidth="165px"
         height="40px"
         onClick={handleOpenModal}
       >
@@ -69,22 +64,12 @@ const SelectBox = (props) => {
               boxSizing="unset"
               alt={selectedToken.symbol}
             />
-            <Type.LG
-              fontFamily="FH Oscar"
-              color="#313144"
-              cursor="pointer"
-              fontSizeXS="16px"
-            >
+            <Type.LG color="#313144" cursor="pointer" fontSizeXS="16px">
               {selectedToken.symbol}
             </Type.LG>
           </Flex>
         ) : (
-          <Type.LG
-            fontFamily="FH Oscar"
-            color="#919191"
-            fontSizeXS="16px"
-            fontSizeXXS="14px"
-          >
+          <Type.LG color="#919191" fontSizeXS="16px" fontSizeXXS="14px">
             "Select a Token"
           </Type.LG>
         )}
@@ -101,7 +86,7 @@ const SelectBox = (props) => {
           boxSizing="unset"
           alt={state.selectedChain.tokens[0].symbol}
         />
-        <Type.LG fontFamily="FH Oscar" color="#313144" fontSizeXS="16px">
+        <Type.LG color="#313144" fontSizeXS="16px">
           {state.selectedChain.tokens[0].symbol}
         </Type.LG>
       </Flex>
@@ -114,21 +99,11 @@ const SelectBox = (props) => {
       height="100px"
     >
       <Flex width="100%" justifyContent="space-between" alignItems="center">
-        <Type.SM
-          fontFamily="FH Oscar"
-          color="#313144"
-          fontSize="12.5px"
-          padding="5px 10px"
-        >
+        <Type.SM color="#313144" fontSize="12.5px" padding="5px 10px">
           {label}
         </Type.SM>
         <Flex justifyContent="flex-end" alignItems="center">
-          <Type.SM
-            fontFamily="FH Oscar"
-            color="#313144"
-            fontSize="12.5px"
-            padding="5px 10px"
-          >
+          <Type.SM color="#313144" fontSize="12.5px" padding="5px 10px">
             Balance:
             {` ${
               !isNaN(parseFloat(selectedToken.balance))
@@ -138,7 +113,6 @@ const SelectBox = (props) => {
           </Type.SM>
           {label === 'from' && (
             <Type.SM
-              fontFamily="FH Oscar"
               color="#313144"
               fontSize="12.5px"
               padding="5px 10px"
@@ -158,8 +132,10 @@ const SelectBox = (props) => {
           min={0}
           onChange={(e) => handleAmount(e.target.value, label)}
           value={amount}
+          disabled={lock}
           border={
-            error && error.type && error.label === label && '1px solid red'
+            (error && error.type && error.label === label) ||
+            (lock && '1px solid red')
           }
         />
         {label === 'from' ? (
@@ -171,7 +147,7 @@ const SelectBox = (props) => {
               boxSizing="unset"
               alt={selectedToken.name}
             />
-            <Type.LG fontFamily="FH Oscar" color="#313144" fontSizeXS="16px">
+            <Type.LG color="#313144" fontSizeXS="16px">
               {selectedToken.name}
             </Type.LG>
           </Flex>

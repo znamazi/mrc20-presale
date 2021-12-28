@@ -1,7 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
-import Muon from 'muon'
+import Muon, { async } from 'muon'
 import { useWeb3React } from '@web3-react/core'
 
 import { Container, Wrapper } from '../src/components/home'
@@ -28,6 +28,9 @@ import allocations from '../src/constants/allocations.json'
 import BigNumber from 'bignumber.js'
 import calculateAmount from '../src/utils/calculateAmount'
 import { useMuonLock } from '../src/hook/useMuonLock'
+import UserNotExist from '../src/components/home/UserNotExist'
+import { add24Hours } from '../src/utils/time'
+import moment from 'moment'
 
 const CustomTransaction = dynamic(() =>
   import('../src/components/common/CustomTransaction')
@@ -49,8 +52,28 @@ const Home = () => {
   const [lock, setLock] = React.useState(0)
   const [loading, setLoading] = React.useState(false)
   const [fetch, setFetch] = React.useState()
+  const [openUserNotExist, setOpenUserNotExist] = React.useState(false)
+  const [publicTime, setPublicTime] = React.useState()
   let usedAmount = useUsedAmount(fetch)
   let muonLock = useMuonLock(fetch)
+  const web3Cross = useCrossWeb3(validChains[0])
+
+  // get startTime
+  // React.useEffect(() => {
+  //   const getStartTime = async () => {
+  //     const contract = getContract(
+  //       MRC20Presale_ABI,
+  //       MRC20Presale[validChains[0]],
+  //       web3Cross
+  //     )
+  //     const startTime = await contract.methods.startTime().call()
+  //     const publicTime = add24Hours(startTime * 1000)
+
+  //     console.log('*/*/*/', moment(publicTime).format('yyyy-mm-dd hh:mm:ss'))
+  //     setPublicTime(publicTime)
+  //   }
+  //   getStartTime()
+  // }, [])
 
   // check Network
   React.useEffect(() => {
@@ -78,6 +101,7 @@ const Home = () => {
 
   // check lock
   React.useEffect(() => {
+    console.log({ muonLock })
     setLock(muonLock)
   }, [muonLock])
 
@@ -120,14 +144,15 @@ const Home = () => {
   }, [])
 
   // Max allocation
-  // TODO change 500 into 0 for production
   React.useEffect(() => {
     const fetchMaxAllocation = async () => {
       const userAllocationAmount = allocations[account]
       if (userAllocationAmount) {
+        setOpenUserNotExist(false)
         setMaxAllocation(userAllocationAmount)
       } else {
-        setMaxAllocation(500)
+        setOpenUserNotExist(true)
+        setMaxAllocation(0)
       }
     }
     if (account) fetchMaxAllocation()
@@ -613,7 +638,6 @@ const Home = () => {
 
       <Container>
         <Wrapper maxWidth="340px" width="100%"></Wrapper>
-
         <Wrapper maxWidth="600px" width="100%">
           <Swap
             changeChain={changeChain}
@@ -628,12 +652,24 @@ const Home = () => {
             lock={lock}
             setLock={() => setLock(0)}
             loading={loading}
+            maxAllocation={maxAllocation}
           />
         </Wrapper>
         <Wrapper maxWidth="340px" width="100%">
           {state.transaction.status && <CustomTransaction />}
         </Wrapper>
       </Container>
+
+      {lock && (
+        <UserNotExist
+          open={openUserNotExist}
+          lock={lock}
+          hide={() => {
+            setOpenUserNotExist(!openUserNotExist)
+          }}
+          setLock={() => setLock(0)}
+        />
+      )}
 
       <WalletModal
         open={open}

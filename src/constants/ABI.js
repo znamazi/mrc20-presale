@@ -207,7 +207,8 @@ export const MRC20Presale_ABI = [
   {
     inputs: [
       { internalType: 'address', name: '_muon', type: 'address' },
-      { internalType: 'address', name: '_presaleToken', type: 'address' }
+      { internalType: 'address', name: '_presaleToken', type: 'address' },
+      { internalType: 'address', name: '_mounFeesAddress', type: 'address' }
     ],
     stateMutability: 'nonpayable',
     type: 'constructor'
@@ -303,27 +304,6 @@ export const MRC20Presale_ABI = [
     type: 'function'
   },
   {
-    inputs: [
-      { internalType: 'address', name: '_tokenAddr', type: 'address' },
-      { internalType: 'address', name: '_to', type: 'address' },
-      { internalType: 'uint256', name: '_amount', type: 'uint256' }
-    ],
-    name: 'emergencyWithdrawERC20Tokens',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function'
-  },
-  {
-    inputs: [
-      { internalType: 'uint256', name: 'amount', type: 'uint256' },
-      { internalType: 'address', name: 'addr', type: 'address' }
-    ],
-    name: 'emergencyWithdrawETH',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function'
-  },
-  {
     inputs: [],
     name: 'getChainID',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
@@ -346,8 +326,29 @@ export const MRC20Presale_ABI = [
   },
   {
     inputs: [],
+    name: 'mounFeesAddress',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
     name: 'muon',
     outputs: [{ internalType: 'contract IMuonV02', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'muonFees',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'muonFeesScale',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function'
   },
@@ -402,14 +403,56 @@ export const MRC20Presale_ABI = [
   },
   {
     inputs: [{ internalType: 'address', name: 'addr', type: 'address' }],
-    name: 'setpresaleToken',
+    name: 'setPresaleToken',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function'
   },
   {
+    inputs: [{ internalType: 'uint256', name: '_time', type: 'uint256' }],
+    name: 'setStartTime',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'startTime',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'totalBalance',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
     inputs: [{ internalType: 'address', name: 'newOwner', type: 'address' }],
     name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [
+      { internalType: 'address', name: '_tokenAddr', type: 'address' },
+      { internalType: 'address', name: '_to', type: 'address' },
+      { internalType: 'uint256', name: '_amount', type: 'uint256' }
+    ],
+    name: 'withdrawERC20Tokens',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [
+      { internalType: 'uint256', name: 'amount', type: 'uint256' },
+      { internalType: 'address', name: 'addr', type: 'address' }
+    ],
+    name: 'withdrawETH',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function'

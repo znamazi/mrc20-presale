@@ -39,12 +39,7 @@ const Network = (props) => {
           boxSizing="unset"
           alt="chain"
         />
-        <Type.LG
-          fontFamily="FH Oscar"
-          color="#313144"
-          cursor="pointer"
-          fontSizeXS="16px"
-        >
+        <Type.LG color="#313144" cursor="pointer" fontSizeXS="16px">
           {item.name}
         </Type.LG>
       </ContentItem>
@@ -56,15 +51,14 @@ const Network = (props) => {
   }
   return (
     <Wrapper>
-      <Type.SM
-        fontFamily="FH Oscar"
-        color="#313144"
-        fontSize="12.5px"
-        padding="5px 10px"
-      >
+      <Type.SM color="#313144" fontSize="12.5px" padding="5px 10px">
         {label}
       </Type.SM>
-      <Selector padding="0 18px 0 15px" onClick={handleOpenModal}>
+      <Selector
+        padding="0 18px 0 15px"
+        onClick={handleOpenModal}
+        cursor="pointer"
+      >
         {state.selectedChain ? (
           <Flex alignItems="center">
             <Image
@@ -73,22 +67,12 @@ const Network = (props) => {
               boxSizing="unset"
               alt="chain"
             />
-            <Type.LG
-              fontFamily="FH Oscar"
-              color="#313144"
-              cursor="pointer"
-              fontSizeXS="16px"
-            >
+            <Type.LG color="#313144" cursor="pointer" fontSizeXS="16px">
               {state.selectedChain.name}
             </Type.LG>
           </Flex>
         ) : (
-          <Type.LG
-            fontFamily="FH Oscar"
-            color="#919191"
-            fontSizeXS="16px"
-            fontSizeXXS="14px"
-          >
+          <Type.LG color="#919191" fontSizeXS="16px" fontSizeXXS="14px">
             Select a Chain
           </Type.LG>
         )}

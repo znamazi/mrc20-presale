@@ -2,7 +2,7 @@ import React from 'react'
 import { Flex } from 'rebass'
 import { title } from '../../constants/settings'
 
-import { Title } from '.'
+import { Title, GradientTitle } from '.'
 import { Box } from '../common/Container'
 import { Type } from '../common/Text'
 import Network from './Network'
@@ -11,6 +11,8 @@ import { useMuonState } from '../../context'
 import { Image } from '../common/FormControlls'
 import ActionButton from './ActionButton'
 import CountDown from '../common/CountDown'
+import MuonNetwork from '../common/MuonNetwork'
+import moment from 'moment'
 
 const Swap = (props) => {
   let { state } = useMuonState()
@@ -26,9 +28,10 @@ const Swap = (props) => {
     lock,
     setLock,
     loading,
-    error
+    error,
+    maxAllocation
   } = props
-
+  console.log('swap', lock)
   return (
     <Flex
       flexDirection="column"
@@ -36,18 +39,9 @@ const Swap = (props) => {
       alignItems="center"
       width="100%"
     >
-      <Title>{title}</Title>
-      <Title margin="8px 0 33px">Presale</Title>
-
-      <Box>
-        <Type.SM
-          color="rgba(49, 49, 68, 0.5)"
-          fontSize="12.5px"
-          padding="10px 0"
-          fontFamily="Reckless"
-        >
-          Powerd by Muon Network
-        </Type.SM>
+      <GradientTitle>{title} </GradientTitle>
+      <Title margin="0 0 10px">Presale</Title>
+      <Box minHeight="420px">
         <Flex width="100%" flexDirection="column">
           <Network
             label="Select Chain"
@@ -61,6 +55,7 @@ const Swap = (props) => {
             handleAmount={handleAmount}
             handleMax={handleMax}
             error={error}
+            lock={lock}
           />
           <Flex justifyContent="center">
             <Image src="/media/common/ex.svg" alt="exchange" />
@@ -70,36 +65,42 @@ const Swap = (props) => {
             amount={state.amount?.to}
             selectedToken={state.presaleToken}
             handleAmount={handleAmount}
+            lock={lock}
           />
+          {maxAllocation !== undefined && (
+            <Flex justifyContent="flex-end" alignItems="center">
+              <Type.SM
+                color="#5E5CFC"
+                padding="0 3px"
+              >{`Max. Allocation is ${maxAllocation}`}</Type.SM>
+              <Image src="/media/common/info.svg" alt="svg" />
+            </Flex>
+          )}
           {lock !== 0 && (
             <Flex
               justifyContent="center"
               alignItems="center"
               flexDirection="column"
-              marginTop="20px"
-              backgroundColor="#e7e8ea"
-              padding="5px"
             >
-              <CountDown date={lock} setLock={setLock} />
-
-              <Type.MD mt="2" color="#ff4646">
-                Next Swap available after timer is at zero
-              </Type.MD>
+              <CountDown date={lock} setLock={() => setLock(0)} />
             </Flex>
           )}
-          <ActionButton
-            wrongNetwork={wrongNetwork}
-            handleConnectWallet={handleConnectWallet}
-            handleSwap={handleSwap}
-            handleApprove={handleApprove}
-            disable={lock}
-            loading={loading}
-          />
-          <Flex justifyContent="center" margin="50px 0 20px">
-            <Image src="/media/common/logo.svg" alt="Muon Logo" />
-          </Flex>
         </Flex>
       </Box>
+      <ActionButton
+        wrongNetwork={wrongNetwork}
+        handleConnectWallet={handleConnectWallet}
+        handleSwap={handleSwap}
+        handleApprove={handleApprove}
+        disable={lock}
+        loading={loading}
+      />
+      <Flex justifyContent="center">
+        <Type.SM color="#313144" fontSize="10px" padding="10px">
+          Powered by
+        </Type.SM>
+        <MuonNetwork logo="muonNetworkBlack" />
+      </Flex>
     </Flex>
   )
 }

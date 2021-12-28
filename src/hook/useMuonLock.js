@@ -16,8 +16,11 @@ export const useMuonLock = (fetch) => {
           forAddress: account
         })
         .call()
+      console.log(muonResponse)
       if (muonResponse.lock) {
         setLock(muonResponse.expireAt)
+      } else {
+        setLock(0)
       }
     }
     if (account) checkLock()
