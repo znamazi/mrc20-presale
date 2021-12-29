@@ -29,8 +29,6 @@ import BigNumber from 'bignumber.js'
 import calculateAmount from '../src/utils/calculateAmount'
 import { useMuonLock } from '../src/hook/useMuonLock'
 import UserNotExist from '../src/components/home/UserNotExist'
-import { add24Hours } from '../src/utils/time'
-import moment from 'moment'
 
 const CustomTransaction = dynamic(() =>
   import('../src/components/common/CustomTransaction')
@@ -56,24 +54,6 @@ const Home = () => {
   const [publicTime, setPublicTime] = React.useState()
   let usedAmount = useUsedAmount(fetch)
   let muonLock = useMuonLock(fetch)
-  const web3Cross = useCrossWeb3(validChains[0])
-
-  // get startTime
-  // React.useEffect(() => {
-  //   const getStartTime = async () => {
-  //     const contract = getContract(
-  //       MRC20Presale_ABI,
-  //       MRC20Presale[validChains[0]],
-  //       web3Cross
-  //     )
-  //     const startTime = await contract.methods.startTime().call()
-  //     const publicTime = add24Hours(startTime * 1000)
-
-  //     console.log('*/*/*/', moment(publicTime).format('yyyy-mm-dd hh:mm:ss'))
-  //     setPublicTime(publicTime)
-  //   }
-  //   getStartTime()
-  // }, [])
 
   // check Network
   React.useEffect(() => {
@@ -102,7 +82,8 @@ const Home = () => {
   // check lock
   React.useEffect(() => {
     console.log({ muonLock })
-    setLock(muonLock)
+    setLock(muonLock.expire)
+    setPublicTime(muonLock.publicTime)
   }, [muonLock])
 
   // Fetch Price
@@ -312,7 +293,7 @@ const Home = () => {
         label,
         value
       )
-      let max = getMaxAllow(token, valueFrom, allocation)
+      let max = getMaxAllow(token, valueFrom, allocation, publicTime)
 
       let amount = {
         from: valueFrom,
@@ -339,7 +320,7 @@ const Home = () => {
       try {
         let token = prices[state.selectedToken.symbol.toLowerCase()]
 
-        const max = getMaxAllow(token, balance, allocation)
+        const max = getMaxAllow(token, balance, allocation, publicTime)
         handleAmount(max, 'from')
       } catch (error) {
         console.log('Error happend in handleMax', error)
@@ -487,6 +468,7 @@ const Home = () => {
           }
         })
         .call()
+      console.log(muonResponse)
       if (!muonResponse.confirmed) {
         const errorMessage = muonResponse.error?.message
           ? muonResponse.error.message
@@ -660,7 +642,7 @@ const Home = () => {
         </Wrapper>
       </Container>
 
-      {lock && (
+      {lock && Date.now() < publicTime && (
         <UserNotExist
           open={openUserNotExist}
           lock={lock}

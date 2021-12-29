@@ -18,9 +18,12 @@ export const useMuonLock = (fetch) => {
         .call()
       console.log(muonResponse)
       if (muonResponse.lock) {
-        setLock(muonResponse.expireAt)
+        setLock({
+          expire: muonResponse.expireAt,
+          publicTime: muonResponse.PUBLIC_TIME
+        })
       } else {
-        setLock(0)
+        setLock({ expire: 0, publicTime: muonResponse.PUBLIC_TIME })
       }
     }
     if (account) checkLock()

@@ -134,8 +134,7 @@ const SelectBox = (props) => {
           value={amount}
           disabled={lock}
           border={
-            (error && error.type && error.label === label) ||
-            (lock && '1px solid red')
+            error && error.type && error.label === label && '1px solid red'
           }
         />
         {label === 'from' ? (
