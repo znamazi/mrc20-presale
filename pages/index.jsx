@@ -453,6 +453,8 @@ const Home = () => {
       let fixedValue = Number(state.amount.from).toFixed(
         state.selectedToken.decimals
       )
+
+      console.log('sign', sign)
       const muonResponse = await muon
         .app('fear_presale')
         .method('deposit', {
@@ -611,7 +613,7 @@ const Home = () => {
       console.log('error happend in Swap', error)
     }
   }
-
+  console.log(lock)
   return (
     <>
       <Head>
