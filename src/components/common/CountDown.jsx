@@ -6,7 +6,7 @@ const CountDown = (props) => {
   const { date, setLock } = props
   // TODO change after Mr.teimori change mongodb
 
-  const [timer, setTimer] = useState(moment(date).diff(moment()))
+  const [timer, setTimer] = useState(moment(date).diff(moment()) + 60000)
   const [waiting, setWaiting] = useState()
   useEffect(() => {
     let dif = moment.duration(timer)

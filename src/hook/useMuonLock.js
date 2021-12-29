@@ -5,7 +5,7 @@ import Muon from 'muon'
 
 export const useMuonLock = (fetch) => {
   const { account } = useWeb3React()
-  const [lock, setLock] = useState(0)
+  const [lock, setLock] = useState({ expire: 0 })
   const muon = new Muon(process.env.NEXT_PUBLIC_MUON_NODE_GATEWAY)
 
   useEffect(() => {
