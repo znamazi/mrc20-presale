@@ -52,6 +52,7 @@ const Home = () => {
   const [fetch, setFetch] = React.useState()
   const [openUserNotExist, setOpenUserNotExist] = React.useState(false)
   const [publicTime, setPublicTime] = React.useState()
+
   let usedAmount = useUsedAmount(fetch)
   let muonLock = useMuonLock(fetch)
 
@@ -81,7 +82,6 @@ const Home = () => {
 
   // check lock
   React.useEffect(() => {
-    console.log({ muonLock })
     setLock(muonLock.expire)
     setPublicTime(muonLock.publicTime)
   }, [muonLock])
@@ -143,11 +143,6 @@ const Home = () => {
   React.useEffect(() => {
     try {
       if (maxAllocation && usedAmount) {
-        console.log({
-          allocation: new BigNumber(maxAllocation).minus(usedAmount).toFixed(3),
-          max: maxAllocation,
-          used: usedAmount.toString()
-        })
         setAllocation(new BigNumber(maxAllocation).minus(usedAmount).toFixed(3))
       }
     } catch (error) {
@@ -454,7 +449,6 @@ const Home = () => {
         state.selectedToken.decimals
       )
 
-      console.log('sign', sign)
       const muonResponse = await muon
         .app('fear_presale')
         .method('deposit', {
@@ -470,7 +464,6 @@ const Home = () => {
           }
         })
         .call()
-      console.log(muonResponse)
       if (!muonResponse.confirmed) {
         const errorMessage = muonResponse.error?.message
           ? muonResponse.error.message
@@ -613,7 +606,6 @@ const Home = () => {
       console.log('error happend in Swap', error)
     }
   }
-  console.log(lock)
   return (
     <>
       <Head>

@@ -8,15 +8,15 @@ const CountDown = (props) => {
   // TODO change after Mr.teimori change mongodb
 
   const [timer, setTimer] = useState(moment(date).diff(moment()) + 60000)
-  const refDate = useRef(moment(date).format('x'))
+  // const refDate = useRef(moment(date).format('x'))
 
   const [waiting, setWaiting] = useState()
   useEffect(() => {
-    if (moment(date).format('x') !== refDate) {
-      // clearInterval(interval)
-      refDate = moment(date).format('x')
-      setTimer(moment(date).diff(moment()) + 60000)
-    }
+    // if (moment(date).format('x') !== refDate) {
+    //   clearInterval(interval)
+    //   refDate = moment(date).format('x')
+    //   setTimer(moment(date).diff(moment()) + 60000)
+    // }
     let dif = moment.duration(timer)
     let waitingTime = diffTimeFormat(dif)
     setWaiting(waitingTime)

@@ -1,7 +1,6 @@
 import moment from 'moment'
 
 export const add24Hours = (startTime) => {
-  console.log('******', startTime)
   return moment(startTime).add(24, 'hours')
 }
 

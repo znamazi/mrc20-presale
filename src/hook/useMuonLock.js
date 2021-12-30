@@ -10,13 +10,13 @@ export const useMuonLock = (fetch) => {
 
   useEffect(() => {
     const checkLock = async () => {
+      setLock({ expire: 0 })
       const muonResponse = await muon
         .app('fear_presale')
         .method('checkLock', {
           forAddress: account
         })
         .call()
-      console.log(muonResponse)
       if (muonResponse.lock) {
         setLock({
           expire: muonResponse.expireAt,
