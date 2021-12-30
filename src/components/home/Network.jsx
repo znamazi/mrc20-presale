@@ -10,8 +10,7 @@ const Modal = dynamic(() => import('../common/Modal'))
 import { useMuonState } from '../../context'
 
 const Wrapper = styled.div`
-  margin-bottom: ${({ marginBottom }) =>
-    marginBottom ? marginBottom : '20px'};
+  margin: 70px 18px 40px;
 `
 const Item = styled.div`
   padding-bottom: 20px;

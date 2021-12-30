@@ -10,6 +10,8 @@ import {
   Arrow
 } from '../common/FormControlls'
 import { Type } from '../common/Text'
+import Token from './Token'
+import { Max } from '.'
 const Modal = dynamic(() => import('../common/Modal'))
 
 const SelectBox = (props) => {
@@ -52,8 +54,7 @@ const SelectBox = (props) => {
     state.selectedChain.tokens.length > 1 ? (
       <Selector
         padding="0 18px 0 15px"
-        maxWidth="165px"
-        height="40px"
+        maxWidth="181px"
         onClick={handleOpenModal}
       >
         {selectedToken ? (
@@ -80,24 +81,13 @@ const SelectBox = (props) => {
         />
       </Selector>
     ) : (
-      <Flex alignItems="center" padding="0 10px">
-        <Image
-          src={state.selectedChain.tokens[0].logo}
-          boxSizing="unset"
-          alt={state.selectedChain.tokens[0].symbol}
-        />
-        <Type.LG color="#313144" fontSizeXS="16px">
-          {state.selectedChain.tokens[0].symbol}
-        </Type.LG>
-      </Flex>
+      <Token
+        logo={state.selectedChain.tokens[0].logo}
+        name={state.selectedChain.tokens[0].symbol}
+      />
     )
   return (
-    <Selector
-      padding="20px"
-      border="0.75px solid transparent"
-      flexDirection="column"
-      height="100px"
-    >
+    <Flex flexDirection="column" margin="0 18px 40px">
       <Flex width="100%" justifyContent="space-between" alignItems="center">
         <Type.SM color="#313144" fontSize="12.5px" padding="5px 10px">
           {label}
@@ -111,45 +101,40 @@ const SelectBox = (props) => {
                 : ''
             } ${selectedToken?.symbol}`}
           </Type.SM>
-          {label === 'from' && (
-            <Type.SM
-              color="#313144"
-              fontSize="12.5px"
-              padding="5px 10px"
-              cursor="pointer"
-              onClick={(e) => handleMax(selectedToken.balance)}
-            >
-              (Max)
-            </Type.SM>
+          {label === 'From' && (
+            <Max>
+              <Type.SM
+                color="#ACAFF3"
+                fontSize="6px"
+                fontFamily="Montserrat-bold"
+                onClick={(e) => handleMax(selectedToken.balance)}
+              >
+                Max
+              </Type.SM>
+            </Max>
           )}
         </Flex>
       </Flex>
       <Flex width="100%" justifyContent="space-between">
-        <Input
-          aria-label={`${label}-input`}
-          type="number"
-          placeholder="Enter Amount"
-          min={0}
-          onChange={(e) => handleAmount(e.target.value, label)}
-          value={amount}
-          disabled={lock}
-          border={
-            error && error.type && error.label === label && '1px solid red'
-          }
-        />
-        {label === 'from' ? (
+        <Selector maxWidth="181px">
+          <Input
+            aria-label={`${label}-input`}
+            type="number"
+            placeholder="Enter Amount"
+            min={0}
+            onChange={(e) => handleAmount(e.target.value, label)}
+            value={amount}
+            disabled={lock}
+            border={
+              error && error.type && error.label === label && '1px solid red'
+            }
+          />
+        </Selector>
+
+        {label === 'From' ? (
           content
         ) : (
-          <Flex alignItems="center" padding="0 10px">
-            <Image
-              src={selectedToken.logo}
-              boxSizing="unset"
-              alt={selectedToken.name}
-            />
-            <Type.LG color="#313144" fontSizeXS="16px">
-              {selectedToken.name}
-            </Type.LG>
-          </Flex>
+          <Token logo={selectedToken.logo} name={selectedToken.name} />
         )}
       </Flex>
       <Modal
@@ -161,7 +146,7 @@ const SelectBox = (props) => {
       >
         {contentModal}
       </Modal>
-    </Selector>
+    </Flex>
   )
 }
 

@@ -25,6 +25,7 @@ export const Title = styled.div`
   line-height: 30px;
   text-align: center;
   color: #313144;
+  font-family: ${({ fontFamily }) => fontFamily};
   margin: ${({ margin }) => margin};
   @media screen and (max-width: 1200px) {
     display: none !important;
@@ -39,7 +40,45 @@ export const GradientTitle = styled.div`
   font-size: 25px;
   line-height: 30px;
   margin: ${({ margin }) => margin};
+  font-family: ${({ fontFamily }) => fontFamily};
   background: -webkit-linear-gradient(10deg, #5551ff 0%, #d08f85 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+`
+
+export const TriangleDown = styled.div`
+  width: 0;
+  height: 0;
+  border-left: 116px solid transparent;
+  border-right: 116px solid transparent;
+  border-top: 24px solid #d3dbe3;
+`
+
+export const BoxPresaleToken = styled.div`
+  max-width: ${({ maxWidth }) => maxWidth};
+  width: 100%;
+  height: 190px;
+  background: linear-gradient(0deg, #d3dbe3 0%, rgba(231, 235, 243, 0) 105.18%);
+  box-sizing: border-box;
+  border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius : '5px')};
+  display: flex;
+  flex-direction: column;
+  border-top: none;
+  position: absolute;
+  bottom: 10px;
+`
+export const ContainerToken = styled(Flex)`
+  height: 45px;
+  background: linear-gradient(270deg, #f8faff 0%, rgba(230, 236, 242, 0) 100%);
+  border-radius: 5px;
+  padding: 13px;
+`
+export const Max = styled(Flex)`
+  border: 1px solid #ffffff;
+  align-items: center;
+  border-radius: 2px;
+  maxwidth: 27px;
+  height: 10px;
+  cursor: pointer;
+  padding: 6px 2px;
 `

@@ -65,7 +65,7 @@ export const networks = [
 ]
 
 export const presaleToken = {
-  name: 'Blood',
+  name: 'Blood Token',
   symbol: 'BT',
   decimals: 18,
   price: LAUNCH_PRICE,

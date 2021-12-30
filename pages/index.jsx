@@ -614,7 +614,7 @@ const Home = () => {
 
       <Container>
         <Wrapper maxWidth="340px" width="100%"></Wrapper>
-        <Wrapper maxWidth="600px" width="100%">
+        <Wrapper maxWidth="425px" width="100%">
           <Swap
             changeChain={changeChain}
             handleConnectWallet={handleConnectWallet}

@@ -8,11 +8,10 @@ export const Selector = styled.div`
   align-items: center;
   max-width: ${({ maxWidth }) => maxWidth};
   width: 100%;
-  height: ${({ height }) => (height ? height : '55px')};
-  background: ${({ background }) => (background ? background : '#e7e8ea')};
-  border-radius: ${({ borderRadius }) =>
-    borderRadius ? borderRadius : '10px'};
-  border: ${({ border }) => (border ? border : 'transparent')};
+  height: ${({ height }) => (height ? height : '45px')};
+  background: ${({ background }) => (background ? background : '#E6ECF2')};
+  border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius : '5px')};
+  border: ${({ border }) => (border ? border : '1px solid #ffffff')};
   color: ${({ color }) => (color ? color : '#919191')};
   padding: ${({ padding }) => padding};
   margin: ${({ margin }) => margin};
@@ -28,9 +27,9 @@ export const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: ${({ maxWidth }) => maxWidth};
+  max-width: ${({ maxWidth }) => (maxWidth ? maxWidth : '390px')};
   width: 100%;
-  height: ${({ height }) => (height ? height : '55px')};
+  height: ${({ height }) => (height ? height : '45px')};
   background: ${({ background }) => (background ? background : '#D7D7D7')};
   border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius : '5px')};
   border: ${({ border }) => (border ? border : 'transparent')};
@@ -95,12 +94,12 @@ export const Select = styled.select`
 `
 
 export const Input = styled.input`
-  max-width: ${({ maxWidth }) => (maxWidth ? maxWidth : '200px')};
   width: 100%;
-  height: ${({ height }) => (height ? height : '40px')};
-  border: ${({ border }) => (border ? border : '1px solid #e7e8ea')};
-  border-radius: ${({ borderRadius }) =>
-    borderRadius ? borderRadius : '10px'};
+  background: ${({ background }) => (background ? background : 'transparent')};
+
+  height: ${({ height }) => (height ? height : '45px')};
+  border: ${({ border }) => (border ? border : '1px solid transparent')};
+  border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius : '5px')};
   box-sizing: border-box;
   font-style: normal;
   font-weight: normal;
