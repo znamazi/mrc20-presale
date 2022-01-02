@@ -170,7 +170,7 @@ const Home = () => {
             presaleTokenBalance
           }
         })
-      } catch (error) {}
+      } catch (error) { }
     }
     if (account && validChains.includes(chainId) && web3) {
       fetchBalances()
@@ -468,8 +468,8 @@ const Home = () => {
         const errorMessage = muonResponse.error?.message
           ? muonResponse.error.message
           : muonResponse.error
-          ? muonResponse.error
-          : 'Muon response failed'
+            ? muonResponse.error
+            : 'Muon response failed'
         dispatch({
           type: 'UPDATE_TRANSACTION',
           payload: {
@@ -614,7 +614,7 @@ const Home = () => {
 
       <Container>
         <Wrapper maxWidth="340px" width="100%"></Wrapper>
-        <Wrapper maxWidth="425px" width="100%">
+        <Wrapper maxWidth="425px" width="100%" margin={"auto"}>
           <Swap
             changeChain={changeChain}
             handleConnectWallet={handleConnectWallet}

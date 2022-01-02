@@ -6,11 +6,10 @@ import dynamic from 'next/dynamic'
 import { Selector, Arrow, Image, ContentItem } from '../common/FormControlls'
 import { Type } from '../common/Text'
 const Modal = dynamic(() => import('../common/Modal'))
-// import Modal from '../common/Modal'
 import { useMuonState } from '../../context'
 
 const Wrapper = styled.div`
-  margin: 70px 18px 40px;
+  margin: 20px 18px 7px;
 `
 const Item = styled.div`
   padding-bottom: 20px;
@@ -65,15 +64,17 @@ const Network = (props) => {
               onError={(e) => (e.target.src = '/media/tokens/default.svg')}
               boxSizing="unset"
               alt="chain"
+              height={"22px"}
+              paddingRight="5px"
             />
-            <Type.LG color="#313144" cursor="pointer" fontSizeXS="16px">
+            <Type.MD color="#313144" cursor="pointer" fontWeight="bold" fontSizeXS="16px">
               {state.selectedChain.name}
-            </Type.LG>
+            </Type.MD>
           </Flex>
         ) : (
-          <Type.LG color="#919191" fontSizeXS="16px" fontSizeXXS="14px">
+          <Type.SM color="#919191" fontSizeXS="16px" fontSizeXXS="14px">
             Select a Chain
-          </Type.LG>
+          </Type.SM>
         )}
 
         <Arrow

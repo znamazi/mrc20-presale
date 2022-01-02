@@ -4,7 +4,7 @@ import { Text } from 'rebass/styled-components'
 
 const TextWrapper = styled(Text)`
   color: ${({ color, theme }) => theme[color]};
-  cursor: ${({ cursor }) => (cursor ? cursor : 'default')};
+  cursor: ${({ cursor }) => (cursor && cursor)};
   position: ${({ position }) => position};
   @media screen and (max-width: 576px) {
     font-size: ${({ fontSizeXS }) => fontSizeXS};
@@ -18,8 +18,8 @@ export const Type = {
   Primary(props) {
     return <TextWrapper color={'primary'} {...props} />
   },
-  Secodery(props) {
-    return <TextWrapper color={'secodery'} {...props} />
+  Secondary(props) {
+    return <TextWrapper color={'secondary'} {...props} />
   },
   Warning(props) {
     return <TextWrapper color={'warning'} {...props} />

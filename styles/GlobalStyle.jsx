@@ -25,12 +25,14 @@ const GlobalStyle = createGlobalStyle`
     }
     @font-face {
       font-family: 'Montserrat';
+      font-weight:normal;
       src: url(/fonts/montserrat-v18-latin-regular.eot) format('eot'),
         url(/fonts/montserrat-v18-latin-regular.ttf) format('turetype'),
         url(/fonts/montserrat-v18-latin-regular.woff) format('woff');
     }
     @font-face {
-      font-family: 'Montserrat-bold';
+      font-family: 'Montserrat';
+      font-weight:bold;
       src:  url(/fonts/Montserrat-Bold.ttf) format('turetype'),
         url(/fonts/Montserrat-Bold.woff) format('woff');
     }

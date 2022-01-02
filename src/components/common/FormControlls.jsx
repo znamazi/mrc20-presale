@@ -7,12 +7,12 @@ export const Selector = styled.div`
   flex-direction: ${({ flexDirection }) => flexDirection};
   align-items: center;
   max-width: ${({ maxWidth }) => maxWidth};
-  width: 100%;
+  /* width: 100%; */
   height: ${({ height }) => (height ? height : '45px')};
-  background: ${({ background }) => (background ? background : '#E6ECF2')};
+  background: ${({ background }) => (background ?? '#E6ECF2')};
   border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius : '5px')};
   border: ${({ border }) => (border ? border : '1px solid #ffffff')};
-  color: ${({ color }) => (color ? color : '#919191')};
+  color: ${({ color }) => (color ?? '#E6ECF2')};
   padding: ${({ padding }) => padding};
   margin: ${({ margin }) => margin};
   cursor: ${({ cursor }) => (cursor ? cursor : 'default')};
@@ -51,7 +51,6 @@ export const Select = styled.select`
   height: ${({ height }) => (height ? height : '40px')};
   border: ${({ border }) => (border ? border : '1px solid #838995')};
   background: ${({ background }) => (background ? background : '#838995')};
-
   border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius : '2px')};
   box-sizing: border-box;
   font-style: normal;
@@ -108,7 +107,7 @@ export const Input = styled.input`
   &:focus {
     outline: none;
   }
-  padding: 0 17px;
+  padding-right: 15px;
   @media screen and (max-width: 576px) {
     font-size: ${({ fontSizeXS }) => (fontSizeXS ? fontSizeXS : '13px')};
     max-width: 150px;
@@ -136,10 +135,9 @@ export const Input = styled.input`
   }
 `
 export const Image = styled.img`
-  width: ${({ width }) => (width ? width : '26px')};
-  height: ${({ height }) => (height ? height : '26px')};
-  padding-right: ${({ paddingRight }) =>
-    paddingRight ? paddingRight : '11px'};
+  width: ${({ width }) => (width ?? '26px')};
+  height: ${({ height }) => (height ?? '26px')};
+  padding-right: ${({ paddingRight }) => paddingRight ?? '11px'};
   box-sizing: ${({ boxSizing }) => boxSizing};
 `
 export const ImageWithCursor = styled(Image)`

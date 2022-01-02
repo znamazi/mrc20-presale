@@ -20,10 +20,7 @@ export const Container = styled.div`
   max-width: ${({ maxWidth }) => maxWidth};
   width: 100%;
   box-sizing: border-box;
-  box-shadow: 0px 4px 4px
-    ${({ shadowColor }) =>
-      shadowColor ? shadowColor : 'rgba(239, 239, 239, 0.25)'};
-  min-height: 450px;
+  box-shadow: 0px 4px 4px ${({ shadowColor }) => shadowColor ?? 'rgba(239, 239, 239, 0.25)'};
   position: relative;
   display: flex;
   flex-direction: column;
@@ -32,14 +29,10 @@ export const Container = styled.div`
 export const Box = styled.div`
   max-width: ${({ maxWidth }) => maxWidth};
   width: 100%;
-  background: ${({ background }) =>
-    background ? background : 'rgba(255, 255, 255, 0.35)'};
+  background: ${({ background }) => background ?? 'rgba(255, 255, 255, 0.35)'};
   box-sizing: border-box;
-  box-shadow: 0px 4px 4px
-    ${({ shadowColor }) =>
-      shadowColor ? shadowColor : 'rgba(239, 239, 239, 0.25)'};
-  border-radius: ${({ borderRadius }) =>
-    borderRadius ? borderRadius : '10px'};
+  box-shadow: 0px 4px 4px ${({ shadowColor }) => shadowColor ?? 'rgba(239, 239, 239, 0.25)'};
+  border-radius: ${({ borderRadius }) => borderRadius ?? '10px'};
   margin-top: ${({ marginTop }) => `${marginTop}px`};
   display: flex;
   justify-content: center;
