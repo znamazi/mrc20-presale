@@ -606,6 +606,19 @@ const Home = () => {
       console.log('error happend in Swap', error)
     }
   }
+  let showLock =
+    lock && Date.now() < publicTime ? (
+      <UserNotExist
+        open={openUserNotExist}
+        lock={lock}
+        hide={() => {
+          setOpenUserNotExist(!openUserNotExist)
+        }}
+        setLock={() => setLock(0)}
+      />
+    ) : (
+      ''
+    )
   return (
     <>
       <Head>
@@ -636,16 +649,7 @@ const Home = () => {
         </Wrapper>
       </Container>
 
-      {lock && Date.now() < publicTime && (
-        <UserNotExist
-          open={openUserNotExist}
-          lock={lock}
-          hide={() => {
-            setOpenUserNotExist(!openUserNotExist)
-          }}
-          setLock={() => setLock(0)}
-        />
-      )}
+      {showLock}
 
       <WalletModal
         open={open}
