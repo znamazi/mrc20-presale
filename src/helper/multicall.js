@@ -16,7 +16,7 @@ const multicall = async (web3, abi, calls, chainId) => {
       .map((call, i) => itf.decodeFunctionResult(calls[i].name, call))
     return res
   } catch (error) {
-    console.log('Error happend in Multicall:', error)
+    console.log('Error happened in Multicall:', error)
   }
 }
 

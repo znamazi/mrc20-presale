@@ -12,7 +12,33 @@ import {
 import { Type } from '../common/Text'
 import Token from './Token'
 import { Max } from '.'
+import styled from 'styled-components'
+import { Item } from './Network'
 const Modal = dynamic(() => import('../common/Modal'))
+
+const SubTitle = styled(Type.SM)`
+   color:#313144 ;
+   fontSize:12px ;
+   margin:5px 8px;
+`
+
+const InputPanelWrap = styled.div`
+  display:flex;
+  justify-content : space-between;
+  align-items:center;
+  background: #2B2B3C;
+  border: 1px solid #FFFFFF;
+  border-radius: 5px;
+  padding:5px 10px;
+  height:45px;
+`
+
+const TokenWrap = styled.div`
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  white-space: nowrap;
+`
 
 const SelectBox = (props) => {
   const { state } = useMuonState()
@@ -26,56 +52,63 @@ const SelectBox = (props) => {
     handleMax,
     lock
   } = props
+
   const [open, setOpen] = React.useState(false)
 
   const handleOpenModal = () => {
     setOpen(true)
   }
   let contentModal = state.selectedChain.tokens.map((token) => (
-    <ContentItem
-      key={token.address}
-      justifyContent="space-between"
-      paddingBottom="20px"
-      onClick={() => {
-        changeToken(token.address)
-        setOpen(!open)
-      }}
-    >
-      <Flex>
-        <Image src={token.logo} boxSizing="unset" alt={token.symbol} />
-        <Type.LG color="#313144" cursor="pointer" fontSizeXS="16px">
-          {token.symbol}
-        </Type.LG>
-      </Flex>
-      <Flex>{token.balance}</Flex>
-    </ContentItem>
+    <Item key={token.address} onClick={() => {
+      changeToken(token.address)
+      setOpen(!open)
+    }}>
+      <ContentItem
+        alignItems={"center"}
+        justifyContent="space-between"
+        width={"100%"}
+      >
+        <Flex alignItems={"center"}>
+          <Image src={token.logo} mr="8px" height={"22px"} alt={token.symbol} />
+          <Type.MD color="#D3DBE3" fontWeight="bold" fontSizeXS="16px">
+            {token.symbol}
+          </Type.MD>
+        </Flex>
+        <Flex color={"#D3DBE3"}>{token.balance}</Flex>
+      </ContentItem>
+    </Item>
   ))
   let content =
     state.selectedChain.tokens.length > 1 ? (
       <Selector
-        padding="0 18px 0 15px"
+        padding="0 0 0 15px"
         maxWidth="181px"
+        background={"transparent"}
+        border="none"
+        cursor="pointer"
         onClick={handleOpenModal}
       >
         {selectedToken ? (
-          <Flex alignItems="center">
+          <Flex alignItems="center" mr="8px" >
             <Image
               src={selectedToken.logo}
               onError={(e) => (e.target.src = '/media/tokens/default.svg')}
               boxSizing="unset"
+              paddingRight="5px"
+              height={"22px"}
               alt={selectedToken.symbol}
             />
-            <Type.LG color="#313144" cursor="pointer" fontSizeXS="16px">
+            <Type.MD color="#E6ECF2" fontWeight="bold" fontSizeXS="16px">
               {selectedToken.symbol}
-            </Type.LG>
+            </Type.MD>
           </Flex>
         ) : (
-          <Type.LG color="#919191" fontSizeXS="16px" fontSizeXXS="14px">
+          <Type.LG color="#E6ECF2" fontSizeXS="16px" fontSizeXXS="14px">
             "Select a Token"
           </Type.LG>
         )}
         <Arrow
-          src="/media/common/arrow-down.svg"
+          src="/media/common/arrow-down-white.svg"
           alt="arrow-down"
           cursor="pointer"
         />
@@ -87,26 +120,24 @@ const SelectBox = (props) => {
       />
     )
   return (
-    <Flex flexDirection="column" margin="0 18px 40px">
+    <Flex flexDirection="column" margin="0 15px 20px">
       <Flex width="100%" justifyContent="space-between" alignItems="center">
-        <Type.SM color="#313144" fontSize="12.5px" padding="5px 10px">
+        <SubTitle>
           {label}
-        </Type.SM>
+        </SubTitle>
         <Flex justifyContent="flex-end" alignItems="center">
-          <Type.SM color="#313144" fontSize="12.5px" padding="5px 10px">
+          <SubTitle>
             Balance:
-            {` ${
-              !isNaN(parseFloat(selectedToken.balance))
-                ? parseFloat(selectedToken.balance)
-                : ''
-            } ${selectedToken?.symbol}`}
-          </Type.SM>
+            {` ${!isNaN(parseFloat(selectedToken.balance))
+              ? parseFloat(selectedToken.balance)
+              : ''
+              } ${selectedToken?.symbol}`}
+          </SubTitle>
           {label === 'From' && (
             <Max>
               <Type.SM
-                color="#ACAFF3"
-                fontSize="6px"
-                fontFamily="Montserrat-bold"
+                color="#FFFFFF"
+                fontSize="10px"
                 onClick={(e) => handleMax(selectedToken.balance)}
               >
                 Max
@@ -115,28 +146,33 @@ const SelectBox = (props) => {
           )}
         </Flex>
       </Flex>
-      <Flex width="100%" justifyContent="space-between">
-        <Selector maxWidth="181px">
-          <Input
-            aria-label={`${label}-input`}
-            type="number"
-            placeholder="Enter Amount"
-            min={0}
-            onChange={(e) => handleAmount(e.target.value, label)}
-            value={amount}
-            disabled={lock}
-            border={
-              error && error.type && error.label === label && '1px solid red'
-            }
-          />
-        </Selector>
+      <InputPanelWrap>
+        <Input
+          aria-label={`${label}-input`}
+          type="number"
+          placeholder="Enter Amount"
+          min={0}
+          height={"100%"}
+          onChange={(e) => handleAmount(e.target.value, label)}
+          value={amount}
+          disabled={lock}
+          color={"#ffffff"}
+          fontSize={"20px"}
+          border={
+            error && error.type && error.label === label && '1px solid red'
+          }
+        />
 
         {label === 'From' ? (
           content
-        ) : (
-          <Token logo={selectedToken.logo} name={selectedToken.name} />
+        ) : (<TokenWrap>
+          <Image src={selectedToken.logo} boxSizing="unset" height={"22px"} alt={selectedToken.name} paddingRight="5px" />
+          <Type.LG color="#ffffff" fontWeight="bold" fontSize="15px" >
+            {selectedToken.name}
+          </Type.LG>
+        </TokenWrap>
         )}
-      </Flex>
+      </InputPanelWrap>
       <Modal
         open={open}
         hide={() => {

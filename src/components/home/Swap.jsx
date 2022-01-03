@@ -8,7 +8,6 @@ import { Type } from '../common/Text'
 import Network from './Network'
 import SelectBox from './SelectBox'
 import { useMuonState } from '../../context'
-import { Image } from '../common/FormControlls'
 import ActionButton from './ActionButton'
 import CountDown from '../common/CountDown'
 import MuonNetwork from '../common/MuonNetwork'
@@ -37,8 +36,8 @@ const Swap = (props) => {
       alignItems="center"
       width="100%"
     >
-      <GradientTitle fontFamily="Montserrat-bold">{title} </GradientTitle>
-      <Title margin="0 0 10px" fontFamily="Montserrat-bold">
+      <GradientTitle >{title} </GradientTitle>
+      <Title >
         Presale
       </Title>
       <Container>
@@ -62,7 +61,7 @@ const Swap = (props) => {
         </Box>
         <TriangleDown />
         <BoxPresaleToken>
-          <Flex flexDirection={`column`} margin={`75px 0 0`}>
+          <Flex flexDirection={`column`}>
             <SelectBox
               label="To"
               amount={state.amount?.to}

@@ -3,11 +3,11 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   display: flex;
-  padding: 40px;
+  padding: 40px 20px;
   justify-content: space-between;
-  & > * {
+  /* & > * {
     padding: 10px;
-  }
+  } */
   @media screen and (max-width: 1200px) {
     // display: none !important;
     flex-direction: column;
@@ -27,17 +27,17 @@ export const Title = styled.div`
   color: #313144;
   font-family: ${({ fontFamily }) => fontFamily};
   margin: ${({ margin }) => margin};
-  @media screen and (max-width: 1200px) {
+  /* @media screen and (max-width: 1200px) {
     display: none !important;
   }
   @media screen and (max-width: 576px) {
     font-size: 17px;
-  }
+  } */
 `
 
 export const GradientTitle = styled.div`
   font-weight: bold;
-  font-size: 25px;
+  font-size: 35px;
   line-height: 30px;
   margin: ${({ margin }) => margin};
   font-family: ${({ fontFamily }) => fontFamily};
@@ -49,23 +49,25 @@ export const GradientTitle = styled.div`
 export const TriangleDown = styled.div`
   width: 0;
   height: 0;
-  border-left: 116px solid transparent;
+  /* border-left: 116px solid transparent;
   border-right: 116px solid transparent;
-  border-top: 24px solid #d3dbe3;
+  border-top: 24px solid #d3dbe3; */
+    border-left: 70px solid transparent;
+    border-right: 70px solid transparent;
+    border-top: 14px solid #d3dbe3;
 `
 
 export const BoxPresaleToken = styled.div`
   max-width: ${({ maxWidth }) => maxWidth};
   width: 100%;
-  height: 190px;
+  /* height: 190px; */
   background: linear-gradient(0deg, #d3dbe3 0%, rgba(231, 235, 243, 0) 105.18%);
-  box-sizing: border-box;
-  border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius : '5px')};
-  display: flex;
+  border-radius:  10px;
+  /* display: flex;
   flex-direction: column;
   border-top: none;
   position: absolute;
-  bottom: 10px;
+  bottom: 10px; */
 `
 export const ContainerToken = styled(Flex)`
   height: 45px;
@@ -73,12 +75,17 @@ export const ContainerToken = styled(Flex)`
   border-radius: 5px;
   padding: 13px;
 `
-export const Max = styled(Flex)`
-  border: 1px solid #ffffff;
+export const Max = styled.div`
+  background-color:#9c9bf3;
   align-items: center;
-  border-radius: 2px;
-  maxwidth: 27px;
-  height: 10px;
+  border-radius: 5px;
+  text-align:center;
+  padding: 2px 4px;
   cursor: pointer;
-  padding: 6px 2px;
+  &:hover{
+  background-color:#6f6dc5;
+  div{
+    color:#fff;
+  }
+  }
 `

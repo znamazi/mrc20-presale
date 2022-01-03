@@ -44,8 +44,8 @@ const CustomTransaction = () => {
     })
   }
   return (
-    <Box padding="14px 20px" borderRadius="10px">
-      <Flex justifyContent="space-between" width="100%">
+    <Box padding="15px 15px 5px" borderRadius="10px" background="linear-gradient(0deg, #E7EBF3 0%, rgba(231, 235, 243, 0.25) 105.18%)" >
+      <Flex justifyContent="space-between" width="100%" >
         <Type.SM fontSize="12.5px" color="#919191">
           {state.transaction.type.charAt(0).toUpperCase() +
             state.transaction.type.slice(1)}
@@ -63,10 +63,9 @@ const CustomTransaction = () => {
         </Type.SM>
       </Flex>
       <Flex justifyContent="flex-start" width="100%" marginTop="3px">
-        <Type.LG color="#313144" fontSizeXS="16px">
-          {`${state.transaction.amount ? state.transaction.amount : ''} ${
-            state.transaction.tokenSymbol ? state.transaction.tokenSymbol : ''
-          }`}
+        <Type.LG color="#313144" fontWeight="bold" fontSizeXS="16px">
+          {`${state.transaction.amount ? state.transaction.amount : ''} ${state.transaction.tokenSymbol ? state.transaction.tokenSymbol : ''
+            }`}
         </Type.LG>
       </Flex>
       <Flex
@@ -74,7 +73,7 @@ const CustomTransaction = () => {
         flexDirection="column"
         width="100%"
         margin="30px 0 15px"
-        // maxWidth="300px"
+      // maxWidth="300px"
       >
         <Button
           // maxWidth="300px"
@@ -84,8 +83,8 @@ const CustomTransaction = () => {
             state.transaction.status === TransactionStatus.PENDING
               ? '0.5px solid #d2d2d2'
               : state.transaction.status === TransactionStatus.SUCCESS
-              ? '0.5px solid rgba(0, 227, 118, 1)'
-              : '0.5px solid rgba(255, 164, 81, 1)'
+                ? '0.5px solid rgba(0, 227, 118, 1)'
+                : '0.5px solid rgba(255, 164, 81, 1)'
           }
         >
           <Flex
