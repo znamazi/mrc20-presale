@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   display: flex;
-  padding: 40px;
+  padding: 40px 20px;
   justify-content: space-between;
   /* & > * {
     padding: 10px;
@@ -49,17 +49,19 @@ export const GradientTitle = styled.div`
 export const TriangleDown = styled.div`
   width: 0;
   height: 0;
-  border-left: 116px solid transparent;
+  /* border-left: 116px solid transparent;
   border-right: 116px solid transparent;
-  border-top: 24px solid #d3dbe3;
+  border-top: 24px solid #d3dbe3; */
+    border-left: 70px solid transparent;
+    border-right: 70px solid transparent;
+    border-top: 14px solid #d3dbe3;
 `
 
 export const BoxPresaleToken = styled.div`
   max-width: ${({ maxWidth }) => maxWidth};
-  /* width: 100%; */
+  width: 100%;
   /* height: 190px; */
   background: linear-gradient(0deg, #d3dbe3 0%, rgba(231, 235, 243, 0) 105.18%);
-  /* box-sizing: border-box; */
   border-radius:  10px;
   /* display: flex;
   flex-direction: column;

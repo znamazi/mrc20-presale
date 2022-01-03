@@ -11,35 +11,43 @@ import { useMuonState } from '../../context'
 const Wrapper = styled.div`
   margin: 20px 18px 7px;
 `
-const Item = styled.div`
-  padding-bottom: 20px;
+export const Item = styled.div`
+  background: #2B2B3C;
+  border: 1px solid rgba(172, 175, 243, 0.29);
+  margin:7.5px auto;
+  padding:10px;
+  border-radius: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor:pointer;
+  &:hover{
+    background:#42425f;
+  }
 `
-
 const Network = (props) => {
   const { onChange, label } = props
   const [open, setOpen] = React.useState(false)
   const { state } = useMuonState()
 
   const contentModal = state.data.map((item, index) => (
-    <Item key={index}>
+    <Item key={index} onClick={() => {
+      onChange(item)
+      setOpen(!open)
+    }}>
       <ContentItem
         alignItems="center"
-        onClick={() => {
-          onChange(item)
-          setOpen(!open)
-        }}
+
       >
         <Image
           src={`/media/chains/${item.symbol.toLowerCase()}.svg`}
-          boxSizing="unset"
           alt="chain"
+          height={"22px"}
+          mr="10px"
         />
-        <Type.LG color="#313144" cursor="pointer" fontSizeXS="16px">
+        <Type.MD color="#D3DBE3" fontWeight="bold" fontSizeXS="16px">
           {item.name}
-        </Type.LG>
+        </Type.MD>
       </ContentItem>
     </Item>
   ))
@@ -62,10 +70,9 @@ const Network = (props) => {
             <Image
               src={`/media/chains/${state.selectedChain.symbol.toLowerCase()}.svg`}
               onError={(e) => (e.target.src = '/media/tokens/default.svg')}
-              boxSizing="unset"
               alt="chain"
               height={"22px"}
-              paddingRight="5px"
+              mr="5px"
             />
             <Type.MD color="#313144" cursor="pointer" fontWeight="bold" fontSizeXS="16px">
               {state.selectedChain.name}
@@ -86,9 +93,7 @@ const Network = (props) => {
 
       <Modal
         open={open}
-        hide={() => {
-          setOpen(!open)
-        }}
+        hide={() => { setOpen(!open) }}
         title={label}
       >
         {contentModal}

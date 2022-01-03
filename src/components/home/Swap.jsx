@@ -61,7 +61,7 @@ const Swap = (props) => {
         </Box>
         <TriangleDown />
         <BoxPresaleToken>
-          <Flex flexDirection={`column`} margin={`0`}>
+          <Flex flexDirection={`column`}>
             <SelectBox
               label="To"
               amount={state.amount?.to}

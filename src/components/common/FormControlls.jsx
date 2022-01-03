@@ -19,6 +19,9 @@ export const Selector = styled.div`
   &:focus {
     outline: none;
   }
+  &:hover{
+    filter:brightness(0.9);
+  }
 `
 export const Arrow = styled.img`
   cursor: pointer;
@@ -34,7 +37,6 @@ export const Button = styled.button`
   border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius : '5px')};
   border: ${({ border }) => (border ? border : 'transparent')};
   margin: ${({ margin }) => margin};
-  box-sizing: border-box;
   cursor: ${({ cursor }) => (cursor ? cursor : 'pointer')};
 
   &:focus {
@@ -52,7 +54,6 @@ export const Select = styled.select`
   border: ${({ border }) => (border ? border : '1px solid #838995')};
   background: ${({ background }) => (background ? background : '#838995')};
   border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius : '2px')};
-  box-sizing: border-box;
   font-style: normal;
   font-weight: normal;
   font-size: ${({ fontSize }) => (fontSize ? fontSize : '20px')};
@@ -99,7 +100,6 @@ export const Input = styled.input`
   height: ${({ height }) => (height ? height : '45px')};
   border: ${({ border }) => (border ? border : '1px solid transparent')};
   border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius : '5px')};
-  box-sizing: border-box;
   font-style: normal;
   font-weight: normal;
   font-size: ${({ fontSize }) => (fontSize ? fontSize : '15px')};
@@ -137,8 +137,8 @@ export const Input = styled.input`
 export const Image = styled.img`
   width: ${({ width }) => (width ?? '26px')};
   height: ${({ height }) => (height ?? '26px')};
-  padding-right: ${({ paddingRight }) => paddingRight ?? '11px'};
-  box-sizing: ${({ boxSizing }) => boxSizing};
+  padding-right: ${({ paddingRight }) => paddingRight ?? '0'};
+  margin-right:${({ mr }) => mr ?? '0'};
 `
 export const ImageWithCursor = styled(Image)`
   cursor: pointer;
@@ -175,6 +175,5 @@ export const ImageSpin = styled.img`
   }
 `
 export const ContentItem = styled(Flex)`
-  box-sizing: unset !important;
   cursor: pointer;
 `

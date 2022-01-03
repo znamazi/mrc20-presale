@@ -1,10 +1,15 @@
 import { createGlobalStyle } from 'styled-components'
 
 const GlobalStyle = createGlobalStyle`
-    html,
-    body {
+    * {
+      box-sizing: border-box;
       padding: 0;
       margin: 0;
+    }
+
+    html,
+    body {
+
       font-family: Montserrat;
       background: #f8f8ff;
       -webkit-font-smoothing: antialiased;
@@ -20,9 +25,6 @@ const GlobalStyle = createGlobalStyle`
       text-decoration: none;
     }
 
-    * {
-      box-sizing: border-box;
-    }
     @font-face {
       font-family: 'Montserrat';
       font-weight:normal;
@@ -36,7 +38,7 @@ const GlobalStyle = createGlobalStyle`
       src:  url(/fonts/Montserrat-Bold.ttf) format('turetype'),
         url(/fonts/Montserrat-Bold.woff) format('woff');
     }
-    @font-face {
+    /* @font-face {
       font-family: 'FH Oscar';
       src: url(/fonts/FHOscar-Regular.eot) format('eot'),
         url(/fonts/FHOscar-Regular.ttf) format('turetype'),
@@ -48,7 +50,7 @@ const GlobalStyle = createGlobalStyle`
       src: url(/fonts/Reckless-Regular.eot) format('eot'),
         url(/fonts/Reckless-Regular.ttf) format('turetype'),
         url(/fonts/Reckless-Regular.woff) format('woff');
-    }
+    } */
 
     /* Chrome, Safari, Edge, Opera */
     input::-webkit-outer-spin-button,

@@ -13,6 +13,7 @@ import { Type } from '../common/Text'
 import Token from './Token'
 import { Max } from '.'
 import styled from 'styled-components'
+import { Item } from './Network'
 const Modal = dynamic(() => import('../common/Modal'))
 
 const SubTitle = styled(Type.SM)`
@@ -27,7 +28,6 @@ const InputPanelWrap = styled.div`
   align-items:center;
   background: #2B2B3C;
   border: 1px solid #FFFFFF;
-  box-sizing: border-box;
   border-radius: 5px;
   padding:5px 10px;
   height:45px;
@@ -52,34 +52,36 @@ const SelectBox = (props) => {
     handleMax,
     lock
   } = props
+
   const [open, setOpen] = React.useState(false)
 
   const handleOpenModal = () => {
     setOpen(true)
   }
   let contentModal = state.selectedChain.tokens.map((token) => (
-    <ContentItem
-      key={token.address}
-      justifyContent="space-between"
-      paddingBottom="20px"
-      onClick={() => {
-        changeToken(token.address)
-        setOpen(!open)
-      }}
-    >
-      <Flex>
-        <Image src={token.logo} boxSizing="unset" alt={token.symbol} />
-        <Type.MD color="#313144" cursor="pointer" fontSizeXS="16px">
-          {token.symbol}
-        </Type.MD>
-      </Flex>
-      <Flex>{token.balance}</Flex>
-    </ContentItem>
+    <Item key={token.address} onClick={() => {
+      changeToken(token.address)
+      setOpen(!open)
+    }}>
+      <ContentItem
+        alignItems={"center"}
+        justifyContent="space-between"
+        width={"100%"}
+      >
+        <Flex alignItems={"center"}>
+          <Image src={token.logo} mr="8px" height={"22px"} alt={token.symbol} />
+          <Type.MD color="#D3DBE3" fontWeight="bold" fontSizeXS="16px">
+            {token.symbol}
+          </Type.MD>
+        </Flex>
+        <Flex color={"#D3DBE3"}>{token.balance}</Flex>
+      </ContentItem>
+    </Item>
   ))
   let content =
     state.selectedChain.tokens.length > 1 ? (
       <Selector
-        padding="0 18px 0 15px"
+        padding="0 0 0 15px"
         maxWidth="181px"
         background={"transparent"}
         border="none"
@@ -118,7 +120,7 @@ const SelectBox = (props) => {
       />
     )
   return (
-    <Flex flexDirection="column" margin="0 18px 40px">
+    <Flex flexDirection="column" margin="0 15px 20px">
       <Flex width="100%" justifyContent="space-between" alignItems="center">
         <SubTitle>
           {label}
