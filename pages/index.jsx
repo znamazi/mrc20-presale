@@ -29,6 +29,8 @@ import BigNumber from 'bignumber.js'
 import calculateAmount from '../src/utils/calculateAmount'
 import { useMuonLock } from '../src/hook/useMuonLock'
 import UserNotExist from '../src/components/home/UserNotExist'
+import useClaimable from '../src/hook/useClaimable'
+import Claim from '../src/components/home/Claim'
 
 const CustomTransaction = dynamic(() =>
   import('../src/components/common/CustomTransaction')
@@ -52,10 +54,25 @@ const Home = () => {
   const [fetch, setFetch] = React.useState()
   const [openUserNotExist, setOpenUserNotExist] = React.useState(false)
   const [publicTime, setPublicTime] = React.useState()
+  const [claimTime, setClaimTime] = React.useState()
 
   let usedAmount = useUsedAmount(fetch)
   let muonLock = useMuonLock(fetch)
+  let claim = useClaimable(fetch)
 
+  // Get claim Time
+  React.useEffect(() => {
+    const fetchClaimTime = async () => {
+      const contract = getContract(
+        MRC20Presale_ABI,
+        MRC20Presale[chainId],
+        web3
+      )
+      const claimTime = await contract.methods.claimTime().call()
+      setClaimTime(claimTime * 1000)
+    }
+    if (web3) fetchClaimTime()
+  }, [chainId, web3])
   // check Network
   React.useEffect(() => {
     if (!validChains.includes(chainId)) {
@@ -279,7 +296,6 @@ const Home = () => {
   }
 
   const handleAmount = (value, label) => {
-    console.log({ value, label })
     try {
       let token = prices[state.selectedToken.symbol.toLowerCase()]
 
@@ -296,7 +312,6 @@ const Home = () => {
         to: valueTo,
         type: label
       }
-      console.log('***', amount)
       setError({
         type:
           parseFloat(valueFrom) > parseFloat(max) ||
@@ -608,6 +623,79 @@ const Home = () => {
       console.log('error happend in Swap', error)
     }
   }
+
+  const handleClaim = async () => {
+    let hash = ''
+
+    const contract = getContract(MRC20Presale_ABI, MRC20Presale[chainId], web3)
+    contract.methods
+      .claim()
+      .send({ from: account })
+      .once('transactionHash', (tx) => {
+        hash = tx
+        dispatch({
+          type: 'UPDATE_TRANSACTION',
+          payload: {
+            type: TransactionType.CLAIM,
+            hash,
+            message: 'Claim transaction is pending',
+            amount: claim,
+            status: TransactionStatus.PENDING,
+            chainId: chainId,
+            tokenSymbol: presaleToken.symbol,
+            decimals: presaleToken.decimals
+          }
+        })
+      })
+      .once('receipt', ({ transactionHash }) => {
+        dispatch({
+          type: 'UPDATE_TRANSACTION',
+          payload: {
+            type: TransactionType.CLAIM,
+            hash: transactionHash,
+            message: 'Transaction successfull',
+            amount: claim,
+            status: TransactionStatus.SUCCESS,
+            chainId: chainId,
+            tokenSymbol: presaleToken.symbol,
+            decimals: presaleToken.decimals
+          }
+        })
+        setFetch(transactionHash)
+      })
+      .once('error', (error) => {
+        if (!hash) {
+          dispatch({
+            type: 'UPDATE_TRANSACTION',
+            payload: {
+              type: TransactionType.CLAIM,
+              message: 'Transaction rejected',
+              amount: claim,
+              status: TransactionStatus.FAILED,
+              chainId: chainId,
+              tokenSymbol: presaleToken.symbol,
+              decimals: presaleToken.decimals
+            }
+          })
+          return
+        }
+
+        dispatch({
+          type: 'UPDATE_TRANSACTION',
+          payload: {
+            type: TransactionType.CLAIM,
+            hash,
+            message: 'Transaction failed',
+            amount: claim,
+            status: TransactionStatus.FAILED,
+            chainId: chainId,
+            tokenSymbol: presaleToken.symbol,
+            decimals: presaleToken.decimals
+          }
+        })
+      })
+  }
+
   let showLock =
     lock && Date.now() < publicTime ? (
       <UserNotExist
@@ -648,6 +736,13 @@ const Home = () => {
         </Wrapper>
         <Wrapper maxWidth="340px" width="100%">
           {state.transaction.status && <CustomTransaction />}
+          {claim > 0 && (
+            <Claim
+              amountClaim={claim}
+              claimTime={claimTime}
+              handleClaim={handleClaim}
+            />
+          )}
         </Wrapper>
       </Container>
 
