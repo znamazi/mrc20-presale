@@ -31,12 +31,14 @@ const GlobalStyle = createGlobalStyle`
       src: url(/fonts/montserrat-v18-latin-regular.eot) format('eot'),
         url(/fonts/montserrat-v18-latin-regular.ttf) format('turetype'),
         url(/fonts/montserrat-v18-latin-regular.woff) format('woff');
+      font-display: block;
     }
     @font-face {
       font-family: 'Montserrat';
       font-weight:bold;
       src:  url(/fonts/Montserrat-Bold.ttf) format('turetype'),
         url(/fonts/Montserrat-Bold.woff) format('woff');
+      font-display: block;
     }
     /* @font-face {
       font-family: 'FH Oscar';
@@ -62,6 +64,7 @@ const GlobalStyle = createGlobalStyle`
     /* Firefox */
     input[type='number'] {
       -moz-appearance: textfield;
+      border:0; 
     }
 
     .ReactModal__Body--open {

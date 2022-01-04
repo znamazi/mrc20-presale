@@ -63,10 +63,10 @@ const CustomTransaction = () => {
         </Type.SM>
       </Flex>
       <Flex justifyContent="flex-start" width="100%" marginTop="3px">
-        <Type.LG color="#313144" fontWeight="bold" fontSizeXS="16px">
+        <Type.MD color="#313144" fontWeight="bold" fontSizeXS="16px">
           {`${state.transaction.amount ? state.transaction.amount : ''} ${state.transaction.tokenSymbol ? state.transaction.tokenSymbol : ''
             }`}
-        </Type.LG>
+        </Type.MD>
       </Flex>
       <Flex
         justifyContent="center"

@@ -96,7 +96,6 @@ export const Select = styled.select`
 export const Input = styled.input`
   width: 100%;
   background: ${({ background }) => (background ? background : 'transparent')};
-
   height: ${({ height }) => (height ? height : '45px')};
   border: ${({ border }) => (border ? border : '1px solid transparent')};
   border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius : '5px')};

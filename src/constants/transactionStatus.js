@@ -13,3 +13,9 @@ export const TransactionType = {
   Approve: 'approve',
   SWAP: 'swap'
 }
+
+export const LockType = {
+  Cooldown: 'Cooldown',
+  Allocation: 'Allocation'
+}
+
