@@ -163,7 +163,7 @@ const Home = () => {
         setAllocation(new BigNumber(maxAllocation).minus(usedAmount).toFixed(3))
       }
     } catch (error) {
-      console.log('Error happend in set allocation')
+      console.log('Error happened in set allocation')
     }
   }, [usedAmount, maxAllocation])
 
@@ -323,7 +323,7 @@ const Home = () => {
         payload: { amount, btnType: state.approve ? 'swap' : 'approve' }
       })
     } catch (error) {
-      console.log('Error happend in HandleAmount', error)
+      console.log('Error happened in HandleAmount', error)
     }
   }
 
@@ -335,7 +335,7 @@ const Home = () => {
         const max = getMaxAllow(token, balance, allocation, publicTime)
         handleAmount(max, 'from')
       } catch (error) {
-        console.log('Error happend in handleMax', error)
+        console.log('Error happened in handleMax', error)
       }
     }
   }
@@ -383,7 +383,7 @@ const Home = () => {
             payload: {
               type: TransactionType.Approve,
               hash: transactionHash,
-              message: 'Transaction successfull',
+              message: 'Transaction successful',
               status: TransactionStatus.SUCCESS,
               chainId: state.selectedChain.id,
               tokenSymbol: state.selectedToken.symbol
@@ -426,7 +426,7 @@ const Home = () => {
           })
         })
     } catch (error) {
-      console.log('error happend in Approve', error)
+      console.log('error happened in Approve', error)
     }
   }
 
@@ -558,7 +558,7 @@ const Home = () => {
             payload: {
               type: TransactionType.SWAP,
               hash: transactionHash,
-              message: 'Transaction successfull',
+              message: 'Transaction successful',
               amount: state.amount.from,
               status: TransactionStatus.SUCCESS,
               chainId: state.selectedChain.id,
@@ -620,7 +620,7 @@ const Home = () => {
           decimals: state.selectedToken.decimals
         }
       })
-      console.log('error happend in Swap', error)
+      console.log('error happened in Swap', error)
     }
   }
 
@@ -717,7 +717,7 @@ const Home = () => {
 
       <Container>
         <Wrapper maxWidth="340px" width="100%"></Wrapper>
-        <Wrapper maxWidth="425px" width="100%">
+        <Wrapper maxWidth="425px" width="100%" margin={'auto'}>
           <Swap
             changeChain={changeChain}
             handleConnectWallet={handleConnectWallet}

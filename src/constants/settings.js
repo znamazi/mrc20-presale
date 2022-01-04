@@ -1,4 +1,4 @@
-export const title = 'BLOOD TOKEN'
+export const title = 'Blood Token'
 
 // Launch price of 0.1 USD
 

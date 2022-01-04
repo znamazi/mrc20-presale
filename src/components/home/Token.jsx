@@ -8,7 +8,7 @@ const Token = (props) => {
   return (
     <ContainerToken alignItems="center">
       <Image src={logo} boxSizing="unset" alt={name} />
-      <Type.LG color="#313144" fontSize="15px" fontFamily="Montserrat-bold">
+      <Type.LG color="#313144" fontSize="15px" >
         {name}
       </Type.LG>
     </ContainerToken>
