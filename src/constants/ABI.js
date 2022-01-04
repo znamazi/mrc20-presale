@@ -277,6 +277,20 @@ export const MRC20Presale_ABI = [
     type: 'function'
   },
   {
+    inputs: [],
+    name: 'claim',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'claimTime',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
     inputs: [
       { internalType: 'address', name: 'token', type: 'address' },
       { internalType: 'uint256', name: 'presaleTokenPrice', type: 'uint256' },
@@ -381,6 +395,13 @@ export const MRC20Presale_ABI = [
     type: 'function'
   },
   {
+    inputs: [{ internalType: 'uint256', name: '_time', type: 'uint256' }],
+    name: 'setClaimTime',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
     inputs: [{ internalType: 'bool', name: 'val', type: 'bool' }],
     name: 'setIsRunning',
     outputs: [],
@@ -423,8 +444,29 @@ export const MRC20Presale_ABI = [
     type: 'function'
   },
   {
+    inputs: [{ internalType: 'address', name: '', type: 'address' }],
+    name: 'tokenBalances',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [{ internalType: 'address', name: '', type: 'address' }],
+    name: 'tokenClaimed',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
     inputs: [],
     name: 'totalBalance',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'totalTokenBalance',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function'

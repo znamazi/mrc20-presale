@@ -11,7 +11,7 @@ const calculateAmount = (token, presaleToken, label, value) => {
 
   let baseToken = toBN(10).pow(toBN(token.decimals))
   let basePresale = toBN(10).pow(toBN(presaleToken.decimals))
-  if (label === 'from') {
+  if (label === 'From') {
     let amount = toBN(toWei(fixedValue, token.decimals))
 
     let usdAmount = amount.mul(tokenPrice).div(baseToken)
