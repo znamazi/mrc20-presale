@@ -30,6 +30,7 @@ const Swap = (props) => {
     error,
     maxAllocation
   } = props
+  console.log({ state })
   return (
     <Flex
       flexDirection="column"

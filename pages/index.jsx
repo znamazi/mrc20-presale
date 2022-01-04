@@ -279,6 +279,7 @@ const Home = () => {
   }
 
   const handleAmount = (value, label) => {
+    console.log({ value, label })
     try {
       let token = prices[state.selectedToken.symbol.toLowerCase()]
 
@@ -295,6 +296,7 @@ const Home = () => {
         to: valueTo,
         type: label
       }
+      console.log('***', amount)
       setError({
         type:
           parseFloat(valueFrom) > parseFloat(max) ||
