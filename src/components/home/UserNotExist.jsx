@@ -76,10 +76,7 @@ const UserNotExist = (props) => {
 
         <Wrapper>
           <Type.SM color="#313144">Sorry! </Type.SM>
-          <Type.SM color="#313144">
-            This wallet is not in allocation list
-          </Type.SM>
-
+          <Type.SM color="#313144">We are sorry but this wallet is not in our allocation list.</Type.SM>
           <Type.SM padding="13px 0">
             <CountDown date={moment(lock)} setLock={() => setLock(0)} />
           </Type.SM>

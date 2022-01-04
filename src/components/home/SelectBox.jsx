@@ -114,10 +114,12 @@ const SelectBox = (props) => {
         />
       </Selector>
     ) : (
-      <Token
-        logo={state.selectedChain.tokens[0].logo}
-        name={state.selectedChain.tokens[0].symbol}
-      />
+      <TokenWrap>
+        <Image src={state.selectedChain.tokens[0].logo} boxSizing="unset" height={"22px"} alt={state.selectedChain.tokens[0].symbol} paddingRight="5px" />
+        <Type.LG color="#ffffff" fontWeight="bold" fontSize="15px" >
+          {state.selectedChain.tokens[0].symbol}
+        </Type.LG>
+      </TokenWrap>
     )
   return (
     <Flex flexDirection="column" margin="0 15px 20px">

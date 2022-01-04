@@ -1,16 +1,16 @@
 import React from 'react'
-import { Flex } from 'rebass'
+import { Flex, Image } from 'rebass'
 import { title } from '../../constants/settings'
 
 import { Title, GradientTitle, TriangleDown, BoxPresaleToken } from '.'
-import { Box, Container } from '../common/Container'
+import { Box, Container, FlexBetween } from '../common/Container'
 import { Type } from '../common/Text'
 import Network from './Network'
 import SelectBox from './SelectBox'
 import { useMuonState } from '../../context'
 import ActionButton from './ActionButton'
-import CountDown from '../common/CountDown'
 import MuonNetwork from '../common/MuonNetwork'
+import NetworkHint from '../common/NetworkHint'
 
 const Swap = (props) => {
   let { state } = useMuonState()
@@ -27,7 +27,9 @@ const Swap = (props) => {
     setLock,
     loading,
     error,
-    maxAllocation
+    remainedAllocation,
+    publicTime,
+    lockType,
   } = props
   return (
     <Flex
@@ -47,6 +49,7 @@ const Swap = (props) => {
               label="Select Chain"
               onChange={(data) => changeChain(data)}
             />
+            <NetworkHint error={wrongNetwork} />
             <SelectBox
               label="From"
               amount={state.amount?.from}
@@ -69,27 +72,15 @@ const Swap = (props) => {
               handleAmount={handleAmount}
               lock={lock}
             />
-            {/* {maxAllocation !== undefined && (
-              <Flex justifyContent="flex-end" alignItems="center">
-                <Type.SM
-                  color="#5E5CFC"
-                  padding="0 3px"
-                >{`Max. Allocation is ${maxAllocation}`}</Type.SM>
-                <Image src="/media/common/info.svg" alt="svg" />
-              </Flex>
-            )} */}
-            {lock !== 0 && (
-              <Flex
-                justifyContent="center"
-                alignItems="center"
-                flexDirection="column"
-              >
-                <CountDown date={lock} setLock={() => setLock(0)} />
-              </Flex>
-            )}
           </Flex>
         </BoxPresaleToken>
       </Container>
+
+      {remainedAllocation !== undefined && Date.now() < publicTime &&
+        <FlexBetween style={{ backgroundColor: "#d8dfe6", padding: "10px 20px", alignItems: "center", width: "100%", borderRadius: "10px", marginTop: "2px" }}>
+          <p style={{ fontSize: "10px" }} href='#'>Your Presale Allocation</p>
+          <p style={{ fontSize: "13px", fontWeight: "bold" }}>{remainedAllocation === 0 ? "Not eligible" : `$${remainedAllocation}`}</p>
+        </FlexBetween>}
 
       <ActionButton
         wrongNetwork={wrongNetwork}
@@ -97,7 +88,9 @@ const Swap = (props) => {
         handleSwap={handleSwap}
         handleApprove={handleApprove}
         disable={lock}
+        setLock={setLock}
         loading={loading}
+        lockType={lockType}
       />
       <Flex justifyContent="center">
         <Type.SM color="#313144" fontSize="10px" padding="10px">

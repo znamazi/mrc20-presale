@@ -17,6 +17,7 @@ import { fetchApi } from '../src/helper/fetchApi'
 import { getContract } from '../src/helper/contractHelpers'
 import { MRC20Presale } from '../src/constants/contracts'
 import {
+  LockType,
   TransactionStatus,
   TransactionType
 } from '../src/constants/transactionStatus'
@@ -28,10 +29,10 @@ import allocations from '../src/constants/allocations.json'
 import BigNumber from 'bignumber.js'
 import calculateAmount from '../src/utils/calculateAmount'
 import { useMuonLock } from '../src/hook/useMuonLock'
-import UserNotExist from '../src/components/home/UserNotExist'
+// import UserNotExist from '../src/components/home/UserNotExist'
 import useClaimable from '../src/hook/useClaimable'
 import Claim from '../src/components/home/Claim'
-
+import UserNotExist from '../src/components/home/NotExistModal'
 const CustomTransaction = dynamic(() =>
   import('../src/components/common/CustomTransaction')
 )
@@ -50,6 +51,7 @@ const Home = () => {
   const [allocation, setAllocation] = React.useState(0)
   const [error, setError] = React.useState('')
   const [lock, setLock] = React.useState(0)
+  const [lockType, setLockType] = React.useState()
   const [loading, setLoading] = React.useState(false)
   const [fetch, setFetch] = React.useState()
   const [openUserNotExist, setOpenUserNotExist] = React.useState(false)
@@ -102,6 +104,17 @@ const Home = () => {
     setLock(muonLock.expire)
     setPublicTime(muonLock.publicTime)
   }, [muonLock])
+
+  // set lockType
+  React.useEffect(() => {
+    if (lock) {
+      if (Date.now() < publicTime && Number(allocation) <= 0) {
+        setLockType(LockType.Allocation)
+      } else {
+        setLockType(LockType.Cooldown)
+      }
+    }
+  }, [lock, allocation, publicTime])
 
   // Fetch Price
   React.useEffect(() => {
@@ -431,6 +444,13 @@ const Home = () => {
   }
 
   const handleSwap = async () => {
+
+    //show modal if user dont have any allocation
+    if (lock && lockType === LockType.Allocation) {
+      setOpenUserNotExist(true)
+      return
+    }
+
     if (
       !state.amount.from ||
       state.amount.from === '0' ||
@@ -717,7 +737,7 @@ const Home = () => {
 
       <Container>
         <Wrapper maxWidth="340px" width="100%"></Wrapper>
-        <Wrapper maxWidth="425px" width="100%" margin={"auto"}>
+        <Wrapper maxWidth="470px" width="100%" margin={"auto"}>
           <Swap
             changeChain={changeChain}
             handleConnectWallet={handleConnectWallet}
@@ -727,11 +747,15 @@ const Home = () => {
             handleApprove={handleApprove}
             handleMax={handleMax}
             handleSwap={handleSwap}
+            openUserNotExist={openUserNotExist}
+            setOpenUserNotExist={setOpenUserNotExist}
             error={error}
             lock={lock}
             setLock={() => setLock(0)}
             loading={loading}
-            maxAllocation={maxAllocation}
+            publicTime={publicTime}
+            remainedAllocation={allocation}
+            lockType={lockType}
           />
         </Wrapper>
         <Wrapper maxWidth="340px" width="100%">
