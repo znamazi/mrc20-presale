@@ -16,20 +16,20 @@ const Wrapper = styled.div`
   /* background-color:#313144; */
 `
 
+const MainWrap = styled.div`
+  border-radius: 20px;
+  background-color: #313144;
+`
 const Modal = (props) => {
   const {
     open,
     hide,
     title,
     children,
-    search,
-    placeholderSearch,
     maxWidth,
     backgroundColor,
     border,
-    borderRadius,
-    padding,
-    boxShadowColor
+    padding
   } = props
 
   const customStyles = {
@@ -41,26 +41,19 @@ const Modal = (props) => {
       left: '50%',
       right: 'auto',
       bottom: 'auto',
-      // marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
       padding: 0,
       display: 'flex',
       flexDirection: 'column',
       maxWidth: maxWidth ? maxWidth : '450px',
+      background: backgroundColor ? backgroundColor : 'transparent',
       width: '95%',
-      background: 'transparent',
-      border: 0,
-      // borderRadius: borderRadius ? borderRadius : '20px',
+      border: border ? border : '0',
       overFlowY: 'hidden',
-      boxSizing: 'border-box',
+      boxSizing: 'border-box'
       // boxShadow: `0px 4px 4px ${boxShadowColor ? boxShadowColor : 'rgba(239, 239, 239, 0.25)'}`
     }
   }
-
-  const MainWrap = styled.div`
-    border-radius:20px;
-    background-color:#313144;
-  `
 
   return (
     <ReactModal
