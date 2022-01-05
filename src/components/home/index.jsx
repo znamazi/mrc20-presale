@@ -22,6 +22,14 @@ export const Container = styled.div`
   }
 `
 
+export const ClaimWrapper = styled(Box)`
+  max-width: ${({ maxWidth }) => maxWidth};
+   
+  @media screen and (max-width: 1200px) {
+    margin:20px auto 0 auto !important;
+  }
+`
+
 export const Wrapper = styled(Box)`
   max-width: ${({ maxWidth }) => maxWidth};
 `

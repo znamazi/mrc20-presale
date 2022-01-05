@@ -39,6 +39,10 @@ export const Button = styled.button`
   margin: ${({ margin }) => margin};
   cursor: ${({ cursor }) => (cursor ? cursor : 'pointer')};
 
+  &:hover{
+    filter: ${({ cursor }) => cursor === "pointer" ? "brightness(1.075)" : "brightness(1)"};
+  }
+
   &:focus {
     outline: none;
   }
