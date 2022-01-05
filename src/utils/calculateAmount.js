@@ -1,6 +1,7 @@
 import { fromWei, toBN, toWei } from './utils'
 
 const calculateAmount = (token, presaleToken, label, value) => {
+  console.log({ token, presaleToken, label, value })
   let fixedValue = Number(value).toFixed(token.decimals)
   if (!value) {
     return { valueFrom: '', valueTo: '' }
@@ -19,6 +20,15 @@ const calculateAmount = (token, presaleToken, label, value) => {
 
     valueFrom = value
     valueTo = fromWei(mintAmount.toString(), presaleToken.decimals)
+    console.log({
+      fixedValue,
+      amount,
+      usdAmount,
+      mintAmount,
+      valueFrom,
+      valueTo,
+      value
+    })
   } else {
     let amount = toBN(toWei(fixedValue, presaleToken.decimals))
     let usdAmount = amount.mul(presaleTokenPrice).div(basePresale)

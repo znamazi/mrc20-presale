@@ -319,7 +319,7 @@ const Home = () => {
         value
       )
       let max = getMaxAllow(token, valueFrom, allocation, publicTime)
-
+      console.log({ max, valueFrom, valueTo })
       let amount = {
         from: valueFrom,
         to: valueTo,
@@ -346,7 +346,8 @@ const Home = () => {
         let token = prices[state.selectedToken.symbol.toLowerCase()]
 
         const max = getMaxAllow(token, balance, allocation, publicTime)
-        handleAmount(max, 'from')
+        console.log({ max })
+        handleAmount(max, 'From')
       } catch (error) {
         console.log('Error happened in handleMax', error)
       }
