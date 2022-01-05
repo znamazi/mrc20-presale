@@ -65,13 +65,17 @@ const Home = () => {
   // Get claim Time
   React.useEffect(() => {
     const fetchClaimTime = async () => {
-      const contract = getContract(
-        MRC20Presale_ABI,
-        MRC20Presale[chainId],
-        web3
-      )
-      const claimTime = await contract.methods.claimTime().call()
-      setClaimTime(claimTime * 1000)
+      try {
+        const contract = getContract(
+          MRC20Presale_ABI,
+          MRC20Presale[chainId],
+          web3
+        )
+        const claimTime = await contract.methods.claimTime().call()
+        setClaimTime(claimTime * 1000)
+      } catch (error) {
+        console.log('Error happend in fetchClaimTime', error)
+      }
     }
     if (web3) fetchClaimTime()
   }, [chainId, web3])

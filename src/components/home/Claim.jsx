@@ -12,25 +12,29 @@ const Claim = (props) => {
 
   return (
     <Box
-      padding="15px 15px 5px"
       borderRadius="10px"
+      padding="14px 20px 19px"
       background="linear-gradient(0deg, #E7EBF3 0%, rgba(231, 235, 243, 0.25) 105.18%)"
+      border="1px solid #ffffff"
     >
       <Flex width="100%">
         <Type.SM>Claim Token</Type.SM>
       </Flex>
-      <Flex width="100%" justifyContent="space-between">
+      <Flex width="100%" justifyContent="space-between" margin="15px 0">
         <Flex alignItems="center">
           <Image
+            paddingRight="10px"
             src={presaleToken.logo}
             boxSizing="unset"
             alt={presaleToken.symbol}
           />
-          <Type.LG color="#313144" fontSize="15px" fontFamily="Montserrat-bold">
+          <Type.MD color="#313144" fontWeight="bold">
             {presaleToken.symbol}
-          </Type.LG>
+          </Type.MD>
         </Flex>
-        <Type.LG>{parseFloat(amountClaim)}</Type.LG>
+        <Type.MD color="#313144" fontWeight="bold">
+          {parseFloat(amountClaim)}
+        </Type.MD>
       </Flex>
       {lock && (
         <Flex
@@ -42,13 +46,13 @@ const Claim = (props) => {
         </Flex>
       )}
       <Button
-        margin="25px 0 "
+        margin="0"
         background={lock ? '#9d9d9d' : '#5F5CFE'}
         disabled={lock}
         cursor={lock ? 'default' : 'pointer'}
         onClick={handleClaim}
       >
-        <Type.LG color="#ffffff"> Claim</Type.LG>
+        <Type.MD color="#ffffff"> Claim</Type.MD>
       </Button>
     </Box>
   )

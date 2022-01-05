@@ -19,7 +19,8 @@ export const FlexCenter = styled.div`
 export const Container = styled.div`
   max-width: ${({ maxWidth }) => maxWidth};
   width: 100%;
-  box-shadow: 0px 4px 4px ${({ shadowColor }) => shadowColor ?? 'rgba(239, 239, 239, 0.25)'};
+  box-shadow: 0px 4px 4px
+    ${({ shadowColor }) => shadowColor ?? 'rgba(239, 239, 239, 0.25)'};
   position: relative;
   display: flex;
   flex-direction: column;
@@ -29,7 +30,9 @@ export const Box = styled.div`
   max-width: ${({ maxWidth }) => maxWidth};
   width: 100%;
   background: ${({ background }) => background ?? 'rgba(255, 255, 255, 0.35)'};
-  box-shadow: 0px 4px 4px ${({ shadowColor }) => shadowColor ?? 'rgba(239, 239, 239, 0.25)'};
+  box-shadow: 0px 4px 4px
+    ${({ shadowColor }) => shadowColor ?? 'rgba(239, 239, 239, 0.25)'};
+  border: ${({ border }) => (border ? border : 'transparent')};
   border-radius: ${({ borderRadius }) => borderRadius ?? '10px'};
   margin-top: ${({ marginTop }) => marginTop && marginTop};
   display: flex;
@@ -37,5 +40,4 @@ export const Box = styled.div`
   flex-direction: column;
   align-items: center;
   padding: ${({ padding }) => padding && padding};
-
 `
