@@ -9,7 +9,7 @@ const GlobalStyle = createGlobalStyle`
 
     html,
     body {
-
+      overflow-y:auto;
       font-family: Montserrat;
       background: #f8f8ff;
       -webkit-font-smoothing: antialiased;

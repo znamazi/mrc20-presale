@@ -113,7 +113,7 @@ export const Input = styled.input`
   }
   @media screen and (max-width: 460px) {
     max-width: 120px;
-    font-size: 10px;
+    /* font-size: 10px; */
   }
   ::placeholder {
     color: #909090;
