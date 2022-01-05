@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 import Muon, { async } from 'muon'
 import { useWeb3React } from '@web3-react/core'
 
-import { Container, Wrapper } from '../src/components/home'
+import { Container, Wrapper, ClaimWrapper } from '../src/components/home'
 import WalletModal from '../src/components/common/WalletModal'
 import { presaleToken, title, validChains } from '../src/constants/settings'
 import { useMuonState } from '../src/context'
@@ -65,6 +65,7 @@ const Home = () => {
   // Get claim Time
   React.useEffect(() => {
     const fetchClaimTime = async () => {
+      if (!MRC20Presale[chainId]) return
       const contract = getContract(
         MRC20Presale_ABI,
         MRC20Presale[chainId],
@@ -758,7 +759,7 @@ const Home = () => {
             lockType={lockType}
           />
         </Wrapper>
-        <Wrapper maxWidth="340px" width="100%">
+        <ClaimWrapper maxWidth="300px" width="100%" >
           {state.transaction.status && <CustomTransaction />}
           {claim > 0 && (
             <Claim
@@ -767,7 +768,7 @@ const Home = () => {
               handleClaim={handleClaim}
             />
           )}
-        </Wrapper>
+        </ClaimWrapper>
       </Container>
 
       {showLock}
