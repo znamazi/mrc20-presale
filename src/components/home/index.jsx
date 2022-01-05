@@ -13,6 +13,13 @@ export const Container = styled.div`
     flex-direction: column;
     padding: 20px 5px;
   }
+
+  @media screen and (max-width: 780px) {
+    // display: none !important;
+    flex-direction: column;
+    padding: 0 20px;
+    padding-top:50px;
+  }
 `
 
 export const Wrapper = styled(Box)`
@@ -70,10 +77,10 @@ export const BoxPresaleToken = styled.div`
   bottom: 10px; */
 `
 export const ContainerToken = styled(Flex)`
-  height: 45px;
-  background: linear-gradient(270deg, #f8faff 0%, rgba(230, 236, 242, 0) 100%);
-  border-radius: 5px;
-  padding: 13px;
+  /* height: 45px; */
+  /* background: linear-gradient(270deg, #f8faff 0%, rgba(230, 236, 242, 0) 100%); */
+  /* border-radius: 5px; */
+  /* padding: 13px; */
 `
 export const Max = styled.div`
   background-color:#9c9bf3;
