@@ -146,19 +146,16 @@ const ActionButton = (props) => {
         wrongNetwork || validChainId ? (
           <Button
             margin="50px 0 0"
-            background={wrongNetwork ? '#DC0000' : 'rgba(255, 164, 81, 0.2)'}
+            background={'rgba(255, 164, 81, 0.2)'}
             border="1px solid rgba(255, 164, 81, 1)"
-            cursor="default"
             onClick={() => (wrongNetwork ? undefined : addRPC(validChainId))}
           >
             <Type.MD
-              color={wrongNetwork ? '#ffffff' : 'rgba(49, 49, 68, 1)'}
+              color={'rgba(49, 49, 68, 1)'}
               fontSizeXS="16px"
               fontWeight="bold"
             >
-              {wrongNetwork
-                ? 'Wrong Network'
-                : ` Switch to ${NameChainMap[validChainId]}`}
+              {` Switch to ${NameChainMap[validChainId]}`}
             </Type.MD>
           </Button>
         ) : (

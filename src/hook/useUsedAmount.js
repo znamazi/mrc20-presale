@@ -4,27 +4,27 @@ import { validChains } from '../constants/settings'
 import { useCrossWeb3 } from './useWeb3'
 import { getUsedAmount } from '../utils/utils'
 import { useMuonState } from '../context'
+import { getWeb3NoAccount } from '../helper/web3'
 
 export const useUsedAmount = (fetch) => {
   const { state } = useMuonState()
-  let crossWeb3 = {}
-  for (let index = 0; index < validChains.length; index++) {
-    const chainId = validChains[index]
-    const web3 = useCrossWeb3(chainId)
-    crossWeb3 = { ...crossWeb3, [chainId]: web3 }
-  }
+  // let crossWeb3 = {}
+  // for (let index = 0; index < validChains.length; index++) {
+  //   const chainId = validChains[index]
+  //   const web3 = useCrossWeb3(chainId)
+  //   crossWeb3 = { ...crossWeb3, [chainId]: web3 }
+  // }
 
   const [used, setUsed] = React.useState(null)
   React.useEffect(() => {
     const get = async () => {
       let sumUsed = 0
+
       for (let index = 0; index < validChains.length; index++) {
         const chainId = validChains[index]
-        const amount = await getUsedAmount(
-          state.account,
-          chainId,
-          crossWeb3[chainId]
-        )
+        const web3 = getWeb3NoAccount(chainId)
+
+        const amount = await getUsedAmount(state.account, chainId, web3)
         sumUsed = new BigNumber(amount).plus(sumUsed)
       }
       setUsed(sumUsed)
