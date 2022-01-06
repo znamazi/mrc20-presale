@@ -1,3 +1,4 @@
+import { LabelStatus } from '../constants/constants'
 import { fromWei, toBN, toWei } from './utils'
 
 const calculateAmount = (token, presaleToken, label, value) => {
@@ -12,7 +13,7 @@ const calculateAmount = (token, presaleToken, label, value) => {
 
   let baseToken = toBN(10).pow(toBN(token.decimals))
   let basePresale = toBN(10).pow(toBN(presaleToken.decimals))
-  if (label === 'From') {
+  if (label === LabelStatus.FROM) {
     let amount = toBN(toWei(fixedValue, token.decimals))
 
     let usdAmount = amount.mul(tokenPrice).div(baseToken)

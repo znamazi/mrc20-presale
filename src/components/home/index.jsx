@@ -18,7 +18,7 @@ export const Container = styled.div`
     // display: none !important;
     flex-direction: column;
     padding: 0 20px;
-    padding-top:50px;
+    padding-top: 50px;
   }
 `
 
@@ -59,9 +59,9 @@ export const TriangleDown = styled.div`
   /* border-left: 116px solid transparent;
   border-right: 116px solid transparent;
   border-top: 24px solid #d3dbe3; */
-    border-left: 70px solid transparent;
-    border-right: 70px solid transparent;
-    border-top: 14px solid #d3dbe3;
+  border-left: 70px solid transparent;
+  border-right: 70px solid transparent;
+  border-top: 14px solid #d3dbe3;
 `
 
 export const BoxPresaleToken = styled.div`
@@ -69,30 +69,44 @@ export const BoxPresaleToken = styled.div`
   width: 100%;
   /* height: 190px; */
   background: linear-gradient(0deg, #d3dbe3 0%, rgba(231, 235, 243, 0) 105.18%);
-  border-radius:  10px;
+  border-radius: 10px;
   /* display: flex;
   flex-direction: column;
   border-top: none;
   position: absolute;
   bottom: 10px; */
 `
-export const ContainerToken = styled(Flex)`
-  /* height: 45px; */
-  /* background: linear-gradient(270deg, #f8faff 0%, rgba(230, 236, 242, 0) 100%); */
-  /* border-radius: 5px; */
-  /* padding: 13px; */
+export const ContainerToken = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  white-space: nowrap;
 `
 export const Max = styled.div`
-  background-color:#9c9bf3;
+  background-color: #9c9bf3;
   align-items: center;
   border-radius: 5px;
-  text-align:center;
+  text-align: center;
   padding: 2px 4px;
   cursor: pointer;
-  &:hover{
-  background-color:#6f6dc5;
-  div{
-    color:#fff;
+  &:hover {
+    background-color: #6f6dc5;
+    div {
+      color: #fff;
+    }
   }
+`
+export const ModalItem = styled.div`
+  background: #2b2b3c;
+  border: 1px solid rgba(172, 175, 243, 0.29);
+  margin: 7.5px auto;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    background: #42425f;
   }
 `

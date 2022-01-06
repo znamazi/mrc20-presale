@@ -33,6 +33,7 @@ import { useMuonLock } from '../src/hook/useMuonLock'
 import useClaimable from '../src/hook/useClaimable'
 import Claim from '../src/components/home/Claim'
 import UserNotExist from '../src/components/home/NotExistModal'
+import { LabelStatus } from '../src/constants/constants'
 const CustomTransaction = dynamic(() =>
   import('../src/components/common/CustomTransaction')
 )
@@ -351,7 +352,7 @@ const Home = () => {
 
         const max = getMaxAllow(token, balance, allocation, publicTime)
         console.log({ max })
-        handleAmount(max, 'From')
+        handleAmount(max, LabelStatus.FROM)
       } catch (error) {
         console.log('Error happened in handleMax', error)
       }
@@ -462,7 +463,7 @@ const Home = () => {
     ) {
       setError({
         type: true,
-        label: 'from'
+        label: LabelStatus.FROM
       })
       return
     }

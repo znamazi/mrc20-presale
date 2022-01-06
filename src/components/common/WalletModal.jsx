@@ -5,6 +5,7 @@ import { Image, Selector } from './FormControlls'
 import Modal from './Modal'
 import { ConnectorByName } from '../../utils/connectors'
 import { Item } from '../home/Network'
+import { ModalItem } from '../home'
 
 const WalletModal = (props) => {
   const { open, hide } = props
@@ -15,20 +16,19 @@ const WalletModal = (props) => {
     <Modal open={open} hide={hide} title="Connect Wallet">
       {Object.keys(ConnectorByName).map((name) => {
         return (
-          <Item
+          <ModalItem
             key={name}
             onClick={() => {
               activate(ConnectorByName[name])
               hide()
             }}
-            margin="0 0 10px"
           >
             <Flex
               padding="0 20px"
               justifyContent="space-between"
               width="100%"
               alignItems="center"
-              color={"#D3DBE3"}
+              color={'#D3DBE3'}
             >
               {name}
               <Image
@@ -38,7 +38,7 @@ const WalletModal = (props) => {
                 src={`/media/common/${name}.svg`}
               />
             </Flex>
-          </Item>
+          </ModalItem>
         )
       })}
     </Modal>

@@ -11,6 +11,7 @@ import { useMuonState } from '../../context'
 import ActionButton from './ActionButton'
 import MuonNetwork from '../common/MuonNetwork'
 import NetworkHint from '../common/NetworkHint'
+import { LabelStatus } from '../../constants/constants'
 
 const Swap = (props) => {
   let { state } = useMuonState()
@@ -29,7 +30,7 @@ const Swap = (props) => {
     error,
     remainedAllocation,
     publicTime,
-    lockType,
+    lockType
   } = props
   return (
     <Flex
@@ -38,10 +39,8 @@ const Swap = (props) => {
       alignItems="center"
       width="100%"
     >
-      <GradientTitle >{title} </GradientTitle>
-      <Title >
-        Presale
-      </Title>
+      <GradientTitle>{title} </GradientTitle>
+      <Title>Presale</Title>
       <Container>
         <Box background="linear-gradient(0deg, #D3DBE3 0%, rgba(231, 235, 243, 0) 100%)">
           <Flex width="100%" flexDirection="column">
@@ -51,7 +50,7 @@ const Swap = (props) => {
             />
             <NetworkHint error={wrongNetwork} />
             <SelectBox
-              label="From"
+              label={LabelStatus.FROM}
               amount={state.amount?.from}
               selectedToken={state.selectedToken}
               changeToken={changeToken}
@@ -66,7 +65,7 @@ const Swap = (props) => {
         <BoxPresaleToken>
           <Flex flexDirection={`column`}>
             <SelectBox
-              label="To"
+              label={LabelStatus.TO}
               amount={state.amount?.to}
               selectedToken={state.presaleToken}
               handleAmount={handleAmount}
@@ -76,11 +75,27 @@ const Swap = (props) => {
         </BoxPresaleToken>
       </Container>
 
-      {remainedAllocation !== undefined && Date.now() < publicTime &&
-        <FlexBetween style={{ backgroundColor: "#d8dfe6", padding: "10px 20px", alignItems: "center", width: "100%", borderRadius: "10px", marginTop: "2px" }}>
-          <p style={{ fontSize: "10px" }} href='#'>Your Presale Allocation</p>
-          <p style={{ fontSize: "13px", fontWeight: "bold" }}>{remainedAllocation === 0 ? "Not eligible" : `$${remainedAllocation}`}</p>
-        </FlexBetween>}
+      {remainedAllocation !== undefined && Date.now() < publicTime && (
+        <FlexBetween
+          style={{
+            backgroundColor: '#d8dfe6',
+            padding: '10px 20px',
+            alignItems: 'center',
+            width: '100%',
+            borderRadius: '10px',
+            marginTop: '2px'
+          }}
+        >
+          <p style={{ fontSize: '10px' }} href="#">
+            Your Presale Allocation
+          </p>
+          <p style={{ fontSize: '13px', fontWeight: 'bold' }}>
+            {remainedAllocation === 0
+              ? 'Not eligible'
+              : `$${remainedAllocation}`}
+          </p>
+        </FlexBetween>
+      )}
 
       <ActionButton
         wrongNetwork={wrongNetwork}

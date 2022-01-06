@@ -11,32 +11,32 @@ import {
 } from '../common/FormControlls'
 import { Type } from '../common/Text'
 import Token from './Token'
-import { Max } from '.'
+import { Max, ModalItem } from '.'
 import styled from 'styled-components'
-import { Item } from './Network'
+import { LabelStatus } from '../../constants/constants'
 const Modal = dynamic(() => import('../common/Modal'))
 
 const SubTitle = styled(Type.SM)`
-   color:#313144 ;
-   fontSize:12px ;
-   margin:5px 8px;
+  color: #313144;
+  fontsize: 12px;
+  margin: 5px 8px;
 `
 
 const InputPanelWrap = styled.div`
-  display:flex;
-  justify-content : space-between;
-  align-items:center;
-  background: #2B2B3C;
-  border: 1px solid #FFFFFF;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #2b2b3c;
+  border: 1px solid #ffffff;
   border-radius: 5px;
-  padding:5px 10px;
-  height:45px;
+  padding: 5px 10px;
+  height: 45px;
 `
 
 const TokenWrap = styled.div`
-  display:flex;
-  justify-content:flex-end;
-  align-items:center;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   white-space: nowrap;
 `
 
@@ -59,43 +59,46 @@ const SelectBox = (props) => {
     setOpen(true)
   }
   let contentModal = state.selectedChain.tokens.map((token) => (
-    <Item key={token.address} onClick={() => {
-      changeToken(token.address)
-      setOpen(!open)
-    }}>
+    <ModalItem
+      key={token.address}
+      onClick={() => {
+        changeToken(token.address)
+        setOpen(!open)
+      }}
+    >
       <ContentItem
-        alignItems={"center"}
+        alignItems={'center'}
         justifyContent="space-between"
-        width={"100%"}
+        width={'100%'}
       >
-        <Flex alignItems={"center"}>
-          <Image src={token.logo} mr="8px" height={"22px"} alt={token.symbol} />
+        <Flex alignItems={'center'}>
+          <Image src={token.logo} mr="8px" height={'22px'} alt={token.symbol} />
           <Type.MD color="#D3DBE3" fontWeight="bold" fontSizeXS="16px">
             {token.symbol}
           </Type.MD>
         </Flex>
-        <Flex color={"#D3DBE3"}>{token.balance}</Flex>
+        <Flex color={'#D3DBE3'}>{token.balance}</Flex>
       </ContentItem>
-    </Item>
+    </ModalItem>
   ))
   let content =
     state.selectedChain.tokens.length > 1 ? (
       <Selector
         padding="0 0 0 15px"
         maxWidth="181px"
-        background={"transparent"}
+        background={'transparent'}
         border="none"
         cursor="pointer"
         onClick={handleOpenModal}
       >
         {selectedToken ? (
-          <Flex alignItems="center" mr="8px" >
+          <Flex alignItems="center" mr="8px">
             <Image
               src={selectedToken.logo}
               onError={(e) => (e.target.src = '/media/tokens/default.svg')}
               boxSizing="unset"
               paddingRight="5px"
-              height={"22px"}
+              height={'22px'}
               alt={selectedToken.symbol}
             />
             <Type.MD color="#E6ECF2" fontWeight="bold" fontSizeXS="16px">
@@ -114,28 +117,25 @@ const SelectBox = (props) => {
         />
       </Selector>
     ) : (
-      <TokenWrap>
-        <Image src={state.selectedChain.tokens[0].logo} boxSizing="unset" height={"22px"} alt={state.selectedChain.tokens[0].symbol} paddingRight="5px" />
-        <Type.LG color="#ffffff" fontWeight="bold" fontSize="15px" >
-          {state.selectedChain.tokens[0].symbol}
-        </Type.LG>
-      </TokenWrap>
+      <Token
+        logo={state.selectedChain.tokens[0].logo}
+        name={state.selectedChain.tokens[0].symbol}
+      />
     )
   return (
     <Flex flexDirection="column" margin="0 15px 20px">
       <Flex width="100%" justifyContent="space-between" alignItems="center">
-        <SubTitle>
-          {label}
-        </SubTitle>
+        <SubTitle>{label}</SubTitle>
         <Flex justifyContent="flex-end" alignItems="center">
           <SubTitle>
             Balance:
-            {` ${!isNaN(parseFloat(selectedToken.balance))
-              ? parseFloat(selectedToken.balance)
-              : ''
-              } ${selectedToken?.symbol}`}
+            {` ${
+              !isNaN(parseFloat(selectedToken.balance))
+                ? parseFloat(selectedToken.balance)
+                : ''
+            } ${selectedToken?.symbol}`}
           </SubTitle>
-          {label === 'From' && (
+          {label === LabelStatus.FROM && (
             <Max>
               <Type.SM
                 color="#FFFFFF"
@@ -154,25 +154,21 @@ const SelectBox = (props) => {
           type="number"
           placeholder="Enter Amount"
           min={0}
-          height={"100%"}
+          height={'100%'}
           onChange={(e) => handleAmount(e.target.value, label)}
           value={amount}
           disabled={lock}
-          color={"#ffffff"}
-          fontSize={"20px"}
+          color={'#ffffff'}
+          fontSize={'20px'}
           border={
             error && error.type && error.label === label && '1px solid red'
           }
         />
 
-        {label === 'From' ? (
+        {label === LabelStatus.FROM ? (
           content
-        ) : (<TokenWrap>
-          <Image src={selectedToken.logo} boxSizing="unset" height={"22px"} alt={selectedToken.name} paddingRight="5px" />
-          <Type.LG color="#ffffff" fontWeight="bold" fontSize="15px" >
-            {selectedToken.name}
-          </Type.LG>
-        </TokenWrap>
+        ) : (
+          <Token logo={selectedToken.logo} name={selectedToken.name} />
         )}
       </InputPanelWrap>
       <Modal
