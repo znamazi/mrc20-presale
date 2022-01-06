@@ -174,6 +174,7 @@ const Home = () => {
       } else {
         setOpenUserNotExist(true)
         setMaxAllocation(0)
+        setAllocation(0)
       }
     }
     if (account) fetchMaxAllocation()
@@ -181,13 +182,13 @@ const Home = () => {
 
   // Set allocation
   React.useEffect(() => {
+    console.log({
+      maxAllocation,
+      usedAmount: usedAmount.toString(),
+      all: new BigNumber(maxAllocation).minus(usedAmount).toFixed(3)
+    })
     try {
       if (maxAllocation && usedAmount) {
-        console.log(
-          maxAllocation,
-          usedAmount,
-          new BigNumber(maxAllocation).minus(usedAmount).toFixed(3)
-        )
         setAllocation(new BigNumber(maxAllocation).minus(usedAmount).toFixed(3))
       }
     } catch (error) {
@@ -744,6 +745,7 @@ const Home = () => {
     ) : (
       ''
     )
+  console.log({ allocation })
   return (
     <>
       <Head>
