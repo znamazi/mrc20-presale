@@ -107,7 +107,7 @@ const Swap = (props) => {
         loading={loading}
         lockType={lockType}
       />
-      <Flex justifyContent="center">
+      <Flex justifyContent="center" margin="50px 0 20px">
         <Type.SM color="#313144" fontSize="10px" padding="10px">
           Powered by
         </Type.SM>

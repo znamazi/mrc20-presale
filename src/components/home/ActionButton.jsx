@@ -39,7 +39,7 @@ const ActionButton = (props) => {
         state.transaction.type === TransactionType.Approve
       content = (
         <Button
-          margin="25px 0 "
+          margin="25px 0 0"
           background="#5F5CFE"
           onClick={handleApprove}
           background={
@@ -65,7 +65,7 @@ const ActionButton = (props) => {
         state.transaction.type === TransactionType.SWAP
       content = (
         <Button
-          margin="25px 0 "
+          margin="25px 0 0"
           background={
             disable
               ? lockType === LockType.Cooldown
@@ -123,7 +123,7 @@ const ActionButton = (props) => {
       break
     case 'select':
       content = (
-        <Button margin="25px 0 " cursor="default">
+        <Button margin="25px 0 0" cursor="default">
           <Type.MD
             color="#909090"
             fontSizeXS="16px"
@@ -163,7 +163,7 @@ const ActionButton = (props) => {
         )
       ) : (
         <Button
-          margin="25px 0 "
+          margin="25px 0 0"
           background="#5F5CFE"
           onClick={handleConnectWallet}
         >

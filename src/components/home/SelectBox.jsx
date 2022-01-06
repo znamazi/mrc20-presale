@@ -31,13 +31,7 @@ const InputPanelWrap = styled.div`
   border-radius: 5px;
   padding: 5px 10px;
   height: 45px;
-`
-
-const TokenWrap = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  white-space: nowrap;
+  margin-bottom: 20px;
 `
 
 const SelectBox = (props) => {
