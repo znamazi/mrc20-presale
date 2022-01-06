@@ -182,11 +182,6 @@ const Home = () => {
 
   // Set allocation
   React.useEffect(() => {
-    console.log({
-      maxAllocation,
-      usedAmount: usedAmount.toString(),
-      all: new BigNumber(maxAllocation).minus(usedAmount).toFixed(3)
-    })
     try {
       if (maxAllocation && usedAmount) {
         setAllocation(new BigNumber(maxAllocation).minus(usedAmount).toFixed(3))
@@ -335,7 +330,6 @@ const Home = () => {
         value
       )
       let max = getMaxAllow(token, valueFrom, allocation, publicTime)
-      console.log({ max, valueFrom, valueTo })
       let amount = {
         from: valueFrom,
         to: valueTo,
@@ -362,7 +356,6 @@ const Home = () => {
         let token = prices[state.selectedToken.symbol.toLowerCase()]
 
         const max = getMaxAllow(token, balance, allocation, publicTime)
-        console.log({ max })
         handleAmount(max, LabelStatus.FROM)
       } catch (error) {
         console.log('Error happened in handleMax', error)
@@ -745,7 +738,6 @@ const Home = () => {
     ) : (
       ''
     )
-  console.log({ allocation })
   return (
     <>
       <Head>
