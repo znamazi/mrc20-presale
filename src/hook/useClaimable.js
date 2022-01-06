@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import { useState, useEffect } from 'react'
 import { MRC20Presale_ABI } from '../constants/ABI'
 import { MRC20Presale } from '../constants/contracts'
+import { validChains } from '../constants/settings'
 import { getBalanceNumber } from '../helper/formatBalance'
 import multicall from '../helper/multicall'
 import useWeb3 from './useWeb3'
@@ -34,7 +35,7 @@ const useClaimable = (fetch) => {
       }
     }
 
-    if (account && chainId && web3) fetchClaim()
+    if (account && validChains.includes(chainId) && web3) fetchClaim()
   }, [account, chainId, web3, fetch])
 
   return claim

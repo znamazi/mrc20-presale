@@ -83,7 +83,7 @@ const Home = () => {
         console.log('Error happend in fetchClaimTime', error)
       }
     }
-    if (web3) fetchClaimTime()
+    if (web3 && validChains.includes(chainId)) fetchClaimTime()
   }, [chainId, web3])
   // check Network
   React.useEffect(() => {
@@ -183,6 +183,11 @@ const Home = () => {
   React.useEffect(() => {
     try {
       if (maxAllocation && usedAmount) {
+        console.log(
+          maxAllocation,
+          usedAmount,
+          new BigNumber(maxAllocation).minus(usedAmount).toFixed(3)
+        )
         setAllocation(new BigNumber(maxAllocation).minus(usedAmount).toFixed(3))
       }
     } catch (error) {
@@ -210,7 +215,7 @@ const Home = () => {
             presaleTokenBalance
           }
         })
-      } catch (error) { }
+      } catch (error) {}
     }
     if (account && validChains.includes(chainId) && web3) {
       fetchBalances()
@@ -515,8 +520,8 @@ const Home = () => {
         const errorMessage = muonResponse.error?.message
           ? muonResponse.error.message
           : muonResponse.error
-            ? muonResponse.error
-            : 'Muon response failed'
+          ? muonResponse.error
+          : 'Muon response failed'
         dispatch({
           type: 'UPDATE_TRANSACTION',
           payload: {
@@ -768,7 +773,7 @@ const Home = () => {
             lockType={lockType}
           />
         </Wrapper>
-        <ClaimWrapper maxWidth="300px" width="100%" >
+        <ClaimWrapper maxWidth="300px" width="100%">
           {state.transaction.status && <CustomTransaction />}
           {claim > 0 && (
             <Claim

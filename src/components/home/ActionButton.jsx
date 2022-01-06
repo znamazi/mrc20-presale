@@ -24,7 +24,7 @@ const ActionButton = (props) => {
     disable,
     loading,
     setLock,
-    lockType,
+    lockType
   } = props
   let content = ''
   const { chainId, account } = useWeb3React()
@@ -51,7 +51,8 @@ const ActionButton = (props) => {
         >
           <Type.MD
             color={approveStatus ? '#313144' : '#ffffff'}
-            fontSizeXS="16px" fontWeight="bold"
+            fontSizeXS="16px"
+            fontWeight="bold"
           >
             {approveStatus ? 'Approving ...' : 'Approve'}
           </Type.MD>
@@ -66,30 +67,53 @@ const ActionButton = (props) => {
         <Button
           margin="25px 0 "
           background={
-            disable ?
-              lockType === LockType.Cooldown ? '#FFB800' :
-                '#9d9d9d' : swapStatus ? '#B4B3FD' : '#5F5CFE'}
+            disable
+              ? lockType === LockType.Cooldown
+                ? '#FFB800'
+                : '#9d9d9d'
+              : swapStatus
+              ? '#B4B3FD'
+              : '#5F5CFE'
+          }
           border={swapStatus ? '1px solid #5F5CFE' : 'transparent'}
           onClick={handleSwap}
           cursor={swapStatus || disable ? 'default' : 'pointer'}
-        // disabled={disable} //now we show popup
+          // disabled={disable} //now we show popup
         >
           <Flex justifyContent="center" alignItems="center">
-            {disable ?
+            {disable ? (
               <>
-                <Type.MD color={swapStatus ? '#313144' : '#ffffff'} fontSizeXS="16px" fontWeight="bold">
-                  {lockType === LockType.Cooldown ? "Cooldown, next swap in" : "Swap available in"}
+                <Type.MD
+                  color={swapStatus ? '#313144' : '#ffffff'}
+                  fontSizeXS="16px"
+                  fontWeight="bold"
+                >
+                  {lockType === LockType.Cooldown
+                    ? 'Cooldown, next swap in'
+                    : 'Swap available in'}
                 </Type.MD>
-                <Type.MD ml="5px" color={'#ffffff'} fontSizeXS="16px" fontWeight="bold" >
+                <Type.MD
+                  ml="5px"
+                  color={'#ffffff'}
+                  fontSizeXS="16px"
+                  fontWeight="bold"
+                >
                   <CountDown date={moment(disable)} setLock={setLock} />
                 </Type.MD>
               </>
-              : <Type.MD
+            ) : (
+              <Type.MD
                 color={swapStatus ? '#313144' : '#ffffff'}
-                fontSizeXS="16px" fontWeight="bold"
+                fontSizeXS="16px"
+                fontWeight="bold"
               >
-                {swapStatus ? 'Swapping ...' : loading ? 'Getting Signatures' : 'Swap'}
-              </Type.MD>}
+                {swapStatus
+                  ? 'Swapping ...'
+                  : loading
+                  ? 'Getting Signatures'
+                  : 'Swap'}
+              </Type.MD>
+            )}
             {loading && (
               <ImageSpin src="/media/common/loading.svg" alt="loading" />
             )}
@@ -100,7 +124,12 @@ const ActionButton = (props) => {
     case 'select':
       content = (
         <Button margin="25px 0 " cursor="default">
-          <Type.MD color="#909090" fontSizeXS="16px" fontSizeXXS="14px" fontWeight="bold">
+          <Type.MD
+            color="#909090"
+            fontSizeXS="16px"
+            fontSizeXXS="14px"
+            fontWeight="bold"
+          >
             Enter amount
           </Type.MD>
         </Button>
@@ -116,15 +145,20 @@ const ActionButton = (props) => {
       {account ? (
         wrongNetwork || validChainId ? (
           <Button
-            margin="25px 0 "
-            background="rgba(255, 164, 81, 0.2)"
+            margin="50px 0 0"
+            background={wrongNetwork ? '#DC0000' : 'rgba(255, 164, 81, 0.2)'}
             border="1px solid rgba(255, 164, 81, 1)"
-            cursor="pointer"
-            active={true}
-            onClick={() => (addRPC(validChainId))}
+            cursor="default"
+            onClick={() => (wrongNetwork ? undefined : addRPC(validChainId))}
           >
-            <Type.MD color="rgba(49, 49, 68, 1)" fontSizeXS="16px" fontWeight="bold">
-              Switch to {NameChainMap[validChainId]}
+            <Type.MD
+              color={wrongNetwork ? '#ffffff' : 'rgba(49, 49, 68, 1)'}
+              fontSizeXS="16px"
+              fontWeight="bold"
+            >
+              {wrongNetwork
+                ? 'Wrong Network'
+                : ` Switch to ${NameChainMap[validChainId]}`}
             </Type.MD>
           </Button>
         ) : (
