@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 import Muon, { async } from 'muon'
 import { useWeb3React } from '@web3-react/core'
 
-import { Container, Wrapper } from '../src/components/home'
+import { Container, Wrapper, ClaimWrapper } from '../src/components/home'
 import WalletModal from '../src/components/common/WalletModal'
 import { presaleToken, title, validChains } from '../src/constants/settings'
 import { useMuonState } from '../src/context'
@@ -66,6 +66,11 @@ const Home = () => {
   // Get claim Time
   React.useEffect(() => {
     const fetchClaimTime = async () => {
+      if (!MRC20Presale[chainId]) {
+        console.log(`there isn't presale contract in chainId = ${chainId}`)
+        return
+      }
+
       try {
         const contract = getContract(
           MRC20Presale_ABI,
@@ -205,7 +210,7 @@ const Home = () => {
             presaleTokenBalance
           }
         })
-      } catch (error) {}
+      } catch (error) { }
     }
     if (account && validChains.includes(chainId) && web3) {
       fetchBalances()
@@ -510,8 +515,8 @@ const Home = () => {
         const errorMessage = muonResponse.error?.message
           ? muonResponse.error.message
           : muonResponse.error
-          ? muonResponse.error
-          : 'Muon response failed'
+            ? muonResponse.error
+            : 'Muon response failed'
         dispatch({
           type: 'UPDATE_TRANSACTION',
           payload: {
@@ -763,7 +768,7 @@ const Home = () => {
             lockType={lockType}
           />
         </Wrapper>
-        <Wrapper maxWidth="340px" width="100%">
+        <ClaimWrapper maxWidth="300px" width="100%" >
           {state.transaction.status && <CustomTransaction />}
           {claim > 0 && (
             <Claim
@@ -772,7 +777,7 @@ const Home = () => {
               handleClaim={handleClaim}
             />
           )}
-        </Wrapper>
+        </ClaimWrapper>
       </Container>
 
       {showLock}
