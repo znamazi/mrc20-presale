@@ -43,19 +43,47 @@ const ActionButton = (props) => {
           background="#5F5CFE"
           onClick={handleApprove}
           background={
-            disable ? '#9d9d9d' : approveStatus ? '#B4B3FD' : '#5F5CFE'
+            disable
+              ? lockType === LockType.Cooldown
+                ? '#FFB800'
+                : '#9d9d9d'
+              : approveStatus
+              ? '#B4B3FD'
+              : '#5F5CFE'
           }
           border={approveStatus ? '1px solid #5F5CFE' : 'transparent'}
           cursor={approveStatus || disable ? 'default' : 'pointer'}
           disabled={disable}
         >
-          <Type.MD
-            color={approveStatus ? '#313144' : '#ffffff'}
-            fontSizeXS="16px"
-            fontWeight="bold"
-          >
-            {approveStatus ? 'Approving ...' : 'Approve'}
-          </Type.MD>
+          {disable ? (
+            <>
+              <Type.MD
+                color={swapStatus ? '#313144' : '#ffffff'}
+                fontSizeXS="16px"
+                fontWeight="bold"
+              >
+                {lockType === LockType.Cooldown
+                  ? 'Cooldown, next swap in'
+                  : 'Swap available in'}
+              </Type.MD>
+              <Type.MD
+                ml="5px"
+                color={'#ffffff'}
+                fontSizeXS="16px"
+                fontWeight="bold"
+              >
+                <CountDown date={moment(disable)} setLock={setLock} />
+              </Type.MD>
+            </>
+          ) : (
+            <Type.MD
+              color={approveStatus ? '#313144' : '#ffffff'}
+              fontSizeXS="16px"
+              fontWeight="bold"
+            >
+              {approveStatus ? 'Approving ...' : 'Approve'}
+            </Type.MD>
+          )}
         </Button>
       )
       break

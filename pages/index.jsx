@@ -111,6 +111,7 @@ const Home = () => {
 
   // check lock
   React.useEffect(() => {
+    console.log({ muonLock })
     setLock(muonLock.expire)
     setPublicTime(muonLock.publicTime)
   }, [muonLock])
