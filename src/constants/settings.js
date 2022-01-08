@@ -10,18 +10,18 @@ export const networks = [
     name: 'Rinkeby',
     symbol: 'ETH',
     tokens: [
-      {
-        logo: '/media/tokens/eth.svg',
-        symbol: 'ETH',
-        address: '0x0000000000000000000000000000000000000000',
-        decimals: 18
-      },
-      {
-        logo: '/media/tokens/ert.svg',
-        symbol: 'ERT',
-        address: '0xb9B5FFC3e1404E3Bb7352e656316D6C5ce6940A1',
-        decimals: 18
-      },
+      // {
+      //   logo: '/media/tokens/eth.svg',
+      //   symbol: 'ETH',
+      //   address: '0x0000000000000000000000000000000000000000',
+      //   decimals: 18
+      // },
+      // {
+      //   logo: '/media/tokens/ert.svg',
+      //   symbol: 'ERT',
+      //   address: '0xb9B5FFC3e1404E3Bb7352e656316D6C5ce6940A1',
+      //   decimals: 18
+      // },
       {
         logo: '/media/tokens/ert.svg',
         symbol: 'ERT_d6',
@@ -35,12 +35,12 @@ export const networks = [
     name: 'BSC_Test',
     symbol: 'BSC',
     tokens: [
-      {
-        logo: '/media/tokens/bnb.svg',
-        symbol: 'BNB',
-        address: '0x0000000000000000000000000000000000000000',
-        decimals: 18
-      },
+      // {
+      //   logo: '/media/tokens/bnb.svg',
+      //   symbol: 'BNB',
+      //   address: '0x0000000000000000000000000000000000000000',
+      //   decimals: 18
+      // },
       {
         logo: '/media/tokens/ert.svg',
         symbol: 'ERT_d6',
