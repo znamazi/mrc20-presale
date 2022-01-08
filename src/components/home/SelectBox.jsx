@@ -27,7 +27,7 @@ const InputPanelWrap = styled.div`
   justify-content: space-between;
   align-items: center;
   background: #2b2b3c;
-  border: 1px solid #ffffff;
+  border: ${({ border }) => (border ? border : '1px solid #ffffff')};
   border-radius: 5px;
   padding: 5px 10px;
   height: 45px;
@@ -142,7 +142,9 @@ const SelectBox = (props) => {
           )}
         </Flex>
       </Flex>
-      <InputPanelWrap>
+      <InputPanelWrap
+        border={error && error.type && error.label === label && '2px solid red'}
+      >
         <Input
           aria-label={`${label}-input`}
           type="number"
@@ -154,9 +156,6 @@ const SelectBox = (props) => {
           disabled={lock}
           color={'#ffffff'}
           fontSize={'20px'}
-          border={
-            error && error.type && error.label === label && '1px solid red'
-          }
         />
 
         {label === LabelStatus.FROM ? (

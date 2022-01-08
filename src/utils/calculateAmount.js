@@ -2,10 +2,12 @@ import { LabelStatus } from '../constants/constants'
 import { fromWei, toBN, toWei } from './utils'
 
 const calculateAmount = (token, presaleToken, label, value) => {
-  let fixedValue = Number(value).toFixed(token.decimals)
   if (!value) {
     return { valueFrom: '', valueTo: '' }
   }
+
+  let fixedValue = Number(value).toFixedDown(token.decimals).toString()
+
   let valueFrom, valueTo
   let tokenPrice = toBN(toWei(token.price.toString(), 18))
   let presaleTokenPrice = toBN(toWei(presaleToken.price.toString(), 18))

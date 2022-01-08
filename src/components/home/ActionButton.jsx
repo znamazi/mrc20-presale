@@ -148,7 +148,7 @@ const ActionButton = (props) => {
             margin="50px 0 0"
             background={'rgba(255, 164, 81, 0.2)'}
             border="1px solid rgba(255, 164, 81, 1)"
-            onClick={() => (wrongNetwork ? undefined : addRPC(validChainId))}
+            onClick={() => addRPC(validChainId)}
           >
             <Type.MD
               color={'rgba(49, 49, 68, 1)'}

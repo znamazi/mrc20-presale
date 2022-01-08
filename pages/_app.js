@@ -4,6 +4,7 @@ import Web3ReactManager from '../src/utils/Web3ReactManager'
 import GlobalStyle from '../styles/GlobalStyle'
 import Layout from '../src/components/layouts'
 import { MuonProvider } from '../src/context'
+import '../src/utils/toFixedDown'
 
 function MyApp({ Component, pageProps }) {
   return (

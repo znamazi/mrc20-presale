@@ -254,7 +254,10 @@ const Home = () => {
   // handle Amount
   React.useEffect(() => {
     if (prices && state.amount.from > 0)
-      handleAmount(state.amount[state.amount.type], state.amount.type)
+      handleAmount(
+        state.amount[state.amount.type.toLowerCase()],
+        state.amount.type
+      )
   }, [state.selectedToken, prices])
 
   // check Approve
@@ -491,10 +494,9 @@ const Home = () => {
     }
     setLoading(true)
     try {
-      let fixedValue = Number(state.amount.from).toFixed(
-        state.selectedToken.decimals
-      )
-
+      let fixedValue = Number(state.amount.from)
+        .toFixedDown(state.selectedToken.decimals)
+        .toString()
       const muonResponse = await muon
         .app('fear_presale')
         .method('deposit', {
@@ -503,11 +505,7 @@ const Home = () => {
           token: state.selectedToken.symbol,
           chainId: state.selectedChain.id,
           sign,
-          amount: toWei(fixedValue, state.selectedToken.decimals),
-          presaleToken: {
-            decimals: presaleToken.decimals,
-            price: presaleToken.price
-          }
+          amount: toWei(fixedValue, state.selectedToken.decimals)
         })
         .call()
       if (!muonResponse.confirmed) {
@@ -529,6 +527,8 @@ const Home = () => {
         })
         if (muonResponse.error.lockTime) {
           setLock(muonResponse.error.expireAt)
+        } else {
+          setFetch(Date.now())
         }
         setLoading(false)
 
@@ -618,6 +618,8 @@ const Home = () => {
                 decimals: state.selectedToken.decimals
               }
             })
+            setFetch(Date.now())
+
             return
           }
 
@@ -634,6 +636,7 @@ const Home = () => {
               decimals: state.selectedToken.decimals
             }
           })
+          setFetch(Date.now())
         })
     } catch (error) {
       setLoading(false)
@@ -649,6 +652,8 @@ const Home = () => {
           decimals: state.selectedToken.decimals
         }
       })
+      setFetch(Date.now())
+
       console.log('error happened in Swap', error)
     }
   }
