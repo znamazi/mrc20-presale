@@ -11,6 +11,7 @@ import styled from 'styled-components'
 const ClaimWrap = styled(Box)`
     margin: auto;
     margin-top: 20px;
+    margin-bottom: 10px;
     border-radius: 15px;
     box-shadow: 0px 0px 9px 1px #98b7;
     padding:15px 15px 5px;
@@ -43,16 +44,18 @@ const Claim = (props) => {
       </Flex>
       {lock && (
         <Flex
-          justifyContent="center"
+          justifyContent="space-between"
           alignItems="center"
-          flexDirection="column"
           fontSize={"15px"}
+          width={"100%"}
+          marginTop="10px"
         >
+          <Type.SM>claimable in</Type.SM>
           <CountDown date={claimTime} setLock={() => setLock(false)} />
         </Flex>
       )}
       <Button
-        margin="25px 0  10px 0"
+        margin="15px 0  10px 0"
         background={lock ? '#9d9d9d' : '#5F5CFE'}
         disabled={lock}
         cursor={lock ? 'default' : 'pointer'}

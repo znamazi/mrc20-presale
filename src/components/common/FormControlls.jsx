@@ -7,7 +7,6 @@ export const Selector = styled.div`
   flex-direction: ${({ flexDirection }) => flexDirection};
   align-items: center;
   max-width: ${({ maxWidth }) => maxWidth};
-  /* width: 100%; */
   height: ${({ height }) => (height ? height : '45px')};
   background: ${({ background }) => (background ?? '#E6ECF2')};
   border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius : '5px')};
