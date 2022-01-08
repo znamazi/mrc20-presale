@@ -463,6 +463,7 @@ const Home = () => {
       setOpenUserNotExist(true)
       return
     }
+    if (lock) return
 
     if (
       !state.amount.from ||
