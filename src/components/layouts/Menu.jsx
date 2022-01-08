@@ -14,6 +14,8 @@ import { useMuonState } from '../../context'
 // import WalletModal from '../common/WalletModal'
 const WalletModal = dynamic(() => import('../common/WalletModal'))
 
+const Image = styled.img``
+
 const AppInfo = styled(Flex)`
   & > * {
     margin-right: 10px;
@@ -61,10 +63,16 @@ const Media = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  @media (min-width: 767px) {
+    display: none;
+  }
+`
+const WrapMuonNetwork = styled.div`
   @media (max-width: 767px) {
     display: none;
   }
 `
+
 const Label = styled.span`
   @media (max-width: 767px) {
     display: none;
@@ -87,7 +95,12 @@ const Menu = () => {
   return (
     <>
       <AppInfo>
-        <MuonNetwork logo="muonNetwork" />
+        <WrapMuonNetwork>
+          <MuonNetwork logo="muonNetwork" />
+        </WrapMuonNetwork>
+        <Media>
+          <Image src="/media/common/logo.svg" alt="logo" />
+        </Media>
       </AppInfo>
       <AppInfo>
         {account ? (
