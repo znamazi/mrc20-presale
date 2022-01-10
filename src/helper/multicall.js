@@ -1,4 +1,5 @@
 import { Interface } from '@ethersproject/abi'
+import { MAIN_TOKEN_ADDRESS } from '../constants/tokens'
 import { getMultiCallContract } from './contractHelpers'
 
 const multicall = async (web3, abi, calls, chainId) => {
@@ -12,7 +13,7 @@ const multicall = async (web3, abi, calls, chainId) => {
     ])
     const { returnData } = await multi.methods.aggregate(calldata).call()
     const res = returnData
-      .filter((item) => item !== '0x0000000000000000000000000000000000000000')
+      .filter((item) => item !== MAIN_TOKEN_ADDRESS)
       .map((call, i) => itf.decodeFunctionResult(calls[i].name, call))
     return res
   } catch (error) {

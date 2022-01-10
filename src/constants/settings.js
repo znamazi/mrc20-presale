@@ -1,3 +1,6 @@
+import { ChainMap } from './chainsMap'
+import { MAIN_TOKEN_ADDRESS, USDC_ADDRESS } from './tokens'
+
 export const title = 'Blood Token'
 
 // Launch price of 0.1 USD
@@ -13,7 +16,7 @@ export const networks = [
       // {
       //   logo: '/media/tokens/eth.svg',
       //   symbol: 'ETH',
-      //   address: '0x0000000000000000000000000000000000000000',
+      //   address:  MAIN_TOKEN_ADDRESS,
       //   decimals: 18
       // },
       // {
@@ -38,7 +41,7 @@ export const networks = [
       // {
       //   logo: '/media/tokens/bnb.svg',
       //   symbol: 'BNB',
-      //   address: '0x0000000000000000000000000000000000000000',
+      //   address: MAIN_TOKEN_ADDRESS,
       //   decimals: 18
       // },
       {
@@ -63,6 +66,36 @@ export const networks = [
     ]
   }
 ]
+
+// TODO: set the address mainnet
+export const tokensPrice = {
+  BUSD: {
+    decimals: 18,
+    address: USDC_ADDRESS[ChainMap.BSC_TESTNET],
+    price: 1
+  },
+  USDC: {
+    decimals: 6,
+    address: USDC_ADDRESS[ChainMap.RINKEBY],
+    price: 1
+  },
+  USD: {
+    decimals: 6,
+    address: USDC_ADDRESS[ChainMap.MATIC],
+    price: 1
+  },
+
+  ert_d6: {
+    decimals: 6,
+    address: '0xfBB0Aa52B82dD2173D8ce97065b2f421216A312A',
+    price: 1
+  },
+  ertmumbai: {
+    decimals: 18,
+    address: '0x701048911b1f1121E33834d3633227A954978d53',
+    price: 1
+  }
+}
 
 export const presaleToken = {
   name: 'Blood Token',

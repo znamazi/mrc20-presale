@@ -1,19 +1,23 @@
 import React from 'react'
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
-import Muon, { async } from 'muon'
+import Muon from 'muon'
 import { useWeb3React } from '@web3-react/core'
 
 import { Container, Wrapper, ClaimWrapper } from '../src/components/home'
 import WalletModal from '../src/components/common/WalletModal'
-import { presaleToken, title, validChains } from '../src/constants/settings'
+import {
+  presaleToken,
+  title,
+  tokensPrice,
+  validChains
+} from '../src/constants/settings'
 import { useMuonState } from '../src/context'
 import { NameChainMap } from '../src/constants/chainsMap'
 import getAssetBalances from '../src/helper/getAssetBalances'
 import { ERC20_ABI, MRC20Presale_ABI } from '../src/constants/ABI'
 import useWeb3 from '../src/hook/useWeb3'
 import { getTokenBalance } from '../src/helper/getTokenBalance'
-import { fetchApi } from '../src/helper/fetchApi'
 import { getContract } from '../src/helper/contractHelpers'
 import { MRC20Presale } from '../src/constants/contracts'
 import {
@@ -23,7 +27,7 @@ import {
 } from '../src/constants/transactionStatus'
 import { useUsedAmount } from '../src/hook/useUsedAmount'
 import { getMaxAllow } from '../src/utils/getMaxAllow'
-import { BN, fromWei, toBN, toWei } from '../src/utils/utils'
+import { toWei } from '../src/utils/utils'
 import { signMsg } from '../src/utils/signMsg'
 import allocations from '../src/constants/allocations.json'
 import BigNumber from 'bignumber.js'
@@ -34,6 +38,7 @@ import useClaimable from '../src/hook/useClaimable'
 import Claim from '../src/components/home/Claim'
 import UserNotExist from '../src/components/home/NotExistModal'
 import { LabelStatus } from '../src/constants/constants'
+import { MAIN_TOKEN_ADDRESS } from '../src/constants/tokens'
 const CustomTransaction = dynamic(() =>
   import('../src/components/common/CustomTransaction')
 )
@@ -47,7 +52,7 @@ const Home = () => {
 
   const [open, setOpen] = React.useState(false)
   const [wrongNetwork, setWrongNetwork] = React.useState(false)
-  const [prices, setPrices] = React.useState()
+  const [prices, setPrices] = React.useState(tokensPrice)
   const [maxAllocation, setMaxAllocation] = React.useState()
   const [allocation, setAllocation] = React.useState(0)
   const [error, setError] = React.useState('')
@@ -126,44 +131,6 @@ const Home = () => {
       }
     }
   }, [lock, allocation, publicTime])
-
-  // Fetch Price
-  React.useEffect(() => {
-    const fetchPrice = async () => {
-      // let tokens = await fetchApi('https://app.deus.finance/prices.json', {
-      //   cache: 'no-cache'
-      // })
-      let tokens = {
-        eth: {
-          decimals: 18,
-          address: '0x0000000000000000000000000000000000000000',
-          price: 4010.92
-        },
-        bnb: {
-          decimals: 18,
-          address: '0x0000000000000000000000000000000000000000',
-          price: 554.7
-        },
-        ert: {
-          decimals: 18,
-          address: '0xb9B5FFC3e1404E3Bb7352e656316D6C5ce6940A1',
-          price: 10
-        },
-        ert_d6: {
-          decimals: 6,
-          address: '0xfBB0Aa52B82dD2173D8ce97065b2f421216A312A',
-          price: 1
-        },
-        ertmumbai: {
-          decimals: 18,
-          address: '0x701048911b1f1121E33834d3633227A954978d53',
-          price: 1
-        }
-      }
-      setPrices(tokens)
-    }
-    fetchPrice()
-  }, [])
 
   // Max allocation
   React.useEffect(() => {
@@ -265,10 +232,7 @@ const Home = () => {
   React.useEffect(() => {
     let approve
     const checkApprove = async () => {
-      if (
-        state.selectedToken.address ==
-        '0x0000000000000000000000000000000000000000'
-      ) {
+      if (state.selectedToken.address == MAIN_TOKEN_ADDRESS) {
         approve = true
       } else {
         const Contract = getContract(
@@ -551,10 +515,7 @@ const Home = () => {
         web3
       )
       let sendArguments = { from: state.account }
-      if (
-        state.selectedToken.address ===
-        '0x0000000000000000000000000000000000000000'
-      ) {
+      if (state.selectedToken.address === MAIN_TOKEN_ADDRESS) {
         sendArguments['value'] = extraParameters[3]
       }
       Contract.methods
