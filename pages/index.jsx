@@ -83,6 +83,7 @@ const Home = () => {
           web3
         )
         const claimTime = await contract.methods.claimTime().call()
+        console.log({ claimTime })
         setClaimTime(claimTime * 1000)
       } catch (error) {
         console.log('Error happend in fetchClaimTime', error)
