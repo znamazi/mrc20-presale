@@ -83,7 +83,6 @@ const Home = () => {
           web3
         )
         const claimTime = await contract.methods.claimTime().call()
-        console.log({ claimTime })
         setClaimTime(claimTime * 1000)
       } catch (error) {
         console.log('Error happend in fetchClaimTime', error)
@@ -738,7 +737,7 @@ const Home = () => {
         </Wrapper>
         <ClaimWrapper maxWidth="300px" width="100%">
           {state.transaction.status && <CustomTransaction />}
-          {claim > 0 && (
+          {claim > 0 && claimTime && (
             <Claim
               amountClaim={claim}
               claimTime={claimTime}

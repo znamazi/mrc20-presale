@@ -24,7 +24,6 @@ const ClaimWrap = styled(Box)`
 const Claim = (props) => {
   const { amountClaim, claimTime, handleClaim } = props
   const [lock, setLock] = React.useState(Date.now() < claimTime)
-  console.log({ now: Date.now(), claimTime, lock })
   return (
     <ClaimWrap>
       <Flex width="100%">
