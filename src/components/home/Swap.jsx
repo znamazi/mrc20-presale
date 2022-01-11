@@ -2,8 +2,15 @@ import React from 'react'
 import { Flex, Image } from 'rebass'
 import { title } from '../../constants/settings'
 
-import { Title, GradientTitle, TriangleDown, BoxPresaleToken } from '.'
-import { Box, Container, FlexBetween } from '../common/Container'
+import {
+  Title,
+  GradientTitle,
+  TriangleDown,
+  BoxPresaleToken,
+  Paragraph,
+  RemainedAllocationContainer
+} from '.'
+import { Box, Container } from '../common/Container'
 import { Type } from '../common/Text'
 import Network from './Network'
 import SelectBox from './SelectBox'
@@ -76,25 +83,16 @@ const Swap = (props) => {
       </Container>
 
       {remainedAllocation !== undefined && Date.now() < publicTime && (
-        <FlexBetween
-          style={{
-            backgroundColor: '#d8dfe6',
-            padding: '10px 20px',
-            alignItems: 'center',
-            width: '100%',
-            borderRadius: '10px',
-            marginTop: '2px'
-          }}
-        >
-          <p style={{ fontSize: '10px' }} href="#">
+        <RemainedAllocationContainer>
+          <Paragraph fontSize="10px" href="#">
             Your Presale Allocation
-          </p>
-          <p style={{ fontSize: '13px', fontWeight: 'bold' }}>
+          </Paragraph>
+          <Paragraph fontSize="13px" fontWeight="bold">
             {remainedAllocation === 0
               ? 'Not eligible'
               : `$${remainedAllocation}`}
-          </p>
-        </FlexBetween>
+          </Paragraph>
+        </RemainedAllocationContainer>
       )}
 
       <ActionButton

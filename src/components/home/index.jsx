@@ -24,9 +24,9 @@ export const Container = styled.div`
 
 export const ClaimWrapper = styled(Box)`
   max-width: ${({ maxWidth }) => maxWidth};
-   
+
   @media screen and (max-width: 1200px) {
-    margin:20px auto 0 auto !important;
+    margin: 20px auto 0 auto !important;
   }
 `
 
@@ -117,4 +117,19 @@ export const ModalItem = styled.div`
   &:hover {
     background: #42425f;
   }
+`
+
+export const Paragraph = styled.p`
+  font-size: ${(fontSize) => fontSize};
+  font-weight: ${(fontWeight) => fontWeight};
+`
+
+export const RemainedAllocationContainer = styled(Flex)`
+  background-color: #d8dfe6;
+  padding: 10px 20px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 2px;
 `
