@@ -61,6 +61,7 @@ const Home = () => {
   const [loading, setLoading] = React.useState(false)
   const [fetch, setFetch] = React.useState()
   const [openUserNotExist, setOpenUserNotExist] = React.useState(false)
+  const [holderPublicTime, setHolderPublicTime] = React.useState()
   const [publicTime, setPublicTime] = React.useState()
   const [claimTime, setClaimTime] = React.useState()
 
@@ -90,6 +91,7 @@ const Home = () => {
     }
     if (web3 && validChains.includes(chainId)) fetchClaimTime()
   }, [chainId, web3])
+
   // check Network
   React.useEffect(() => {
     if (!validChains.includes(chainId)) {
@@ -119,6 +121,7 @@ const Home = () => {
     console.log({ muonLock })
     setLock(muonLock.expire)
     setPublicTime(muonLock.publicTime)
+    setHolderPublicTime(muonLock.holderPublicTime)
   }, [muonLock])
 
   // set lockType
@@ -297,7 +300,7 @@ const Home = () => {
         label,
         value
       )
-      let max = getMaxAllow(token, valueFrom, allocation, publicTime)
+      let max = getMaxAllow(token, valueFrom, allocation, holderPublicTime)
       let amount = {
         from: valueFrom,
         to: valueTo,
@@ -323,7 +326,7 @@ const Home = () => {
       try {
         let token = prices[state.selectedToken.symbol.toLowerCase()]
 
-        const max = getMaxAllow(token, balance, allocation, publicTime)
+        const max = getMaxAllow(token, balance, allocation, holderPublicTime)
         handleAmount(max, LabelStatus.FROM)
       } catch (error) {
         console.log('Error happened in handleMax', error)
@@ -731,6 +734,7 @@ const Home = () => {
             setLock={() => setLock(0)}
             loading={loading}
             publicTime={publicTime}
+            holderPublicTime={holderPublicTime}
             remainedAllocation={allocation}
             lockType={lockType}
           />

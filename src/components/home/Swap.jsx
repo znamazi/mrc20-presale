@@ -19,6 +19,7 @@ import ActionButton from './ActionButton'
 import MuonNetwork from '../common/MuonNetwork'
 import NetworkHint from '../common/NetworkHint'
 import { LabelStatus } from '../../constants/constants'
+import RemainedAllocation from './RemainedAllocation'
 
 const Swap = (props) => {
   let { state } = useMuonState()
@@ -37,8 +38,10 @@ const Swap = (props) => {
     error,
     remainedAllocation,
     publicTime,
+    holderPublicTime,
     lockType
   } = props
+  console.log({ lockType, lock })
   return (
     <Flex
       flexDirection="column"
@@ -82,18 +85,15 @@ const Swap = (props) => {
         </BoxPresaleToken>
       </Container>
 
-      {remainedAllocation !== undefined && Date.now() < publicTime && (
-        <RemainedAllocationContainer>
-          <Paragraph fontSize="10px" href="#">
-            Your Presale Allocation
-          </Paragraph>
-          <Paragraph fontSize="13px" fontWeight="bold">
-            {remainedAllocation === 0
-              ? 'Not eligible'
-              : `$${remainedAllocation}`}
-          </Paragraph>
-        </RemainedAllocationContainer>
-      )}
+      {lock && lockType === 'Allocation'
+        ? remainedAllocation !== undefined &&
+          Date.now() < publicTime && (
+            <RemainedAllocation remainedAllocation="Not eligible" />
+          )
+        : remainedAllocation !== undefined &&
+          Date.now() < holderPublicTime && (
+            <RemainedAllocation remainedAllocation={`$${remainedAllocation}`} />
+          )}
 
       <ActionButton
         wrongNetwork={wrongNetwork}
