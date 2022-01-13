@@ -63,8 +63,8 @@ const ActionButton = (props) => {
                 fontWeight="bold"
               >
                 {lockType === LockType.Cooldown
-                  ? 'Cooldown, next swap in'
-                  : 'Swap available in'}
+                  ? 'Cooldown, next deposit in'
+                  : 'Deposit available in'}
               </Type.MD>
               <Type.MD
                 ml="5px"
@@ -90,7 +90,7 @@ const ActionButton = (props) => {
     case 'swap':
       let swapStatus =
         state.transaction.status === TransactionStatus.PENDING &&
-        state.transaction.type === TransactionType.SWAP
+        state.transaction.type === TransactionType.DEPOSIT
       content = (
         <Button
           margin="25px 0 0"
@@ -117,8 +117,8 @@ const ActionButton = (props) => {
                   fontWeight="bold"
                 >
                   {lockType === LockType.Cooldown
-                    ? 'Cooldown, next swap in'
-                    : 'Swap available in'}
+                    ? 'Cooldown, next deposit in'
+                    : 'Deposit available in'}
                 </Type.MD>
                 <Type.MD
                   ml="5px"
@@ -136,10 +136,10 @@ const ActionButton = (props) => {
                 fontWeight="bold"
               >
                 {swapStatus
-                  ? 'Swapping ...'
+                  ? 'Depositing ...'
                   : loading
                   ? 'Getting Signatures'
-                  : 'Swap'}
+                  : 'Deposit'}
               </Type.MD>
             )}
             {loading && (

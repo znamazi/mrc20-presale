@@ -59,9 +59,9 @@ export const networks = [
     tokens: [
       {
         logo: '/media/tokens/ert.svg',
-        symbol: 'ERTMumbai',
-        address: '0x701048911b1f1121E33834d3633227A954978d53',
-        decimals: 18
+        symbol: 'ERT_d6',
+        address: '0x388ba511186Ac00D45d598f979f851c7E7910070',
+        decimals: 6
       }
     ]
   }

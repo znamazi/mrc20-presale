@@ -20,6 +20,7 @@ import MuonNetwork from '../common/MuonNetwork'
 import NetworkHint from '../common/NetworkHint'
 import { LabelStatus } from '../../constants/constants'
 import RemainedAllocation from './RemainedAllocation'
+import { LockType } from '../../constants/transactionStatus'
 
 const Swap = (props) => {
   let { state } = useMuonState()
@@ -41,7 +42,6 @@ const Swap = (props) => {
     holderPublicTime,
     lockType
   } = props
-  console.log({ lockType, lock })
   return (
     <Flex
       flexDirection="column"
@@ -85,7 +85,7 @@ const Swap = (props) => {
         </BoxPresaleToken>
       </Container>
 
-      {lock && lockType === 'Allocation'
+      {lock && lockType === LockType.Allocation
         ? remainedAllocation !== undefined &&
           Date.now() < publicTime && (
             <RemainedAllocation remainedAllocation="Not eligible" />

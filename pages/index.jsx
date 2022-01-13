@@ -39,6 +39,8 @@ import Claim from '../src/components/home/Claim'
 import UserNotExist from '../src/components/home/NotExistModal'
 import { LabelStatus } from '../src/constants/constants'
 import { MAIN_TOKEN_ADDRESS } from '../src/constants/tokens'
+import sendTx from '../src/utils/sendTx'
+
 const CustomTransaction = dynamic(() =>
   import('../src/components/common/CustomTransaction')
 )
@@ -118,7 +120,6 @@ const Home = () => {
 
   // check lock
   React.useEffect(() => {
-    console.log({ muonLock })
     setLock(muonLock.expire)
     setPublicTime(muonLock.publicTime)
     setHolderPublicTime(muonLock.holderPublicTime)
@@ -348,77 +349,29 @@ const Home = () => {
       ) {
         return
       }
-      let hash = ''
+      const sendArguments = { from: state.account }
+      const txInfo = {
+        chainId: state.selectedChain.id,
+        tokenSymbol: state.selectedToken.symbol
+      }
       let Contract = getContract(ERC20_ABI, state.selectedToken.address, web3)
-
-      Contract.methods
-        .approve(
-          MRC20Presale[state.selectedChain.id],
-          toWei('1000000000000000000')
-        )
-        .send({ from: state.account })
-        .once('transactionHash', (tx) => {
-          hash = tx
-          dispatch({
-            type: 'UPDATE_TRANSACTION',
-            payload: {
-              type: TransactionType.Approve,
-              hash,
-              message: 'Approving transaction is pending',
-              status: TransactionStatus.PENDING,
-              chainId: state.selectedChain.id,
-              tokenSymbol: state.selectedToken.symbol
-            }
-          })
+      sendTx(
+        dispatch,
+        Contract,
+        'approve',
+        [MRC20Presale[state.selectedChain.id], toWei('1000000000000000000')],
+        sendArguments,
+        txInfo
+      ).then(() => {
+        dispatch({
+          type: 'UPDATE_APPROVE',
+          payload: true
         })
-        .once('receipt', ({ transactionHash }) => {
-          dispatch({
-            type: 'UPDATE_TRANSACTION',
-            payload: {
-              type: TransactionType.Approve,
-              hash: transactionHash,
-              message: 'Transaction successful',
-              status: TransactionStatus.SUCCESS,
-              chainId: state.selectedChain.id,
-              tokenSymbol: state.selectedToken.symbol
-            }
-          })
-          dispatch({
-            type: 'UPDATE_APPROVE',
-            payload: true
-          })
-          dispatch({
-            type: 'UPDATE_ACTION_BUTTON_TYPE',
-            payload: 'swap'
-          })
+        dispatch({
+          type: 'UPDATE_ACTION_BUTTON_TYPE',
+          payload: 'swap'
         })
-        .once('error', (error) => {
-          if (!hash) {
-            dispatch({
-              type: 'UPDATE_TRANSACTION',
-              payload: {
-                type: TransactionType.Approve,
-                message: 'Transaction rejected',
-                status: TransactionStatus.FAILED,
-                chainId: state.selectedChain.id,
-                tokenSymbol: state.selectedToken.symbol
-              }
-            })
-            return
-          }
-
-          dispatch({
-            type: 'UPDATE_TRANSACTION',
-            payload: {
-              type: TransactionType.Approve,
-              hash,
-              message: 'Transaction failed',
-              status: TransactionStatus.FAILED,
-              chainId: state.selectedChain.id,
-              tokenSymbol: state.selectedToken.symbol
-            }
-          })
-        })
+      })
     } catch (error) {
       console.log('error happened in Approve', error)
     }
@@ -451,7 +404,7 @@ const Home = () => {
       dispatch({
         type: 'UPDATE_TRANSACTION',
         payload: {
-          type: TransactionType.SWAP,
+          type: TransactionType.DEPOSIT,
           message: 'Failed to sign',
           status: TransactionStatus.FAILED,
           chainId: state.selectedChain.id,
@@ -486,7 +439,7 @@ const Home = () => {
         dispatch({
           type: 'UPDATE_TRANSACTION',
           payload: {
-            type: TransactionType.SWAP,
+            type: TransactionType.DEPOSIT,
             message: errorMessage,
             status: TransactionStatus.FAILED,
             chainId: state.selectedChain.id,
@@ -511,7 +464,6 @@ const Home = () => {
         }
       } = muonResponse
       setLoading(false)
-      let hash = ''
       let Contract = getContract(
         MRC20Presale_ABI,
         MRC20Presale[state.selectedChain.id],
@@ -521,47 +473,22 @@ const Home = () => {
       if (state.selectedToken.address === MAIN_TOKEN_ADDRESS) {
         sendArguments['value'] = extraParameters[3]
       }
-      Contract.methods
-        .deposit(
-          token,
-          presaleTokenPrice,
-          forAddress,
-          extraParameters,
-          reqId,
-          sigs
-        )
-        .send(sendArguments)
-        .once('transactionHash', (tx) => {
-          hash = tx
-          dispatch({
-            type: 'UPDATE_TRANSACTION',
-            payload: {
-              type: TransactionType.SWAP,
-              hash,
-              message: 'Swap transaction is pending',
-              amount: state.amount.from,
-              status: TransactionStatus.PENDING,
-              chainId: state.selectedChain.id,
-              tokenSymbol: state.selectedToken.symbol,
-              decimals: state.selectedToken.decimals
-            }
-          })
-        })
-        .once('receipt', ({ transactionHash }) => {
-          dispatch({
-            type: 'UPDATE_TRANSACTION',
-            payload: {
-              type: TransactionType.SWAP,
-              hash: transactionHash,
-              message: 'Transaction successful',
-              amount: state.amount.from,
-              status: TransactionStatus.SUCCESS,
-              chainId: state.selectedChain.id,
-              tokenSymbol: state.selectedToken.symbol,
-              decimals: state.selectedToken.decimals
-            }
-          })
-          setFetch(transactionHash)
+      const txInfo = {
+        amount: state.amount.from,
+        chainId: state.selectedChain.id,
+        tokenSymbol: state.selectedToken.symbol,
+        decimals: state.selectedToken.decimals
+      }
+      sendTx(
+        dispatch,
+        Contract,
+        'deposit',
+        [token, presaleTokenPrice, forAddress, extraParameters, reqId, sigs],
+        sendArguments,
+        txInfo
+      )
+        .then(() => {
+          setFetch(Date.now())
           dispatch({
             type: 'UPDATE_AMOUNT',
             payload: {
@@ -570,38 +497,7 @@ const Home = () => {
             }
           })
         })
-        .once('error', (error) => {
-          if (!hash) {
-            dispatch({
-              type: 'UPDATE_TRANSACTION',
-              payload: {
-                type: TransactionType.SWAP,
-                message: 'Transaction rejected',
-                amount: state.amount.from,
-                status: TransactionStatus.FAILED,
-                chainId: state.selectedChain.id,
-                tokenSymbol: state.selectedToken.symbol,
-                decimals: state.selectedToken.decimals
-              }
-            })
-            setFetch(Date.now())
-
-            return
-          }
-
-          dispatch({
-            type: 'UPDATE_TRANSACTION',
-            payload: {
-              type: TransactionType.SWAP,
-              hash,
-              message: 'Transaction failed',
-              amount: state.amount.from,
-              status: TransactionStatus.FAILED,
-              chainId: state.selectedChain.id,
-              tokenSymbol: state.selectedToken.symbol,
-              decimals: state.selectedToken.decimals
-            }
-          })
+        .catch(() => {
           setFetch(Date.now())
         })
     } catch (error) {
@@ -610,7 +506,7 @@ const Home = () => {
       dispatch({
         type: 'UPDATE_TRANSACTION',
         payload: {
-          type: TransactionType.SWAP,
+          type: TransactionType.DEPOSIT,
           message: error.message,
           status: TransactionStatus.FAILED,
           chainId: state.selectedChain.id,
@@ -620,80 +516,30 @@ const Home = () => {
       })
       setFetch(Date.now())
 
-      console.log('error happened in Swap', error)
+      console.log('error happened in Deposit', error)
     }
   }
 
   const handleClaim = async () => {
-    let hash = ''
-
-    const contract = getContract(MRC20Presale_ABI, MRC20Presale[chainId], web3)
-    contract.methods
-      .claim()
-      .send({ from: account })
-      .once('transactionHash', (tx) => {
-        hash = tx
-        dispatch({
-          type: 'UPDATE_TRANSACTION',
-          payload: {
-            type: TransactionType.CLAIM,
-            hash,
-            message: 'Claim transaction is pending',
-            amount: claim,
-            status: TransactionStatus.PENDING,
-            chainId: chainId,
-            tokenSymbol: presaleToken.symbol,
-            decimals: presaleToken.decimals
-          }
-        })
-      })
-      .once('receipt', ({ transactionHash }) => {
-        dispatch({
-          type: 'UPDATE_TRANSACTION',
-          payload: {
-            type: TransactionType.CLAIM,
-            hash: transactionHash,
-            message: 'Transaction successfull',
-            amount: claim,
-            status: TransactionStatus.SUCCESS,
-            chainId: chainId,
-            tokenSymbol: presaleToken.symbol,
-            decimals: presaleToken.decimals
-          }
-        })
-        setFetch(transactionHash)
-      })
-      .once('error', (error) => {
-        if (!hash) {
-          dispatch({
-            type: 'UPDATE_TRANSACTION',
-            payload: {
-              type: TransactionType.CLAIM,
-              message: 'Transaction rejected',
-              amount: claim,
-              status: TransactionStatus.FAILED,
-              chainId: chainId,
-              tokenSymbol: presaleToken.symbol,
-              decimals: presaleToken.decimals
-            }
-          })
-          return
-        }
-
-        dispatch({
-          type: 'UPDATE_TRANSACTION',
-          payload: {
-            type: TransactionType.CLAIM,
-            hash,
-            message: 'Transaction failed',
-            amount: claim,
-            status: TransactionStatus.FAILED,
-            chainId: chainId,
-            tokenSymbol: presaleToken.symbol,
-            decimals: presaleToken.decimals
-          }
-        })
-      })
+    try {
+      const sendArguments = { from: account }
+      const txInfo = {
+        amount: claim,
+        chainId: chainId,
+        tokenSymbol: presaleToken.symbol,
+        decimals: presaleToken.decimals
+      }
+      const contract = getContract(
+        MRC20Presale_ABI,
+        MRC20Presale[chainId],
+        web3
+      )
+      sendTx(dispatch, contract, 'claim', '', sendArguments, txInfo).then(() =>
+        setFetch(Date.now())
+      )
+    } catch (error) {
+      console.log('error happend in Claim', error)
+    }
   }
 
   let showLock =

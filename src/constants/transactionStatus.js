@@ -10,8 +10,8 @@ export const LinkType = {
 }
 
 export const TransactionType = {
-  Approve: 'approve',
-  SWAP: 'swap',
+  APPROVE: 'Approve',
+  DEPOSIT: 'Deposit',
   CLAIM: 'Claim'
 }
 
@@ -19,4 +19,3 @@ export const LockType = {
   Cooldown: 'Cooldown',
   Allocation: 'Allocation'
 }
-
