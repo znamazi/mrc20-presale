@@ -163,7 +163,15 @@ const ActionButton = (props) => {
         </Button>
       )
       break
-
+    case 'soldOut':
+      content = (
+        <Button margin="25px 0 0" cursor="default" background="#FFB800">
+          <Type.MD color="#313144" fontWeight="bold">
+            Sold Out! BloodTokens are gone.
+          </Type.MD>
+        </Button>
+      )
+      break
     default:
       break
   }
@@ -189,6 +197,12 @@ const ActionButton = (props) => {
         ) : (
           content
         )
+      ) : state.actionBtnType === 'soldOut' ? (
+        <Button margin="25px 0 0" cursor="default" background="#FFB800">
+          <Type.MD color="#313144" fontWeight="bold">
+            Sold Out! BloodTokens are gone.
+          </Type.MD>
+        </Button>
       ) : (
         <Button
           margin="25px 0 0"

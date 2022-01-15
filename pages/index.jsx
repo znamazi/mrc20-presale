@@ -4,7 +4,12 @@ import dynamic from 'next/dynamic'
 import Muon from 'muon'
 import { useWeb3React } from '@web3-react/core'
 
-import { Container, Wrapper, ClaimWrapper } from '../src/components/home'
+import {
+  Container,
+  Wrapper,
+  ClaimWrapper,
+  SoldOut
+} from '../src/components/home'
 import WalletModal from '../src/components/common/WalletModal'
 import {
   presaleToken,
@@ -40,6 +45,8 @@ import UserNotExist from '../src/components/home/NotExistModal'
 import { LabelStatus } from '../src/constants/constants'
 import { MAIN_TOKEN_ADDRESS } from '../src/constants/tokens'
 import sendTx from '../src/utils/sendTx'
+import { Type } from '../src/components/common/Text'
+import useTokenLeft from '../src/hook/useTokenLeft'
 
 const CustomTransaction = dynamic(() =>
   import('../src/components/common/CustomTransaction')
@@ -66,10 +73,12 @@ const Home = () => {
   const [holderPublicTime, setHolderPublicTime] = React.useState()
   const [publicTime, setPublicTime] = React.useState()
   const [claimTime, setClaimTime] = React.useState()
+  const [totalTokenLeft, setTotalTokenLeft] = React.useState()
 
   let usedAmount = useUsedAmount(fetch)
   let muonLock = useMuonLock(fetch)
   let claim = useClaimable(fetch)
+  let tokenLeft = useTokenLeft(fetch)
 
   // Get claim Time
   React.useEffect(() => {
@@ -124,6 +133,18 @@ const Home = () => {
     setPublicTime(muonLock.publicTime)
     setHolderPublicTime(muonLock.holderPublicTime)
   }, [muonLock])
+
+  React.useEffect(() => {
+    if (tokenLeft === 0) {
+      setLockType(LockType.SOLD_OUT)
+      setLock(true)
+      dispatch({
+        type: 'UPDATE_ACTION_BUTTON_TYPE',
+        payload: 'soldOut'
+      })
+    }
+    setTotalTokenLeft(tokenLeft)
+  }, [tokenLeft])
 
   // set lockType
   React.useEffect(() => {
@@ -251,12 +272,18 @@ const Home = () => {
       if (approve !== '0') {
         dispatch({
           type: 'UPDATE_APPROVE',
-          payload: true
+          payload: {
+            approve: true,
+            btnType: totalTokenLeft === 0 ? 'soldOut' : 'swap'
+          }
         })
       } else {
         dispatch({
           type: 'UPDATE_APPROVE',
-          payload: false
+          payload: {
+            approve: false,
+            btnType: totalTokenLeft === 0 ? 'soldOut' : 'approve'
+          }
         })
       }
     }
@@ -315,7 +342,15 @@ const Home = () => {
       })
       dispatch({
         type: 'UPDATE_AMOUNT',
-        payload: { amount, btnType: state.approve ? 'swap' : 'approve' }
+        payload: {
+          amount,
+          btnType:
+            totalTokenLeft === 0
+              ? 'soldOut'
+              : state.approve
+              ? 'swap'
+              : 'approve'
+        }
       })
     } catch (error) {
       console.log('Error happened in HandleAmount', error)
@@ -365,7 +400,7 @@ const Home = () => {
       ).then(() => {
         dispatch({
           type: 'UPDATE_APPROVE',
-          payload: true
+          payload: { approve: true }
         })
         dispatch({
           type: 'UPDATE_ACTION_BUTTON_TYPE',
@@ -560,30 +595,44 @@ const Home = () => {
       <Head>
         <title>{`${title} Presale`}</title>
       </Head>
-
+      {totalTokenLeft === 0 && (
+        <SoldOut>
+          <Type.XXXL
+            color="#5551FF"
+            fontSize="100px"
+            fontWeight="bold"
+            fontSizeXS="65px"
+          >
+            SOLD OUT!
+          </Type.XXXL>
+        </SoldOut>
+      )}
       <Container>
-        <Wrapper maxWidth="340px" width="100%"></Wrapper>
+        <Wrapper maxWidth="300px" width="100%"></Wrapper>
         <Wrapper maxWidth="470px" width="100%" margin={'auto'}>
-          <Swap
-            changeChain={changeChain}
-            handleConnectWallet={handleConnectWallet}
-            wrongNetwork={wrongNetwork}
-            changeToken={changeToken}
-            handleAmount={handleAmount}
-            handleApprove={handleApprove}
-            handleMax={handleMax}
-            handleSwap={handleSwap}
-            openUserNotExist={openUserNotExist}
-            setOpenUserNotExist={setOpenUserNotExist}
-            error={error}
-            lock={lock}
-            setLock={() => setLock(0)}
-            loading={loading}
-            publicTime={publicTime}
-            holderPublicTime={holderPublicTime}
-            remainedAllocation={allocation}
-            lockType={lockType}
-          />
+          {totalTokenLeft !== undefined && (
+            <Swap
+              changeChain={changeChain}
+              handleConnectWallet={handleConnectWallet}
+              wrongNetwork={wrongNetwork}
+              changeToken={changeToken}
+              handleAmount={handleAmount}
+              handleApprove={handleApprove}
+              handleMax={handleMax}
+              handleSwap={handleSwap}
+              openUserNotExist={openUserNotExist}
+              setOpenUserNotExist={setOpenUserNotExist}
+              error={error}
+              lock={lock}
+              setLock={() => setLock(0)}
+              loading={loading}
+              publicTime={publicTime}
+              holderPublicTime={holderPublicTime}
+              remainedAllocation={allocation}
+              lockType={lockType}
+              totalTokenLeft={totalTokenLeft}
+            />
+          )}
         </Wrapper>
         <ClaimWrapper maxWidth="300px" width="100%">
           {state.transaction.status && <CustomTransaction />}

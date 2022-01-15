@@ -2,14 +2,7 @@ import React from 'react'
 import { Flex, Image } from 'rebass'
 import { title } from '../../constants/settings'
 
-import {
-  Title,
-  GradientTitle,
-  TriangleDown,
-  BoxPresaleToken,
-  Paragraph,
-  RemainedAllocationContainer
-} from '.'
+import { Title, GradientTitle, TriangleDown, BoxPresaleToken, InfoBox } from '.'
 import { Box, Container } from '../common/Container'
 import { Type } from '../common/Text'
 import Network from './Network'
@@ -40,7 +33,8 @@ const Swap = (props) => {
     remainedAllocation,
     publicTime,
     holderPublicTime,
-    lockType
+    lockType,
+    totalTokenLeft
   } = props
   return (
     <Flex
@@ -51,50 +45,76 @@ const Swap = (props) => {
     >
       <GradientTitle>{title} </GradientTitle>
       <Title>Presale</Title>
-      <Container>
-        <Box background="linear-gradient(0deg, #D3DBE3 0%, rgba(231, 235, 243, 0) 100%)">
-          <Flex width="100%" flexDirection="column">
-            <Network
-              label="Select Chain"
-              onChange={(data) => changeChain(data)}
-            />
-            <NetworkHint error={wrongNetwork} />
-            <SelectBox
-              label={LabelStatus.FROM}
-              amount={state.amount?.from}
-              selectedToken={state.selectedToken}
-              changeToken={changeToken}
-              handleAmount={handleAmount}
-              handleMax={handleMax}
-              error={error}
-              lock={lock}
-            />
-          </Flex>
-        </Box>
-        <TriangleDown />
-        <BoxPresaleToken>
-          <Flex flexDirection={`column`}>
-            <SelectBox
-              label={LabelStatus.TO}
-              amount={state.amount?.to}
-              selectedToken={state.presaleToken}
-              handleAmount={handleAmount}
-              lock={lock}
-            />
-          </Flex>
-        </BoxPresaleToken>
-      </Container>
+      <Flex flexDirection="column" opacity={totalTokenLeft === 0 ? '0.3' : '1'}>
+        <Flex width="100%" justifyContent="space-between">
+          <InfoBox>
+            <Flex alignItems="center">
+              <Image
+                src="/media/common/clock.svg"
+                alt="clock"
+                paddingRight="7px"
+              />
+              <Type.SM fontSize="11px">Time Left: 3h45m</Type.SM>
+            </Flex>
+          </InfoBox>
+          <InfoBox>
+            <Flex alignItems="center">
+              <Image
+                src="/media/common/bloodToken.svg"
+                alt="bloodToken"
+                paddingRight="7px"
+              />
+              <Type.SM fontSize="11px">{`BloodTokens Left: ${totalTokenLeft}`}</Type.SM>
+            </Flex>
+          </InfoBox>
+        </Flex>
+        <Container>
+          <Box background="linear-gradient(0deg, #D3DBE3 0%, rgba(231, 235, 243, 0) 100%)">
+            <Flex width="100%" flexDirection="column">
+              <Network
+                label="Select Chain"
+                onChange={(data) => changeChain(data)}
+                lock={lock}
+              />
+              <NetworkHint error={wrongNetwork} />
+              <SelectBox
+                label={LabelStatus.FROM}
+                amount={state.amount?.from}
+                selectedToken={state.selectedToken}
+                changeToken={changeToken}
+                handleAmount={handleAmount}
+                handleMax={handleMax}
+                error={error}
+                lock={lock}
+              />
+            </Flex>
+          </Box>
+          <TriangleDown />
+          <BoxPresaleToken>
+            <Flex flexDirection={`column`}>
+              <SelectBox
+                label={LabelStatus.TO}
+                amount={state.amount?.to}
+                selectedToken={state.presaleToken}
+                handleAmount={handleAmount}
+                lock={lock}
+              />
+            </Flex>
+          </BoxPresaleToken>
+        </Container>
 
-      {lock && lockType === LockType.Allocation
-        ? remainedAllocation !== undefined &&
-          Date.now() < publicTime && (
-            <RemainedAllocation remainedAllocation="Not eligible" />
-          )
-        : remainedAllocation !== undefined &&
-          Date.now() < holderPublicTime && (
-            <RemainedAllocation remainedAllocation={`$${remainedAllocation}`} />
-          )}
-
+        {lock && lockType === LockType.Allocation
+          ? remainedAllocation !== undefined &&
+            Date.now() < publicTime && (
+              <RemainedAllocation remainedAllocation="Not eligible" />
+            )
+          : remainedAllocation !== undefined &&
+            Date.now() < holderPublicTime && (
+              <RemainedAllocation
+                remainedAllocation={`$${remainedAllocation}`}
+              />
+            )}
+      </Flex>
       <ActionButton
         wrongNetwork={wrongNetwork}
         handleConnectWallet={handleConnectWallet}

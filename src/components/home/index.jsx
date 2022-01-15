@@ -133,3 +133,29 @@ export const RemainedAllocationContainer = styled(Flex)`
   border-radius: 10px;
   margin-top: 2px;
 `
+export const InfoBox = styled.div`
+  width: 201px;
+  height: 86px;
+  background: linear-gradient(
+    359.77deg,
+    rgba(211, 219, 227, 0.4) 0.2%,
+    rgba(248, 250, 255, 0) 62.45%
+  );
+  border-radius: 0px 0px 10px 10px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 5px;
+`
+
+export const SoldOut = styled.div`
+  width: 100%;
+  height: 123px;
+  position: absolute;
+  top: 40%;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  background: #acaff3;
+  justify-content: center;
+`

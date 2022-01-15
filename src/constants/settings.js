@@ -3,6 +3,8 @@ import { MAIN_TOKEN_ADDRESS, USDC_ADDRESS } from './tokens'
 
 export const title = 'Blood Token'
 
+export const IDO_PARTICIPANT_TOKENS = 2900000
+
 // Launch price of 0.1 USD
 
 export const LAUNCH_PRICE = 0.1

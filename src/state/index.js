@@ -75,8 +75,8 @@ export const reducer = (state, action) => {
     case 'UPDATE_APPROVE':
       newState = {
         ...state,
-        approve: action.payload,
-        actionBtnType: action.payload ? 'swap' : 'approve'
+        approve: action.payload.approve,
+        actionBtnType: action.payload.btnType
       }
       break
     case 'UPDATE_TRANSACTION':

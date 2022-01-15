@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   margin: 20px 18px 7px;
 `
 const Network = (props) => {
-  const { onChange, label } = props
+  const { onChange, label, lock } = props
   const [open, setOpen] = React.useState(false)
   const { state } = useMuonState()
 
@@ -40,6 +40,7 @@ const Network = (props) => {
   ))
 
   const handleOpenModal = () => {
+    if (lock) return
     setOpen(true)
   }
   return (

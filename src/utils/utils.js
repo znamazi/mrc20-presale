@@ -1,3 +1,4 @@
+import { async } from 'muon'
 import Web3 from 'web3'
 import { MRC20Presale_ABI } from '../constants/ABI'
 import { MRC20Presale } from '../constants/contracts'
@@ -20,6 +21,11 @@ export const getUsedAmount = async (account, chainId, web3) => {
   return fromWei(amount)
 }
 
+export const getTotalTokenBalance = async (chainId, web3) => {
+  const contract = getContract(MRC20Presale_ABI, MRC20Presale[chainId], web3)
+  const totalTokenBalance = await contract.methods.totalTokenBalance().call()
+  return totalTokenBalance
+}
 export const fromWei = (n, decimals = 18) => {
   let unitMap = Web3.utils.unitMap
   let unit = Object.keys(unitMap).find(

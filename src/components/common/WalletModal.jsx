@@ -4,7 +4,6 @@ import { useWeb3React } from '@web3-react/core'
 import { Image, Selector } from './FormControlls'
 import Modal from './Modal'
 import { ConnectorByName } from '../../utils/connectors'
-import { Item } from '../home/Network'
 import { ModalItem } from '../home'
 
 const WalletModal = (props) => {

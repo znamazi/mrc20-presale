@@ -16,6 +16,7 @@ export const TransactionType = {
 }
 
 export const LockType = {
+  SOLD_OUT: 'soldOut',
   Cooldown: 'Cooldown',
   Allocation: 'Allocation'
 }
