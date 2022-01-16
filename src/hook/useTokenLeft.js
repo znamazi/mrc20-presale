@@ -20,14 +20,15 @@ const useTokenLeft = (fetch) => {
 
         totalTokenBalance = {
           ...totalTokenBalance,
-          [chainId]: fromWei(purchase)
+          [chainId]: parseFloat(fromWei(purchase))
         }
       }
-      console.log(totalTokenBalance)
+      console.log(typeof totalTokenBalance[4])
       let sum = Object.keys(totalTokenBalance).reduce(
         (sum, chain) => sum + totalTokenBalance[chain],
         0
       )
+      console.log({ sum })
       let tokenLeft = IDO_PARTICIPANT_TOKENS - sum
 
       setTokenLeft(tokenLeft)

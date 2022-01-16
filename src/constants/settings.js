@@ -61,9 +61,9 @@ export const networks = [
     tokens: [
       {
         logo: '/media/tokens/ert.svg',
-        symbol: 'ERT_d6',
-        address: '0x388ba511186Ac00D45d598f979f851c7E7910070',
-        decimals: 6
+        symbol: 'ERT',
+        address: '0x701048911b1f1121E33834d3633227A954978d53',
+        decimals: 18
       }
     ]
   }
@@ -92,7 +92,7 @@ export const tokensPrice = {
     address: '0xfBB0Aa52B82dD2173D8ce97065b2f421216A312A',
     price: 1
   },
-  ertmumbai: {
+  ert: {
     decimals: 18,
     address: '0x701048911b1f1121E33834d3633227A954978d53',
     price: 1

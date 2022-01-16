@@ -135,6 +135,7 @@ const Home = () => {
   }, [muonLock])
 
   React.useEffect(() => {
+    console.log({ tokenLeft })
     if (tokenLeft === 0) {
       setLockType(LockType.SOLD_OUT)
       setLock(true)

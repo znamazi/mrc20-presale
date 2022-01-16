@@ -64,7 +64,9 @@ const Swap = (props) => {
                 alt="bloodToken"
                 paddingRight="7px"
               />
-              <Type.SM fontSize="11px">{`BloodTokens Left: ${totalTokenLeft}`}</Type.SM>
+              <Type.SM fontSize="11px">
+                {`BloodTokens Left: ${totalTokenLeft.toFixedDown(3)}`}
+              </Type.SM>
             </Flex>
           </InfoBox>
         </Flex>
