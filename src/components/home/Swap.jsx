@@ -2,7 +2,7 @@ import React from 'react'
 import { Flex, Image } from 'rebass'
 import { title } from '../../constants/settings'
 
-import { Title, GradientTitle, TriangleDown, BoxPresaleToken, InfoBox } from '.'
+import { Title, GradientTitle, TriangleDown, BoxPresaleToken } from '.'
 import { Box, Container } from '../common/Container'
 import { Type } from '../common/Text'
 import Network from './Network'
@@ -14,6 +14,7 @@ import NetworkHint from '../common/NetworkHint'
 import { LabelStatus } from '../../constants/constants'
 import RemainedAllocation from './RemainedAllocation'
 import { LockType } from '../../constants/transactionStatus'
+import InfoLeft from './InfoLeft'
 
 const Swap = (props) => {
   let { state } = useMuonState()
@@ -36,6 +37,8 @@ const Swap = (props) => {
     lockType,
     totalTokenLeft
   } = props
+  const [showTimeLeft, setShowTimeLeft] = React.useState(holderPublicTime)
+
   return (
     <Flex
       flexDirection="column"
@@ -46,30 +49,31 @@ const Swap = (props) => {
       <GradientTitle>{title} </GradientTitle>
       <Title>Presale</Title>
       <Flex flexDirection="column" opacity={totalTokenLeft === 0 ? '0.3' : '1'}>
-        <Flex width="100%" justifyContent="space-between">
-          <InfoBox>
-            <Flex alignItems="center">
-              <Image
-                src="/media/common/clock.svg"
-                alt="clock"
-                paddingRight="7px"
-              />
-              <Type.SM fontSize="11px">Time Left: 3h45m</Type.SM>
-            </Flex>
-          </InfoBox>
-          <InfoBox>
-            <Flex alignItems="center">
-              <Image
-                src="/media/common/bloodToken.svg"
-                alt="bloodToken"
-                paddingRight="7px"
-              />
-              <Type.SM fontSize="11px">
-                {`BloodTokens Left: ${totalTokenLeft.toFixedDown(3)}`}
-              </Type.SM>
-            </Flex>
-          </InfoBox>
-        </Flex>
+        {lock && lockType === LockType.Allocation ? (
+          <InfoLeft
+            showTimeLeft={publicTime}
+            setShowLeftTime={() => setShowTimeLeft(publicTime)}
+            totalTokenLeft={totalTokenLeft}
+            publicTime={publicTime}
+          />
+        ) : Date.now() < holderPublicTime ? (
+          <InfoLeft
+            showTimeLeft={showTimeLeft}
+            setShowLeftTime={() => setShowTimeLeft(publicTime)}
+            totalTokenLeft={totalTokenLeft}
+            publicTime={publicTime}
+          />
+        ) : (
+          <>
+            {console.log('************************')}
+            <InfoLeft
+              showTimeLeft={publicTime}
+              setShowLeftTime={() => setShowTimeLeft(publicTime)}
+              totalTokenLeft={totalTokenLeft}
+              publicTime={publicTime}
+            />
+          </>
+        )}
         <Container>
           <Box background="linear-gradient(0deg, #D3DBE3 0%, rgba(231, 235, 243, 0) 100%)">
             <Flex width="100%" flexDirection="column">

@@ -130,12 +130,12 @@ const Home = () => {
   // check lock
   React.useEffect(() => {
     setLock(muonLock.expire)
+    setLockType(muonLock.lockType)
     setPublicTime(muonLock.publicTime)
     setHolderPublicTime(muonLock.holderPublicTime)
   }, [muonLock])
 
   React.useEffect(() => {
-    console.log({ tokenLeft })
     if (tokenLeft === 0) {
       setLockType(LockType.SOLD_OUT)
       setLock(true)
@@ -147,16 +147,16 @@ const Home = () => {
     setTotalTokenLeft(tokenLeft)
   }, [tokenLeft])
 
-  // set lockType
-  React.useEffect(() => {
-    if (lock) {
-      if (Date.now() < publicTime && Number(allocation) <= 0) {
-        setLockType(LockType.Allocation)
-      } else {
-        setLockType(LockType.Cooldown)
-      }
-    }
-  }, [lock, allocation, publicTime])
+  // // set lockType
+  // React.useEffect(() => {
+  //   if (lock) {
+  //     if (Date.now() < publicTime && Number(allocation) <= 0) {
+  //       setLockType(LockType.Allocation)
+  //     } else {
+  //       setLockType(LockType.Cooldown)
+  //     }
+  //   }
+  // }, [lock, allocation, publicTime])
 
   // Max allocation
   React.useEffect(() => {

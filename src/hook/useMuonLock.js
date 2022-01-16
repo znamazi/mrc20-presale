@@ -20,12 +20,14 @@ export const useMuonLock = (fetch) => {
       if (muonResponse.lock) {
         setLock({
           expire: muonResponse.expireAt,
+          lockType: muonResponse.lockType,
           publicTime: muonResponse.PUBLIC_TIME,
           holderPublicTime: muonResponse.HOLDER_PUBLIC_TIME
         })
       } else {
         setLock({
           expire: 0,
+          lockType: 0,
           publicTime: muonResponse.PUBLIC_TIME,
           holderPublicTime: muonResponse.HOLDER_PUBLIC_TIME
         })
