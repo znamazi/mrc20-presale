@@ -41,7 +41,7 @@ const InfoLeft = ({
           />
           <Type.SM fontSize="11px">
             {`BloodTokens Left: ${
-              totalTokenLeft ? totalTokenLeft.toFixedDown(3) : ''
+              totalTokenLeft !== undefined ? totalTokenLeft.toFixedDown(3) : ''
             }`}
           </Type.SM>
         </Flex>

@@ -49,7 +49,11 @@ const Swap = (props) => {
     >
       <GradientTitle>{title} </GradientTitle>
       <Title>Presale</Title>
-      <Flex flexDirection="column" opacity={totalTokenLeft === 0 ? '0.3' : '1'}>
+      <Flex
+        flexDirection="column"
+        opacity={totalTokenLeft === 0 ? '0.3' : '1'}
+        width="100%"
+      >
         {lock && lockType === LockType.Allocation ? (
           <InfoLeft
             showTimeLeft={publicTime}

@@ -8,18 +8,18 @@ export const Selector = styled.div`
   align-items: center;
   max-width: ${({ maxWidth }) => maxWidth};
   height: ${({ height }) => (height ? height : '45px')};
-  background: ${({ background }) => (background ?? '#E6ECF2')};
+  background: ${({ background }) => background ?? '#E6ECF2'};
   border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius : '5px')};
   border: ${({ border }) => (border ? border : '1px solid #ffffff')};
-  color: ${({ color }) => (color ?? '#E6ECF2')};
+  color: ${({ color }) => color ?? '#E6ECF2'};
   padding: ${({ padding }) => padding};
   margin: ${({ margin }) => margin};
   cursor: ${({ cursor }) => (cursor ? cursor : 'default')};
   &:focus {
     outline: none;
   }
-  &:hover{
-    filter:brightness(0.9);
+  &:hover {
+    filter: brightness(0.9);
   }
 `
 export const Arrow = styled.img`
@@ -38,12 +38,16 @@ export const Button = styled.button`
   margin: ${({ margin }) => margin};
   cursor: ${({ cursor }) => (cursor ? cursor : 'pointer')};
 
-  &:hover{
-    filter: ${({ cursor }) => cursor === "pointer" ? "brightness(1.075)" : "brightness(1)"};
+  &:hover {
+    filter: ${({ cursor }) =>
+      cursor === 'pointer' ? 'brightness(1.075)' : 'brightness(1)'};
   }
 
   &:focus {
     outline: none;
+  }
+  @media screen and (max-width: 460px) {
+    max-width: 330px;
   }
 `
 export const BorderBottom = styled.div`
@@ -137,10 +141,10 @@ export const Input = styled.input`
   }
 `
 export const Image = styled.img`
-  width: ${({ width }) => (width ?? '26px')};
-  height: ${({ height }) => (height ?? '26px')};
+  width: ${({ width }) => width ?? '26px'};
+  height: ${({ height }) => height ?? '26px'};
   padding-right: ${({ paddingRight }) => paddingRight ?? '0'};
-  margin-right:${({ mr }) => mr ?? '0'};
+  margin-right: ${({ mr }) => mr ?? '0'};
 `
 export const ImageWithCursor = styled(Image)`
   cursor: pointer;

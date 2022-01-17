@@ -135,7 +135,7 @@ export const RemainedAllocationContainer = styled(Flex)`
 `
 export const InfoBox = styled.div`
   width: 201px;
-  height: 86px;
+  height: 65px;
   background: linear-gradient(
     359.77deg,
     rgba(211, 219, 227, 0.4) 0.2%,
