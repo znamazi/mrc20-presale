@@ -6,7 +6,7 @@ import CountDown from '../common/CountDown'
 
 const InfoLeft = ({
   showTimeLeft,
-  setShowLeftTime,
+  setShowTimeLeft,
   totalTokenLeft,
   publicTime
 }) => {
@@ -26,7 +26,7 @@ const InfoLeft = ({
             <Type.SM>
               <CountDown
                 date={showTimeLeft}
-                setLock={() => setShowLeftTime()}
+                setLock={() => setShowTimeLeft()}
               />
             </Type.SM>
           </Flex>
@@ -40,7 +40,9 @@ const InfoLeft = ({
             paddingRight="7px"
           />
           <Type.SM fontSize="11px">
-            {`BloodTokens Left: ${totalTokenLeft.toFixedDown(3)}`}
+            {`BloodTokens Left: ${
+              totalTokenLeft ? totalTokenLeft.toFixedDown(3) : ''
+            }`}
           </Type.SM>
         </Flex>
       </InfoBox>

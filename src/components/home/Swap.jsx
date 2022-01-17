@@ -35,9 +35,10 @@ const Swap = (props) => {
     publicTime,
     holderPublicTime,
     lockType,
-    totalTokenLeft
+    totalTokenLeft,
+    showTimeLeft,
+    setShowTimeLeft
   } = props
-  const [showTimeLeft, setShowTimeLeft] = React.useState(holderPublicTime)
 
   return (
     <Flex
@@ -52,14 +53,14 @@ const Swap = (props) => {
         {lock && lockType === LockType.Allocation ? (
           <InfoLeft
             showTimeLeft={publicTime}
-            setShowLeftTime={() => setShowTimeLeft(publicTime)}
+            setShowTimeLeft={() => setShowTimeLeft(publicTime)}
             totalTokenLeft={totalTokenLeft}
             publicTime={publicTime}
           />
         ) : Date.now() < holderPublicTime ? (
           <InfoLeft
             showTimeLeft={showTimeLeft}
-            setShowLeftTime={() => setShowTimeLeft(publicTime)}
+            setShowTimeLeft={() => setShowTimeLeft(publicTime)}
             totalTokenLeft={totalTokenLeft}
             publicTime={publicTime}
           />
@@ -68,7 +69,7 @@ const Swap = (props) => {
             {console.log('************************')}
             <InfoLeft
               showTimeLeft={publicTime}
-              setShowLeftTime={() => setShowTimeLeft(publicTime)}
+              setShowTimeLeft={() => setShowTimeLeft(publicTime)}
               totalTokenLeft={totalTokenLeft}
               publicTime={publicTime}
             />

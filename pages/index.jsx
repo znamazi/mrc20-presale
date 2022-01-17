@@ -74,6 +74,7 @@ const Home = () => {
   const [publicTime, setPublicTime] = React.useState()
   const [claimTime, setClaimTime] = React.useState()
   const [totalTokenLeft, setTotalTokenLeft] = React.useState()
+  const [showTimeLeft, setShowTimeLeft] = React.useState()
 
   let usedAmount = useUsedAmount(fetch)
   let muonLock = useMuonLock(fetch)
@@ -133,6 +134,7 @@ const Home = () => {
     setLockType(muonLock.lockType)
     setPublicTime(muonLock.publicTime)
     setHolderPublicTime(muonLock.holderPublicTime)
+    setShowTimeLeft(muonLock.holderPublicTime)
   }, [muonLock])
 
   React.useEffect(() => {
@@ -611,29 +613,31 @@ const Home = () => {
       <Container>
         <Wrapper maxWidth="300px" width="100%"></Wrapper>
         <Wrapper maxWidth="470px" width="100%" margin={'auto'}>
-          {totalTokenLeft !== undefined && (
-            <Swap
-              changeChain={changeChain}
-              handleConnectWallet={handleConnectWallet}
-              wrongNetwork={wrongNetwork}
-              changeToken={changeToken}
-              handleAmount={handleAmount}
-              handleApprove={handleApprove}
-              handleMax={handleMax}
-              handleSwap={handleSwap}
-              openUserNotExist={openUserNotExist}
-              setOpenUserNotExist={setOpenUserNotExist}
-              error={error}
-              lock={lock}
-              setLock={() => setLock(0)}
-              loading={loading}
-              publicTime={publicTime}
-              holderPublicTime={holderPublicTime}
-              remainedAllocation={allocation}
-              lockType={lockType}
-              totalTokenLeft={totalTokenLeft}
-            />
-          )}
+          {/* {totalTokenLeft !== undefined && ( */}
+          <Swap
+            changeChain={changeChain}
+            handleConnectWallet={handleConnectWallet}
+            wrongNetwork={wrongNetwork}
+            changeToken={changeToken}
+            handleAmount={handleAmount}
+            handleApprove={handleApprove}
+            handleMax={handleMax}
+            handleSwap={handleSwap}
+            openUserNotExist={openUserNotExist}
+            setOpenUserNotExist={setOpenUserNotExist}
+            error={error}
+            lock={lock}
+            setLock={() => setLock(0)}
+            loading={loading}
+            publicTime={publicTime}
+            holderPublicTime={holderPublicTime}
+            remainedAllocation={allocation}
+            lockType={lockType}
+            totalTokenLeft={totalTokenLeft}
+            showTimeLeft={showTimeLeft}
+            setShowTimeLeft={(time) => setShowTimeLeft(time)}
+          />
+          {/*  )} */}
         </Wrapper>
         <ClaimWrapper maxWidth="300px" width="100%">
           {state.transaction.status && <CustomTransaction />}
