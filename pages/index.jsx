@@ -138,15 +138,17 @@ const Home = () => {
   }, [muonLock])
 
   React.useEffect(() => {
-    if (tokenLeft.toFixedDown(3) === 0) {
-      setLockType(LockType.SOLD_OUT)
-      setLock(true)
-      dispatch({
-        type: 'UPDATE_ACTION_BUTTON_TYPE',
-        payload: 'soldOut'
-      })
+    if (tokenLeft) {
+      if (tokenLeft.toFixedDown(3) === 0) {
+        setLockType(LockType.SOLD_OUT)
+        setLock(true)
+        dispatch({
+          type: 'UPDATE_ACTION_BUTTON_TYPE',
+          payload: 'soldOut'
+        })
+      }
+      setTotalTokenLeft(tokenLeft)
     }
-    setTotalTokenLeft(tokenLeft)
   }, [tokenLeft])
 
   // // set lockType
