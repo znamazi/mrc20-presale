@@ -292,8 +292,16 @@ const Home = () => {
         })
       }
     }
-    if (account && web3 && state.selectedChain.id === chainId) checkApprove()
-  }, [account, state.selectedToken, web3, chainId, state.selectedChain])
+    if (account && web3 && state.selectedChain.id === chainId && totalTokenLeft)
+      checkApprove()
+  }, [
+    account,
+    state.selectedToken,
+    web3,
+    chainId,
+    state.selectedChain,
+    totalTokenLeft
+  ])
 
   const changeChain = (chain) => {
     let selectedToken = chain.tokens.find(
