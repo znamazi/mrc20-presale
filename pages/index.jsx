@@ -138,7 +138,7 @@ const Home = () => {
   }, [muonLock])
 
   React.useEffect(() => {
-    if (tokenLeft === 0) {
+    if (tokenLeft.toFixedDown(3) === 0) {
       setLockType(LockType.SOLD_OUT)
       setLock(true)
       dispatch({
@@ -598,7 +598,7 @@ const Home = () => {
       <Head>
         <title>{`${title} Presale`}</title>
       </Head>
-      {totalTokenLeft.toFixedDown(3) === 0 && (
+      {totalTokenLeft && totalTokenLeft.toFixedDown(3) === 0 && (
         <SoldOut>
           <Type.XXXL
             color="#5551FF"
