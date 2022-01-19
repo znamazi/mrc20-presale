@@ -51,7 +51,7 @@ const Swap = (props) => {
       <Title>Presale</Title>
       <Flex
         flexDirection="column"
-        opacity={totalTokenLeft === 0 ? '0.3' : '1'}
+        opacity={totalTokenLeft.toFixedDown(3) === 0 ? '0.3' : '1'}
         width="100%"
       >
         {lock && lockType === LockType.Allocation ? (

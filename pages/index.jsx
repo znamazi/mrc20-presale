@@ -277,7 +277,7 @@ const Home = () => {
           type: 'UPDATE_APPROVE',
           payload: {
             approve: true,
-            btnType: totalTokenLeft === 0 ? 'soldOut' : 'swap'
+            btnType: totalTokenLeft.toFixedDown(3) === 0 ? 'soldOut' : 'swap'
           }
         })
       } else {
@@ -285,7 +285,7 @@ const Home = () => {
           type: 'UPDATE_APPROVE',
           payload: {
             approve: false,
-            btnType: totalTokenLeft === 0 ? 'soldOut' : 'approve'
+            btnType: totalTokenLeft.toFixedDown(3) === 0 ? 'soldOut' : 'approve'
           }
         })
       }
@@ -348,7 +348,7 @@ const Home = () => {
         payload: {
           amount,
           btnType:
-            totalTokenLeft === 0
+            totalTokenLeft.toFixedDown(3) === 0
               ? 'soldOut'
               : state.approve
               ? 'swap'
@@ -598,7 +598,7 @@ const Home = () => {
       <Head>
         <title>{`${title} Presale`}</title>
       </Head>
-      {totalTokenLeft === 0 && (
+      {totalTokenLeft.toFixedDown(3) === 0 && (
         <SoldOut>
           <Type.XXXL
             color="#5551FF"
