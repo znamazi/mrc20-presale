@@ -138,17 +138,15 @@ const Home = () => {
   }, [muonLock])
 
   React.useEffect(() => {
-    if (tokenLeft) {
-      if (tokenLeft.toFixedDown(3) === 0) {
-        setLockType(LockType.SOLD_OUT)
-        setLock(true)
-        dispatch({
-          type: 'UPDATE_ACTION_BUTTON_TYPE',
-          payload: 'soldOut'
-        })
-      }
-      setTotalTokenLeft(tokenLeft)
+    if (tokenLeft < 10) {
+      setLockType(LockType.SOLD_OUT)
+      setLock(true)
+      dispatch({
+        type: 'UPDATE_ACTION_BUTTON_TYPE',
+        payload: 'soldOut'
+      })
     }
+    setTotalTokenLeft(tokenLeft)
   }, [tokenLeft])
 
   // // set lockType
@@ -279,7 +277,7 @@ const Home = () => {
           type: 'UPDATE_APPROVE',
           payload: {
             approve: true,
-            btnType: totalTokenLeft.toFixedDown(3) === 0 ? 'soldOut' : 'swap'
+            btnType: totalTokenLeft < 10 ? 'soldOut' : 'swap'
           }
         })
       } else {
@@ -287,7 +285,7 @@ const Home = () => {
           type: 'UPDATE_APPROVE',
           payload: {
             approve: false,
-            btnType: totalTokenLeft.toFixedDown(3) === 0 ? 'soldOut' : 'approve'
+            btnType: totalTokenLeft < 10 ? 'soldOut' : 'approve'
           }
         })
       }
@@ -358,11 +356,7 @@ const Home = () => {
         payload: {
           amount,
           btnType:
-            totalTokenLeft.toFixedDown(3) === 0
-              ? 'soldOut'
-              : state.approve
-              ? 'swap'
-              : 'approve'
+            totalTokenLeft < 10 ? 'soldOut' : state.approve ? 'swap' : 'approve'
         }
       })
     } catch (error) {
@@ -608,7 +602,7 @@ const Home = () => {
       <Head>
         <title>{`${title} Presale`}</title>
       </Head>
-      {totalTokenLeft && totalTokenLeft.toFixedDown(3) === 0 && (
+      {totalTokenLeft < 10 && (
         <SoldOut>
           <Type.XXXL
             color="#5551FF"

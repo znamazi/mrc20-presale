@@ -8,6 +8,7 @@ import { fromWei, getTotalTokenBalance } from '../utils/utils'
 const useTokenLeft = (fetch) => {
   const [tokenLeft, setTokenLeft] = useState()
   useEffect(() => {
+    // TODO await outside of for
     const fetchTotalTokenBalance = async () => {
       let totalTokenBalance = {}
       try {
@@ -15,7 +16,7 @@ const useTokenLeft = (fetch) => {
           const chainId = Object.keys(MRC20Presale)[index]
           const web3 = getWeb3NoAccount(chainId)
           let purchase = await getTotalTokenBalance(chainId, web3)
-
+          console.log({ purchase })
           totalTokenBalance = {
             ...totalTokenBalance,
             [chainId]: parseFloat(fromWei(purchase))
@@ -26,7 +27,7 @@ const useTokenLeft = (fetch) => {
           0
         )
         let tokenLeft = IDO_PARTICIPANT_TOKENS - sum
-
+        console.log('tokenLeft', tokenLeft)
         setTokenLeft(tokenLeft)
       } catch (error) {
         console.log('Error happend in tokenLeft', error)
