@@ -19,6 +19,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "muon": "github:muon-protocol/muon-client-js",
+    "muon-toolbox": "github:znamazi/muon-toolbox",
     "next": "12.0.5",
     "react": "17.0.2",
     "react-copy-to-clipboard": "^5.0.4",

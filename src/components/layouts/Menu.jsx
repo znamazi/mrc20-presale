@@ -11,6 +11,7 @@ import MuonNetwork from '../common/MuonNetwork'
 import { validChains } from '../../constants/settings'
 import { addRPC } from '../../helper/addRPC'
 import { useMuonState } from '../../context'
+import { MuonTools } from 'muon-toolbox'
 // import WalletModal from '../common/WalletModal'
 const WalletModal = dynamic(() => import('../common/WalletModal'))
 
@@ -20,10 +21,10 @@ const AppInfo = styled(Flex)`
   & > * {
     margin-right: 10px;
   }
-  .hide-on-mobile{
-      @media (max-width: 576px) {
-    display: none;
-  }
+  .hide-on-mobile {
+    @media (max-width: 576px) {
+      display: none;
+    }
   }
 `
 
@@ -55,7 +56,7 @@ const Button = styled.button`
   @media (max-width: 380px) {
     font-size: 12px !important;
     padding: 0 10px;
-    }
+  }
 
   &:hover {
     filter: ${({ active }) => (active ? 'brightness(0.9)' : 'brightness(1)')};
@@ -111,11 +112,12 @@ const Menu = () => {
         <Media>
           <Image src="/media/common/logo.svg" alt="logo" />
         </Media>
+        <MuonTools mode={process.env.NEXT_PUBLIC_MODE} />
       </AppInfo>
       <AppInfo>
         {account ? (
           validChains.includes(chainId) ? (
-            <Button padding="0 17px !important" active={account}  >
+            <Button padding="0 17px !important" active={account}>
               <Status active={account} />
               <Type.SM fontSize="15px" color="#313144">
                 {formatAddress(account)}
@@ -125,7 +127,7 @@ const Menu = () => {
             <Button
               padding="0 17px !important"
               active={account}
-              className='hide-on-mobile'
+              className="hide-on-mobile"
               onClick={() => addRPC(validChainId)}
             >
               <Type.SM fontSize="15px" color="#313144">
@@ -150,7 +152,7 @@ const Menu = () => {
           <Button
             hide={!NameChainMap[chainId]}
             active={validChains.includes(chainId)}
-            className='hide-on-mobile'
+            className="hide-on-mobile"
           >
             <Label>Network:</Label>
             <Type.SM fontSize="15px" color="#313144" padding="0 0 0 3px">

@@ -1,7 +1,7 @@
 import { ChainMap } from './chainsMap'
 import { MAIN_TOKEN_ADDRESS, USDC_ADDRESS } from './tokens'
 
-export const title = 'Blood Token'
+export const title = 'Muon MRC20 '
 
 export const IDO_PARTICIPANT_TOKENS = 3000000
 
