@@ -12,6 +12,7 @@ export const Container = styled.div`
     // display: none !important;
     flex-direction: column;
     padding: 20px 5px;
+    align-items: center;
   }
 
   @media screen and (max-width: 780px) {
@@ -19,6 +20,7 @@ export const Container = styled.div`
     flex-direction: column;
     padding: 0 20px;
     padding-top: 50px;
+    align-items: center;
   }
 `
 

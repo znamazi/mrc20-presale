@@ -142,7 +142,12 @@ const Menu = () => {
             active={account}
           >
             <Status active={account} />
-            <Type.SM fontSize="15px" color="#313144" cursor="pointer">
+            <Type.SM
+              fontSize="15px"
+              color="#313144"
+              cursor="pointer"
+              fontSizeXS="13px"
+            >
               Connect Wallet
             </Type.SM>
           </Button>
