@@ -3,7 +3,7 @@ import { Flex } from 'rebass'
 import { useWeb3React } from '@web3-react/core'
 import { Image, Selector } from './FormControlls'
 import Modal from './Modal'
-import { ConnectorByName } from '../../utils/connectors'
+import { connectorsByName } from '../../utils/connectors'
 import { ModalItem } from '../home'
 
 const WalletModal = (props) => {
@@ -13,12 +13,14 @@ const WalletModal = (props) => {
   const { activate } = web3React
   return (
     <Modal open={open} hide={hide} title="Connect Wallet">
-      {Object.keys(ConnectorByName).map((name) => {
+      {Object.keys(connectorsByName).map((name) => {
         return (
           <ModalItem
             key={name}
             onClick={() => {
-              activate(ConnectorByName[name])
+              activate(connectorsByName[name])
+              sessionStorage.setItem('walletConnect', true)
+              localStorage.setItem('walletType', name)
               hide()
             }}
           >
