@@ -28,15 +28,15 @@ const RPC_URLS = {
 export const injected = new InjectedConnector({ supportedChainIds })
 
 export const walletConnect = new WalletConnectConnector({
-  rpc: { 1: RPC_URLS[1] },
+  rpc: RPC_URLS,
   bridge: 'https://bridge.walletconnect.org',
   qrcode: true,
   pollingInterval: 2000
 })
 
 export const walletLink = new WalletLinkConnector({
-  url: RPC_URLS[1],
-  appName: 'mrc20-presale'
+  url: RPC_URLS,
+  appName: 'MRC20-presale'
 })
 
 export const fortmatic = new FortmaticConnector({
