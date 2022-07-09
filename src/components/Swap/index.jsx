@@ -10,13 +10,12 @@ import { useSwap } from '../../state/swap/hooks'
 import NetworkHint from '../common/NetworkHint'
 import AmountBox from './AmountBox'
 import { Container, TriangleDown } from './swap.style'
+import { useAppState } from '../../state/application/hooks'
 // import RemainedAllocation from './RemainedAllocation'
 
 const Swap = (props) => {
   const { leftTokens } = props
-  console.log({ props })
-  const lock = false
-  const lockType = LockType.Allocation
+  const { lock, lockType } = useAppState()
   const holderPublicTime = ''
 
   const swap = useSwap()
@@ -42,7 +41,6 @@ const Swap = (props) => {
           />
         ) : (
           <>
-            {console.log('************************')}
             <InfoLeft
               // showTimeLeft={publicTime}
               // setShowTimeLeft={() => setShowTimeLeft(publicTime)}

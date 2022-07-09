@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Flex } from 'rebass'
 import ActionButton from '../actionButton/ActionButton'
 // import Claim from '../claim/Claim'
@@ -9,26 +9,17 @@ import MuonNetwork from '../common/MuonNetwork'
 import { useTx } from '../../state/transactions/hooks'
 import Swap from '../Swap'
 import { SoldOut } from '../Swap/swap.style'
-import { useUpdateLock } from '../../state/application/hooks'
-import { LockType } from '../../constants/constants'
 import useLeftTokens from '../../hook/useLeftTokens'
+import { useMuonLock } from '../../hook/useMuonLock'
 
 const MRC20Presale = () => {
+  useMuonLock()
   const tx = useTx()
-  const [totalLeftTokens, setLeftTokens] = useState()
-  const updateLock = useUpdateLock()
   const leftTokens = useLeftTokens()
-
-  useEffect(() => {
-    if (leftTokens < 10) {
-      updateLock({ lock: true, lockType: LockType.SOLD_OUT })
-    }
-    setLeftTokens(leftTokens)
-  }, [leftTokens])
 
   return (
     <>
-      {totalLeftTokens < 10 && (
+      {leftTokens < 10 && (
         <SoldOut>
           <Type.XXXL color="#5551FF" fontSize="100px" fontWeight="bold" fontSizeXS="65px">
             SOLD OUT!
@@ -38,7 +29,7 @@ const MRC20Presale = () => {
       <Container>
         <Wrapper maxWidth="300px" width="100%"></Wrapper>
         <Wrapper maxWidth="470px" width="100%">
-          <Swap leftTokens={totalLeftTokens} />
+          <Swap leftTokens={leftTokens} />
           <ActionButton />
 
           <Flex justifyContent="center" margin="50px 0 20px">

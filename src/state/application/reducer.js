@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { updateSearchQuery, setError, removeError, updateLock } from './actions'
+import { updateSearchQuery, setError, removeError, updateLock, updateMuonLock } from './actions'
 
 const initialState = {
   searchQuery: '',
@@ -8,6 +8,10 @@ const initialState = {
   errorType: '',
   lock: '',
   lockType: '',
+  publicTime: '',
+  holderPublicTime: '',
+  showTimeLeft: '',
+  claimTime: '',
 }
 
 export default createReducer(initialState, (builder) => {
@@ -25,6 +29,9 @@ export default createReducer(initialState, (builder) => {
   })
 
   builder.addCase(updateLock, (state, action) => {
+    return { ...state, lock: action.payload.lock, lockType: action.payload.lockType }
+  })
+  builder.addCase(updateMuonLock, (state, action) => {
     return { ...state, lock: action.payload.lock, lockType: action.payload.lockType }
   })
 })

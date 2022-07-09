@@ -1,16 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 import { useWeb3React } from '@web3-react/core'
 import Muon from 'muon'
+import { useUpdateMuonLock } from '../state/application/hooks'
+import { useSwap } from '../state/swap/hooks'
 
-export const useMuonLock = (fetch) => {
+export const useMuonLock = () => {
   const { account } = useWeb3React()
-  const [lock, setLock] = useState({ expire: 0 })
+  const { fetch } = useSwap()
   const muon = new Muon(process.env.NEXT_PUBLIC_MUON_NODE_GATEWAY)
+  const updateMuonLock = useUpdateMuonLock()
 
   useEffect(() => {
     const checkLock = async () => {
-      setLock({ expire: 0 })
       const muonResponse = await muon
         .app('fear_presale')
         .method('checkLock', {
@@ -18,22 +20,23 @@ export const useMuonLock = (fetch) => {
         })
         .call()
       if (muonResponse.lock) {
-        setLock({
-          expire: muonResponse.expireAt,
+        updateMuonLock({
+          lock: muonResponse.expireAt,
           lockType: muonResponse.lockType,
           publicTime: muonResponse.PUBLIC_TIME,
           holderPublicTime: muonResponse.HOLDER_PUBLIC_TIME,
+          showTimeLeft: muonResponse.HOLDER_PUBLIC_TIME,
         })
       } else {
-        setLock({
-          expire: 0,
+        updateMuonLock({
+          lock: 0,
           lockType: 0,
           publicTime: muonResponse.PUBLIC_TIME,
           holderPublicTime: muonResponse.HOLDER_PUBLIC_TIME,
+          showTimeLeft: muonResponse.HOLDER_PUBLIC_TIME,
         })
       }
     }
     if (account) checkLock()
   }, [account, fetch])
-  return lock
 }

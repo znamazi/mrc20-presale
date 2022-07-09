@@ -7,3 +7,5 @@ export const setError = createAction('SET_ERROR')
 export const removeError = createAction('REMOVE_ERROR')
 
 export const updateLock = createAction('UPDATE_LOCK')
+
+export const updateMuonLock = createAction('UPDATE_Muon_LOCK')

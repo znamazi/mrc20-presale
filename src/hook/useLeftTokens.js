@@ -4,10 +4,14 @@ import { IDO_PARTICIPANT_TOKENS } from '../constants/settings'
 import { getWeb3NoAccount } from '../utils/web3'
 import { useSwap } from '../state/swap/hooks'
 import { fromWei, getTotalTokenBalance } from '../utils/utils'
+import { useUpdateLock } from '../state/application/hooks'
+import { LockType } from '../constants/constants'
 
 const useLeftTokens = () => {
   const [leftTokens, setLeftTokens] = useState()
   const { fetch } = useSwap()
+  const updateLock = useUpdateLock()
+
   useEffect(() => {
     // TODO await outside of for
     const fetchTotalTokenBalance = async () => {
@@ -33,6 +37,9 @@ const useLeftTokens = () => {
     }
     fetchTotalTokenBalance()
   }, [fetch])
+  if (leftTokens < 10) {
+    updateLock({ lock: true, lockType: LockType.SOLD_OUT })
+  }
   return leftTokens
 }
 

@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks'
-import { updateSearchQuery, setError, removeError, updateLock } from './actions'
+import { updateSearchQuery, setError, removeError, updateLock, updateMuonLock } from './actions'
 
 export function useAppState() {
   return useAppSelector((state) => state.application)
@@ -34,6 +34,16 @@ export function useUpdateLock() {
   return useCallback(
     (lockInfo) => {
       dispatch(updateLock(lockInfo))
+    },
+    [dispatch]
+  )
+}
+
+export function useUpdateMuonLock() {
+  const dispatch = useAppDispatch()
+  return useCallback(
+    (lockInfo) => {
+      dispatch(updateMuonLock(lockInfo))
     },
     [dispatch]
   )

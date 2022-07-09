@@ -5,7 +5,6 @@ import { Type } from '../text/Text'
 import CountDown from '../common/CountDown'
 
 const InfoLeft = (props) => {
-  console.log('ppppppppppppppppp', props)
   const { showTimeLeft, setShowTimeLeft, leftTokens, publicTime } = props
   return (
     <Flex width="100%" justifyContent="space-between">
