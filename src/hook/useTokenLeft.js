@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import { useState, useEffect } from 'react'
 import { MRC20Presale } from '../constants/contracts'
 import { IDO_PARTICIPANT_TOKENS } from '../constants/settings'
@@ -19,13 +18,10 @@ const useTokenLeft = (fetch) => {
           console.log({ purchase })
           totalTokenBalance = {
             ...totalTokenBalance,
-            [chainId]: parseFloat(fromWei(purchase))
+            [chainId]: parseFloat(fromWei(purchase)),
           }
         }
-        let sum = Object.keys(totalTokenBalance).reduce(
-          (sum, chain) => sum + totalTokenBalance[chain],
-          0
-        )
+        let sum = Object.keys(totalTokenBalance).reduce((sum, chain) => sum + totalTokenBalance[chain], 0)
         let tokenLeft = IDO_PARTICIPANT_TOKENS - sum
         console.log('tokenLeft', tokenLeft)
         setTokenLeft(tokenLeft)

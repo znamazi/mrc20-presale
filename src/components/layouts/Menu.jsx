@@ -1,19 +1,18 @@
 import React from 'react'
 import { Flex } from 'rebass'
 import dynamic from 'next/dynamic'
+import { UnsupportedChainIdError } from '@web3-react/core'
 
 import styled from 'styled-components'
-import { Type } from '../common/Text'
-import { formatAddress } from '../../utils/utils'
+import { Type } from '../text/Text'
+import { formatAddress } from '../../utils/formatAddress'
 import { useWeb3React } from '@web3-react/core'
 import { NameChainMap } from '../../constants/chainsMap'
 import MuonNetwork from '../common/MuonNetwork'
 import { validChains } from '../../constants/settings'
-import { addRPC } from '../../helper/addRPC'
-import { useMuonState } from '../../context'
+import { addRPC } from '../../utils/addRPC'
 import { MuonTools } from 'muon-toolbox'
-// import WalletModal from '../common/WalletModal'
-const WalletModal = dynamic(() => import('../common/WalletModal'))
+const WalletModal = dynamic(() => import('../modal/WalletModal'))
 
 const Image = styled.img``
 
@@ -31,8 +30,7 @@ const AppInfo = styled(Flex)`
 const Button = styled.button`
   padding: ${({ padding }) => (padding ? padding : '0 15px')};
   cursor: ${({ active }) => (active ? 'pointer' : 'default')};
-  border: ${({ active, border }) =>
-    border ? border : active ? '1px solid #00AA58' : '1px solid #d2d2d2'};
+  border: ${({ active, border }) => (border ? border : active ? '1px solid #00AA58' : '1px solid #d2d2d2')};
   height: 35px;
   background: #f8faff;
   border-radius: 5px;
@@ -44,7 +42,6 @@ const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  /* white-space: nowrap; */
   color: #919191;
   @media (max-width: 576px) {
     height: 30px;
@@ -52,24 +49,25 @@ const Button = styled.button`
     padding: 0 10px;
     /* display: ${({ hide }) => (hide ? 'none' : 'flex')}; */
   }
-
   @media (max-width: 380px) {
     font-size: 12px !important;
     padding: 0 10px;
   }
-
   &:hover {
     filter: ${({ active }) => (active ? 'brightness(0.9)' : 'brightness(1)')};
   }
+  &:focus {
+    outline: none;
+  }
 `
 const Status = styled.div`
-  background-color: ${({ active, color }) =>
-    color ? color : active ? '#00e376' : '#FFA451'};
+  background-color: ${({ active, color }) => (color ? color : active ? '#00e376' : '#FFA451')};
   width: 8px;
   height: 8px;
   border-radius: 50%;
   margin-right: 5px;
 `
+
 const Media = styled.div`
   display: flex;
   align-items: center;
@@ -83,16 +81,14 @@ const WrapMuonNetwork = styled.div`
     display: none;
   }
 `
-
 const Label = styled.span`
   @media (max-width: 767px) {
     display: none;
   }
 `
 
-const Menu = () => {
-  const { account, chainId } = useWeb3React()
-  const { state } = useMuonState()
+const Menu = ({ selectedChain }) => {
+  const { account, chainId, error } = useWeb3React()
 
   const [open, setOpen] = React.useState(false)
 
@@ -100,9 +96,9 @@ const Menu = () => {
     setOpen(true)
   }
 
-  const validChainId = state.selectedChain.id
-    ? state.selectedChain.id
-    : validChains[0]
+  const validChainId = selectedChain ? selectedChain : validChains[process.env.NEXT_PUBLIC_MODE][0]
+  console.log({ account, chainId, error })
+
   return (
     <>
       <AppInfo>
@@ -113,10 +109,15 @@ const Menu = () => {
           <Image src="/media/common/logo.svg" alt="logo" />
         </Media>
         <MuonTools mode={process.env.NEXT_PUBLIC_MODE} />
+        {/* <Flex alignItems="center">
+          <Type.SM color="#313144" padding="10px">
+            App Settings
+          </Type.SM>
+        </Flex> */}
       </AppInfo>
       <AppInfo>
         {account ? (
-          validChains.includes(chainId) ? (
+          validChains[process.env.NEXT_PUBLIC_MODE].includes(chainId) ? (
             <Button padding="0 17px !important" active={account}>
               <Status active={account} />
               <Type.SM fontSize="15px" color="#313144">
@@ -135,28 +136,30 @@ const Menu = () => {
               </Type.SM>
             </Button>
           )
-        ) : (
+        ) : error instanceof UnsupportedChainIdError ? (
           <Button
             padding="0 17px !important"
-            onClick={handleConnect}
             active={account}
+            className="hide-on-mobile"
+            onClick={() => addRPC(validChainId)}
           >
+            <Type.SM fontSize="15px" color="#313144">
+              Switch to {NameChainMap[validChainId]}
+            </Type.SM>
+          </Button>
+        ) : (
+          <Button padding="0 17px !important" onClick={handleConnect} active={account}>
             <Status active={account} />
-            <Type.SM
-              fontSize="15px"
-              color="#313144"
-              cursor="pointer"
-              fontSizeXS="13px"
-            >
+            <Type.SM fontSize="15px" color="#313144" cursor="pointer" fontSizeXS="13px">
               Connect Wallet
             </Type.SM>
           </Button>
         )}
 
-        {validChains.includes(chainId) && NameChainMap[chainId] && (
+        {validChains[process.env.NEXT_PUBLIC_MODE].includes(chainId) && NameChainMap[chainId] && (
           <Button
             hide={!NameChainMap[chainId]}
-            active={validChains.includes(chainId)}
+            active={validChains[process.env.NEXT_PUBLIC_MODE].includes(chainId)}
             className="hide-on-mobile"
           >
             <Label>Network:</Label>
@@ -165,7 +168,8 @@ const Menu = () => {
             </Type.SM>
           </Button>
         )}
-        {!validChains.includes(chainId) && account && (
+        {((!validChains[process.env.NEXT_PUBLIC_MODE].includes(chainId) && account) ||
+          error instanceof UnsupportedChainIdError) && (
           <Button border="1px solid #DC0000">
             <Status color="#DC0000" />
             <Type.MD color="#313144" padding="0 0 0 3px">

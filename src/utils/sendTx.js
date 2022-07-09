@@ -1,74 +1,56 @@
-import {
-  TransactionStatus,
-  TransactionType
-} from '../constants/transactionStatus'
+import { TransactionStatus } from '../constants/transactionStatus'
 
-export const sendTx = (
-  dispatch,
-  contract,
-  methodName,
-  params,
-  sendArguments,
-  txInfo
-) => {
+export const sendTransaction = (contract, methodName, params, account, info, addTransaction, payableValue = null) => {
   return new Promise((resolve, reject) => {
     try {
       let hash = null
+      let options = { from: account }
+      if (payableValue !== null) {
+        options['value'] = payableValue
+      }
       contract.methods[methodName](...params)
-        .send(sendArguments)
+        .send(options)
         .once('transactionHash', (tx) => {
           hash = tx
-          dispatch({
-            type: 'UPDATE_TRANSACTION',
-            payload: {
-              type: TransactionType[methodName.toUpperCase()],
-              hash,
-              status: TransactionStatus.PENDING,
-              message: ` ${
-                TransactionType[methodName.toUpperCase()]
-              } transaction is pending`,
-              ...txInfo
-            }
+          addTransaction({
+            ...info,
+            hash,
+            message: `${info.type}ing transaction is pending.`,
+            status: TransactionStatus.PENDING,
           })
         })
-
         .once('receipt', ({ transactionHash }) => {
-          dispatch({
-            type: 'UPDATE_TRANSACTION',
-            payload: {
-              type: TransactionType[methodName.toUpperCase()],
-              hash: transactionHash,
-              status: TransactionStatus.SUCCESS,
-              message: 'Transaction successfull',
-              ...txInfo
-            }
+          addTransaction({
+            ...info,
+            hash: transactionHash,
+            message: 'Transaction successful.',
+            status: TransactionStatus.SUCCESS,
           })
-          resolve()
         })
         .once('error', (error) => {
           if (!hash) {
-            dispatch({
-              type: 'UPDATE_TRANSACTION',
-              payload: {
-                type: TransactionType[methodName.toUpperCase()],
-                status: TransactionStatus.FAILED,
-                message: 'Transaction rejected',
-                ...txInfo
-              }
+            addTransaction({
+              ...info,
+              message: 'Transaction rejected.',
+              status: TransactionStatus.FAILED,
             })
+            reject()
             return
           }
-
-          dispatch({
-            type: 'UPDATE_TRANSACTION',
-            payload: {
-              type: TransactionType[methodName.toUpperCase()],
-              hash,
-              status: TransactionStatus.FAILED,
-              message: 'Transaction failed',
-              ...txInfo
-            }
+          addTransaction({
+            ...info,
+            hash,
+            message: 'Transaction failed.',
+            status: TransactionStatus.FAILED,
           })
+          console.log('error in sendTX', error)
+          reject()
+        })
+        .then((receipt) => {
+          resolve(receipt)
+        })
+        .catch((error) => {
+          console.log('error happend in send Transaction', error)
           reject()
         })
     } catch (error) {
@@ -76,5 +58,3 @@ export const sendTx = (
     }
   })
 }
-
-export default sendTx

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useWeb3React } from '@web3-react/core'
 import Muon from 'muon'
@@ -14,7 +14,7 @@ export const useMuonLock = (fetch) => {
       const muonResponse = await muon
         .app('fear_presale')
         .method('checkLock', {
-          forAddress: account
+          forAddress: account,
         })
         .call()
       if (muonResponse.lock) {
@@ -22,14 +22,14 @@ export const useMuonLock = (fetch) => {
           expire: muonResponse.expireAt,
           lockType: muonResponse.lockType,
           publicTime: muonResponse.PUBLIC_TIME,
-          holderPublicTime: muonResponse.HOLDER_PUBLIC_TIME
+          holderPublicTime: muonResponse.HOLDER_PUBLIC_TIME,
         })
       } else {
         setLock({
           expire: 0,
           lockType: 0,
           publicTime: muonResponse.PUBLIC_TIME,
-          holderPublicTime: muonResponse.HOLDER_PUBLIC_TIME
+          holderPublicTime: muonResponse.HOLDER_PUBLIC_TIME,
         })
       }
     }

@@ -1,7 +1,6 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import { useWeb3React } from '@web3-react/core'
-
-import { injected, connectorsByName } from './connectors'
+import { connectorsByName, injected } from './connectors'
 
 export function getLibrary(provider) {
   return provider
@@ -10,13 +9,12 @@ export function getLibrary(provider) {
 export function useEagerConnect() {
   const { activate, active } = useWeb3React()
 
-  const [tried, setTried] = React.useState(false)
+  const [tried, setTried] = useState(false)
 
-  React.useEffect(() => {
+  useEffect(() => {
     const walletType = localStorage.getItem('walletType')
     const walletConnect = sessionStorage.getItem('walletConnect')
     if (walletConnect && walletType) {
-      console.log(connectorsByName, walletType)
       activate(connectorsByName[walletType])
     }
     injected.isAuthorized().then((isAuthorized) => {
@@ -32,7 +30,7 @@ export function useEagerConnect() {
   //intentionally only running on mount(make sure it's only mounted once :))
 
   // if the connection worked, wait until we get confirmation of that to flip the flag
-  React.useEffect(() => {
+  useEffect(() => {
     if (!tried && active) {
       setTried(true)
     }
@@ -44,7 +42,7 @@ export function useEagerConnect() {
 export function useInactiveListener(suppress = false) {
   const { active, error, activate } = useWeb3React()
 
-  React.useEffect(() => {
+  useEffect(() => {
     const { ethereum } = window
 
     if (ethereum && ethereum.on && !active && !error && !suppress) {

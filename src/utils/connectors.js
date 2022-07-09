@@ -1,47 +1,68 @@
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
-import { WalletLinkConnector } from '@web3-react/walletlink-connector'
 import { FrameConnector } from '@web3-react/frame-connector'
+import { WalletLinkConnector } from '@web3-react/walletlink-connector'
 import { FortmaticConnector } from '@web3-react/fortmatic-connector'
-import { ChainMap } from '../constants/chainsMap'
+import { flow } from 'lodash'
+import { validChains } from '../constants/settings'
 
+const supportedChainIds = [
+  1, // Mainet
+  3, // Ropsten
+  4, // Rinkeby
+  42, // Kovan
+  0x64, // xDAI
+  77, //sokol
+  0x38, // BSC
+  0x61, // BSC TEST
+  250, // Fantom
+  4002, // Fantom TEST,
+  137, // Matic
+  80001, // Maticc Mumbai
+]
 const INFURA_KEY = process.env.NEXT_PUBLIC_INFURA_KEY
-
-const supportedChainIds = Object.values(ChainMap)
+// const FORTMATIC_KEY = process.env.NEXT_PUBLIC_FORTMATIC_KEY
 
 const RPC_URLS = {
-  [ChainMap.MAINNET]: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
-  [ChainMap.ROPSTEN]: `https://ropsten.infura.io/v3/${INFURA_KEY}`,
-  [ChainMap.RINKEBY]: `https://rinkeby.infura.io/v3/${INFURA_KEY}`,
-  [ChainMap.BSC]: 'https://bsc-dataseed1.binance.org',
-  [ChainMap.BSC_TESTNET]: 'https://data-seed-prebsc-1-s1.binance.org:8545',
-  [ChainMap.MATIC]: 'https://rpc-mainnet.maticvigil.com/',
-  [ChainMap.MATIC_TESTNET]: 'https://rpc-mumbai.maticvigil.com/',
-  [ChainMap.XDAI]: 'https://rpc.xdaichain.com',
-  [ChainMap.FANTOM]: 'https://rpcapi.fantom.network',
-  [ChainMap.FANTOM_TESTNET]: 'https://rpc.testnet.fantom.network/',
-  [ChainMap.HECO]: 'https://http-mainnet-node.huobichain.com',
-  [ChainMap.HECO_TESTNET]: 'https://http-testnet.hecochain.com',
-  [ChainMap.AVAX]: 'https://api.avax.network/ext/bc/C/rpc'
+  1: 'https://mainnet.infura.io/v3/' + INFURA_KEY,
+  3: 'https://ropsten.infura.io/v3/' + INFURA_KEY,
+  4: 'https://rinkeby.infura.io/v3/' + INFURA_KEY,
+  56: 'https://bsc-dataseed1.binance.org',
+  97: 'https://data-seed-prebsc-1-s1.binance.org:8545',
+  100: 'https://rpc.xdaichain.com',
+  77: 'https://sokol.poa.network/',
+  4002: 'https://rpc.testnet.fantom.network/',
+  128: 'https://http-mainnet-node.huobichain.com',
+  256: 'https://http-testnet.hecochain.com',
+  250: 'https://rpcapi.fantom.network',
+  137: 'https://rpc-mainnet.maticvigil.com/',
+  80001: 'https://matic-mumbai.chainstacklabs.com',
 }
 
-export const injected = new InjectedConnector({ supportedChainIds })
+const validRPC = flow([
+  Object.entries,
+  (arr) => arr.filter(([key]) => validChains[process.env.NEXT_PUBLIC_MODE].includes(Number(key))),
+  Object.fromEntries,
+])(RPC_URLS)
+
+export const injected = new InjectedConnector({
+  supportedChainIds,
+})
 
 export const walletConnect = new WalletConnectConnector({
   rpc: RPC_URLS,
-  bridge: 'https://bridge.walletconnect.org',
+  supportedChainIds: validChains[process.env.NEXT_PUBLIC_MODE],
   qrcode: true,
-  pollingInterval: 2000
 })
 
 export const walletLink = new WalletLinkConnector({
-  url: RPC_URLS,
-  appName: 'MRC20-presale'
+  url: validRPC,
+  appName: 'MRC20-Bridge',
 })
 
 export const fortmatic = new FortmaticConnector({
-  apiKey: process.env.NEXT_PUBLIC_FORTMATIC_KEY,
-  chainId: 1
+  apiKey: 'pk_live_643EBE31BE0118DA',
+  chainId: 1,
 })
 
 export const frame = new FrameConnector({ supportedChainIds: [1] })
@@ -55,13 +76,14 @@ export const ConnectorNames = {
   Trezor: 'Trezor',
   Lattice: 'Lattice',
   Frame: 'Frame',
-  Fortmatic: 'Fortmatic'
+  Fortmatic: 'Fortmatic',
 }
 
 export const connectorsByName = {
   [ConnectorNames.Injected]: injected,
   [ConnectorNames.WalletConnect]: walletConnect,
-  [ConnectorNames.WalletLink]: walletLink
+  [ConnectorNames.WalletLink]: walletLink,
   // [ConnectorNames.Frame]: frame,
   // [ConnectorNames.Fortmatic]: fortmatic
+  // [ConnectorNames.Network]: network,
 }
