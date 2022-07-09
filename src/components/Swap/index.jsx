@@ -1,10 +1,10 @@
 import React from 'react'
 import { Flex } from 'rebass'
-import { ChainStatus, LabelStatus } from '../../constants/constants'
+import { ChainStatus, LabelStatus, LockType } from '../../constants/constants'
 import { presaleToken, title } from '../../constants/settings'
 import { Box } from '../container/Container'
 import { GradientTitle, Title } from '../text/Title'
-// import InfoLeft from './InfoLeft'
+import InfoLeft from './InfoLeft'
 import Chain from './Chain'
 import { useSwap } from '../../state/swap/hooks'
 import NetworkHint from '../common/NetworkHint'
@@ -15,6 +15,8 @@ import { Container, TriangleDown } from './swap.style'
 const Swap = () => {
   const totalTokenLeft = 15
   const lock = false
+  const lockType = LockType.Allocation
+  const holderPublicTime = ''
 
   const swap = useSwap()
 
@@ -23,34 +25,34 @@ const Swap = () => {
       <GradientTitle>{title} </GradientTitle>
       <Title>Presale</Title>
       <Flex flexDirection="column" opacity={totalTokenLeft < 10 ? '0.3' : '1'} width="100%">
-        {/* {lock && lockType === LockType.Allocation ? (
+        {lock && lockType === LockType.Allocation ? (
           <InfoLeft
-            showTimeLeft={publicTime}
-            setShowTimeLeft={() => setShowTimeLeft(publicTime)}
-            totalTokenLeft={totalTokenLeft}
-            publicTime={publicTime}
+          // showTimeLeft={publicTime}
+          // setShowTimeLeft={() => setShowTimeLeft(publicTime)}
+          // totalTokenLeft={totalTokenLeft}
+          // publicTime={publicTime}
           />
         ) : Date.now() < holderPublicTime ? (
           <InfoLeft
-            showTimeLeft={showTimeLeft}
-            setShowTimeLeft={() => setShowTimeLeft(publicTime)}
-            totalTokenLeft={totalTokenLeft}
-            publicTime={publicTime}
+          // showTimeLeft={showTimeLeft}
+          // setShowTimeLeft={() => setShowTimeLeft(publicTime)}
+          // totalTokenLeft={totalTokenLeft}
+          // publicTime={publicTime}
           />
         ) : (
           <>
             {console.log('************************')}
             <InfoLeft
-              showTimeLeft={publicTime}
-              setShowTimeLeft={() => setShowTimeLeft(publicTime)}
-              totalTokenLeft={totalTokenLeft}
-              publicTime={publicTime}
+            // showTimeLeft={publicTime}
+            // setShowTimeLeft={() => setShowTimeLeft(publicTime)}
+            // totalTokenLeft={totalTokenLeft}
+            // publicTime={publicTime}
             />
           </>
-        )} */}
+        )}
 
         <Container>
-          <Box background="linear-gradient(0deg, #D3DBE3 0%, rgba(231, 235, 243, 0) 126.95%)">
+          <Box background="linear-gradient(0deg, #D3DBE3 0%, rgba(231, 235, 243, 0) 100%)">
             <Flex width="100%" flexDirection="column">
               <Chain type={ChainStatus.ORIGIN_CHAIN} value={swap?.chain} lock={lock} />
               {swap.chain && <NetworkHint validChain={swap.chain.id} />}
@@ -70,7 +72,7 @@ const Swap = () => {
           <Box background="#f2f4fb" padding="0" borderRadius="0" border="none">
             <TriangleDown />
           </Box>
-          <Box background="linear-gradient(0deg, #d3dbe3 0%, rgba(231, 235, 243, 0) 105.18%)">
+          <Box background="linear-gradient(0deg, #d3dbe3 0%, rgba(231, 235, 243, 0) 105.18%)" padding="0 20px 20px">
             <AmountBox
               label={LabelStatus.TO}
               amount={swap.amountTo}

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Flex } from 'rebass'
-// import ActionButton from '../actionButton/ActionButton'
+import ActionButton from '../actionButton/ActionButton'
 // import Claim from '../claim/Claim'
 import { Container, Wrapper } from '../container/Container'
 import { Type } from '../text/Text'
@@ -17,7 +17,7 @@ const MRC20Presale = () => {
       <Wrapper maxWidth="300px" width="100%"></Wrapper>
       <Wrapper maxWidth="470px" width="100%">
         <Swap />
-        {/* <ActionButton /> */}
+        <ActionButton />
 
         <Flex justifyContent="center" margin="50px 0 20px">
           <Type.SM color="#313144" fontSize="10px" padding="10px">

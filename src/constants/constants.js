@@ -45,3 +45,8 @@ export const LabelStatus = {
   FROM: 'From',
   TO: 'To',
 }
+export const LockType = {
+  SOLD_OUT: 'SOLD_OUT',
+  Cooldown: 'COOL_DOWN',
+  Allocation: 'ALLOCATION',
+}

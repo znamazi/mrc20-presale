@@ -18,6 +18,7 @@ const GlobalStyle = createGlobalStyle`
       -moz-osx-font-smoothing: grayscale;
       font-smoothing: antialiased;
       -webkit-font-smoothing: antialiased;
+      height:100%;
     }
 
     a {
