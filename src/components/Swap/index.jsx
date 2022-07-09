@@ -12,8 +12,9 @@ import AmountBox from './AmountBox'
 import { Container, TriangleDown } from './swap.style'
 // import RemainedAllocation from './RemainedAllocation'
 
-const Swap = () => {
-  const totalTokenLeft = 15
+const Swap = (props) => {
+  const { leftTokens } = props
+  console.log({ props })
   const lock = false
   const lockType = LockType.Allocation
   const holderPublicTime = ''
@@ -24,29 +25,29 @@ const Swap = () => {
     <Flex flexDirection="column" justifyContent="center" alignItems="center" width="100%">
       <GradientTitle>{title} </GradientTitle>
       <Title>Presale</Title>
-      <Flex flexDirection="column" opacity={totalTokenLeft < 10 ? '0.3' : '1'} width="100%">
+      <Flex flexDirection="column" opacity={leftTokens < 10 ? '0.3' : '1'} width="100%">
         {lock && lockType === LockType.Allocation ? (
           <InfoLeft
-          // showTimeLeft={publicTime}
-          // setShowTimeLeft={() => setShowTimeLeft(publicTime)}
-          // totalTokenLeft={totalTokenLeft}
-          // publicTime={publicTime}
+            // showTimeLeft={publicTime}
+            // setShowTimeLeft={() => setShowTimeLeft(publicTime)}
+            leftTokens={leftTokens}
+            // publicTime={publicTime}
           />
         ) : Date.now() < holderPublicTime ? (
           <InfoLeft
-          // showTimeLeft={showTimeLeft}
-          // setShowTimeLeft={() => setShowTimeLeft(publicTime)}
-          // totalTokenLeft={totalTokenLeft}
-          // publicTime={publicTime}
+            // showTimeLeft={showTimeLeft}
+            // setShowTimeLeft={() => setShowTimeLeft(publicTime)}
+            leftTokens={leftTokens}
+            // publicTime={publicTime}
           />
         ) : (
           <>
             {console.log('************************')}
             <InfoLeft
-            // showTimeLeft={publicTime}
-            // setShowTimeLeft={() => setShowTimeLeft(publicTime)}
-            // totalTokenLeft={totalTokenLeft}
-            // publicTime={publicTime}
+              // showTimeLeft={publicTime}
+              // setShowTimeLeft={() => setShowTimeLeft(publicTime)}
+              leftTokens={leftTokens}
+              // publicTime={publicTime}
             />
           </>
         )}

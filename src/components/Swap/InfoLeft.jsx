@@ -4,7 +4,9 @@ import { InfoBox } from './swap.style'
 import { Type } from '../text/Text'
 import CountDown from '../common/CountDown'
 
-const InfoLeft = ({ showTimeLeft, setShowTimeLeft, totalTokenLeft, publicTime }) => {
+const InfoLeft = (props) => {
+  console.log('ppppppppppppppppp', props)
+  const { showTimeLeft, setShowTimeLeft, leftTokens, publicTime } = props
   return (
     <Flex width="100%" justifyContent="space-between">
       {Date.now() < publicTime && (
@@ -24,7 +26,7 @@ const InfoLeft = ({ showTimeLeft, setShowTimeLeft, totalTokenLeft, publicTime })
         <Flex alignItems="center">
           <Image src="/media/common/bloodToken.svg" alt="bloodToken" paddingRight="7px" />
           <Type.SM fontSize="11px">
-            {`BloodTokens Left: ${totalTokenLeft !== undefined ? totalTokenLeft.toFixedDown(3) : ''}`}
+            {`BloodTokens Left: ${leftTokens !== undefined ? leftTokens.toFixedDown(3) : ''}`}
           </Type.SM>
         </Flex>
       </InfoBox>

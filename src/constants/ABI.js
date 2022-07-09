@@ -1,58 +1,3 @@
-export const MultiCall_ABI = [
-  {
-    constant: true,
-    inputs: [
-      {
-        components: [
-          {
-            name: 'target',
-            type: 'address',
-          },
-          {
-            name: 'callData',
-            type: 'bytes',
-          },
-        ],
-        name: 'calls',
-        type: 'tuple[]',
-      },
-    ],
-    name: 'aggregate',
-    outputs: [
-      {
-        name: 'blockNumber',
-        type: 'uint256',
-      },
-      {
-        name: 'returnData',
-        type: 'bytes[]',
-      },
-    ],
-    payable: false,
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    constant: true,
-    inputs: [
-      {
-        name: 'addr',
-        type: 'address',
-      },
-    ],
-    name: 'getEthBalance',
-    outputs: [
-      {
-        name: 'balance',
-        type: 'uint256',
-      },
-    ],
-    payable: false,
-    stateMutability: 'view',
-    type: 'function',
-  },
-]
-
 export const ERC20_ABI = [
   { inputs: [], stateMutability: 'nonpayable', type: 'constructor' },
   {
@@ -62,23 +7,23 @@ export const ERC20_ABI = [
         indexed: true,
         internalType: 'address',
         name: 'owner',
-        type: 'address',
+        type: 'address'
       },
       {
         indexed: true,
         internalType: 'address',
         name: 'spender',
-        type: 'address',
+        type: 'address'
       },
       {
         indexed: false,
         internalType: 'uint256',
         name: 'value',
-        type: 'uint256',
-      },
+        type: 'uint256'
+      }
     ],
     name: 'Approval',
-    type: 'event',
+    type: 'event'
   },
   {
     anonymous: false,
@@ -89,489 +34,469 @@ export const ERC20_ABI = [
         indexed: false,
         internalType: 'uint256',
         name: 'value',
-        type: 'uint256',
-      },
+        type: 'uint256'
+      }
     ],
     name: 'Transfer',
-    type: 'event',
+    type: 'event'
   },
   {
     inputs: [
       { internalType: 'address', name: 'owner', type: 'address' },
-      { internalType: 'address', name: 'spender', type: 'address' },
+      { internalType: 'address', name: 'spender', type: 'address' }
     ],
     name: 'allowance',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
-    type: 'function',
+    type: 'function'
   },
   {
     inputs: [
       { internalType: 'address', name: 'spender', type: 'address' },
-      { internalType: 'uint256', name: 'amount', type: 'uint256' },
+      { internalType: 'uint256', name: 'amount', type: 'uint256' }
     ],
     name: 'approve',
     outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
     stateMutability: 'nonpayable',
-    type: 'function',
+    type: 'function'
   },
   {
     inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
     name: 'balanceOf',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
-    type: 'function',
+    type: 'function'
   },
   {
     inputs: [],
     name: 'decimals',
     outputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
     stateMutability: 'view',
-    type: 'function',
+    type: 'function'
   },
   {
     inputs: [
       { internalType: 'address', name: 'spender', type: 'address' },
-      { internalType: 'uint256', name: 'subtractedValue', type: 'uint256' },
+      { internalType: 'uint256', name: 'subtractedValue', type: 'uint256' }
     ],
     name: 'decreaseAllowance',
     outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
     stateMutability: 'nonpayable',
-    type: 'function',
+    type: 'function'
   },
   {
     inputs: [
       { internalType: 'address', name: 'spender', type: 'address' },
-      { internalType: 'uint256', name: 'addedValue', type: 'uint256' },
+      { internalType: 'uint256', name: 'addedValue', type: 'uint256' }
     ],
     name: 'increaseAllowance',
     outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
     stateMutability: 'nonpayable',
-    type: 'function',
+    type: 'function'
   },
   {
     inputs: [
       { internalType: 'address', name: 'account', type: 'address' },
-      { internalType: 'uint256', name: 'amount', type: 'uint256' },
+      { internalType: 'uint256', name: 'amount', type: 'uint256' }
     ],
     name: 'mint',
     outputs: [],
     stateMutability: 'nonpayable',
-    type: 'function',
+    type: 'function'
   },
   {
     inputs: [],
     name: 'name',
     outputs: [{ internalType: 'string', name: '', type: 'string' }],
     stateMutability: 'view',
-    type: 'function',
+    type: 'function'
   },
   {
     inputs: [],
     name: 'symbol',
     outputs: [{ internalType: 'string', name: '', type: 'string' }],
     stateMutability: 'view',
-    type: 'function',
+    type: 'function'
   },
   {
     inputs: [],
     name: 'totalSupply',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
-    type: 'function',
+    type: 'function'
   },
   {
     inputs: [
       { internalType: 'address', name: 'recipient', type: 'address' },
-      { internalType: 'uint256', name: 'amount', type: 'uint256' },
+      { internalType: 'uint256', name: 'amount', type: 'uint256' }
     ],
     name: 'transfer',
     outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
     stateMutability: 'nonpayable',
-    type: 'function',
+    type: 'function'
   },
   {
     inputs: [
       { internalType: 'address', name: 'sender', type: 'address' },
       { internalType: 'address', name: 'recipient', type: 'address' },
-      { internalType: 'uint256', name: 'amount', type: 'uint256' },
+      { internalType: 'uint256', name: 'amount', type: 'uint256' }
     ],
     name: 'transferFrom',
     outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
     stateMutability: 'nonpayable',
-    type: 'function',
-  },
+    type: 'function'
+  }
 ]
 
-export const MRC20Bridge_ABI = [
+export const MultiCall_ABI = [
+  {
+    constant: true,
+    inputs: [
+      {
+        components: [
+          {
+            name: 'target',
+            type: 'address'
+          },
+          {
+            name: 'callData',
+            type: 'bytes'
+          }
+        ],
+        name: 'calls',
+        type: 'tuple[]'
+      }
+    ],
+    name: 'aggregate',
+    outputs: [
+      {
+        name: 'blockNumber',
+        type: 'uint256'
+      },
+      {
+        name: 'returnData',
+        type: 'bytes[]'
+      }
+    ],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: 'addr',
+        type: 'address'
+      }
+    ],
+    name: 'getEthBalance',
+    outputs: [
+      {
+        name: 'balance',
+        type: 'uint256'
+      }
+    ],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function'
+  }
+]
+
+export const MRC20Presale_ABI = [
   {
     inputs: [
       { internalType: 'address', name: '_muon', type: 'address' },
-      { internalType: 'uint256', name: '_minReqSigs', type: 'uint256' },
-      { internalType: 'uint256', name: '_fee', type: 'uint256' },
+      { internalType: 'address', name: '_presaleToken', type: 'address' },
+      { internalType: 'address', name: '_mounFeesAddress', type: 'address' }
     ],
     stateMutability: 'nonpayable',
-    type: 'constructor',
+    type: 'constructor'
   },
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: 'address', name: 'addr', type: 'address' },
-      { indexed: false, internalType: 'uint256', name: 'tokenId', type: 'uint256' },
+      {
+        indexed: false,
+        internalType: 'address',
+        name: 'token',
+        type: 'address'
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'presaleTokenPrice',
+        type: 'uint256'
+      },
+      {
+        indexed: false,
+        internalType: 'address',
+        name: 'fromAddress',
+        type: 'address'
+      },
+      {
+        indexed: false,
+        internalType: 'address',
+        name: 'forAddress',
+        type: 'address'
+      },
+      {
+        indexed: false,
+        internalType: 'uint256[5]',
+        name: 'extraParameters',
+        type: 'uint256[5]'
+      }
     ],
-    name: 'AddToken',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      { indexed: true, internalType: 'address', name: 'user', type: 'address' },
-      { indexed: false, internalType: 'uint256', name: 'txId', type: 'uint256' },
-      { indexed: false, internalType: 'uint256', name: 'fromChain', type: 'uint256' },
-      { indexed: false, internalType: 'uint256', name: 'amount', type: 'uint256' },
-    ],
-    name: 'Claim',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [{ indexed: false, internalType: 'uint256', name: 'txId', type: 'uint256' }],
     name: 'Deposit',
-    type: 'event',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
-      { indexed: true, internalType: 'bytes32', name: 'role', type: 'bytes32' },
-      { indexed: true, internalType: 'bytes32', name: 'previousAdminRole', type: 'bytes32' },
-      { indexed: true, internalType: 'bytes32', name: 'newAdminRole', type: 'bytes32' },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'previousOwner',
+        type: 'address'
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'newOwner',
+        type: 'address'
+      }
     ],
-    name: 'RoleAdminChanged',
-    type: 'event',
+    name: 'OwnershipTransferred',
+    type: 'event'
   },
   {
-    anonymous: false,
-    inputs: [
-      { indexed: true, internalType: 'bytes32', name: 'role', type: 'bytes32' },
-      { indexed: true, internalType: 'address', name: 'account', type: 'address' },
-      { indexed: true, internalType: 'address', name: 'sender', type: 'address' },
-    ],
-    name: 'RoleGranted',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      { indexed: true, internalType: 'bytes32', name: 'role', type: 'bytes32' },
-      { indexed: true, internalType: 'address', name: 'account', type: 'address' },
-      { indexed: true, internalType: 'address', name: 'sender', type: 'address' },
-    ],
-    name: 'RoleRevoked',
-    type: 'event',
+    inputs: [{ internalType: 'address', name: '', type: 'address' }],
+    name: 'balances',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [],
-    name: 'ADMIN_ROLE',
-    outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'APP_ID',
-    outputs: [{ internalType: 'uint32', name: '', type: 'uint32' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'DEFAULT_ADMIN_ROLE',
-    outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'TOKEN_ADDER_ROLE',
-    outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'uint256', name: 'tokenId', type: 'uint256' },
-      { internalType: 'address', name: 'tokenAddress', type: 'address' },
-    ],
-    name: 'addToken',
+    name: 'claim',
     outputs: [],
     stateMutability: 'nonpayable',
-    type: 'function',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'claimTime',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [
-      { internalType: 'address', name: 'user', type: 'address' },
-      { internalType: 'uint256', name: 'amount', type: 'uint256' },
-      { internalType: 'uint256', name: 'fromChain', type: 'uint256' },
-      { internalType: 'uint256', name: 'toChain', type: 'uint256' },
-      { internalType: 'uint256', name: 'tokenId', type: 'uint256' },
-      { internalType: 'uint256', name: 'txId', type: 'uint256' },
-      { internalType: 'bytes', name: '_reqId', type: 'bytes' },
+      { internalType: 'address', name: 'token', type: 'address' },
+      { internalType: 'uint256', name: 'presaleTokenPrice', type: 'uint256' },
+      { internalType: 'address', name: 'forAddress', type: 'address' },
+      {
+        internalType: 'uint256[5]',
+        name: 'extraParameters',
+        type: 'uint256[5]'
+      },
+      { internalType: 'bytes', name: 'reqId', type: 'bytes' },
       {
         components: [
           { internalType: 'uint256', name: 'signature', type: 'uint256' },
           { internalType: 'address', name: 'owner', type: 'address' },
-          { internalType: 'address', name: 'nonce', type: 'address' },
+          { internalType: 'address', name: 'nonce', type: 'address' }
         ],
         internalType: 'struct IMuonV02.SchnorrSign[]',
         name: 'sigs',
-        type: 'tuple[]',
-      },
-    ],
-    name: 'claim',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'uint256', name: '', type: 'uint256' },
-      { internalType: 'uint256', name: '', type: 'uint256' },
-    ],
-    name: 'claimedTxs',
-    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'uint256', name: 'amount', type: 'uint256' },
-      { internalType: 'uint256', name: 'toChain', type: 'uint256' },
-      { internalType: 'uint256', name: 'tokenId', type: 'uint256' },
+        type: 'tuple[]'
+      }
     ],
     name: 'deposit',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'address', name: 'user', type: 'address' },
-      { internalType: 'uint256', name: 'amount', type: 'uint256' },
-      { internalType: 'uint256', name: 'toChain', type: 'uint256' },
-      { internalType: 'uint256', name: 'tokenId', type: 'uint256' },
-    ],
-    name: 'depositFor',
-    outputs: [{ internalType: 'uint256', name: 'txId', type: 'uint256' }],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'address', name: '_tokenAddr', type: 'address' },
-      { internalType: 'address', name: '_to', type: 'address' },
-      { internalType: 'uint256', name: '_amount', type: 'uint256' },
-    ],
-    name: 'emergencyWithdrawERC20Tokens',
     outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'uint256', name: 'amount', type: 'uint256' },
-      { internalType: 'address', name: 'addr', type: 'address' },
-    ],
-    name: 'emergencyWithdrawETH',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
+    stateMutability: 'payable',
+    type: 'function'
   },
   {
     inputs: [],
-    name: 'fee',
+    name: 'getChainID',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'feeScale',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'getExecutingChainID',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [{ internalType: 'bytes32', name: 'role', type: 'bytes32' }],
-    name: 'getRoleAdmin',
-    outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [{ internalType: 'address', name: '_addr', type: 'address' }],
-    name: 'getTokenId',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [{ internalType: 'uint256', name: '_txId', type: 'uint256' }],
-    name: 'getTx',
-    outputs: [
-      { internalType: 'uint256', name: 'txId', type: 'uint256' },
-      { internalType: 'uint256', name: 'tokenId', type: 'uint256' },
-      { internalType: 'uint256', name: 'amount', type: 'uint256' },
-      { internalType: 'uint256', name: 'fromChain', type: 'uint256' },
-      { internalType: 'uint256', name: 'toChain', type: 'uint256' },
-      { internalType: 'address', name: 'user', type: 'address' },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'bytes32', name: 'role', type: 'bytes32' },
-      { internalType: 'address', name: 'account', type: 'address' },
-    ],
-    name: 'grantRole',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'bytes32', name: 'role', type: 'bytes32' },
-      { internalType: 'address', name: 'account', type: 'address' },
-    ],
-    name: 'hasRole',
-    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
-    stateMutability: 'view',
-    type: 'function',
+    type: 'function'
   },
   {
     inputs: [{ internalType: 'address', name: '', type: 'address' }],
-    name: 'ids',
+    name: 'lastTimes',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
-    type: 'function',
+    type: 'function'
   },
   {
     inputs: [],
-    name: 'lastTxId',
+    name: 'maxMuonDelay',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
-    type: 'function',
+    type: 'function'
   },
   {
     inputs: [],
-    name: 'minReqSigs',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    name: 'mounFeesAddress',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
     stateMutability: 'view',
-    type: 'function',
+    type: 'function'
   },
   {
     inputs: [],
     name: 'muon',
     outputs: [{ internalType: 'contract IMuonV02', name: '', type: 'address' }],
     stateMutability: 'view',
-    type: 'function',
+    type: 'function'
   },
   {
     inputs: [],
-    name: 'network',
+    name: 'muonFees',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
-    type: 'function',
+    type: 'function'
   },
   {
-    inputs: [
-      { internalType: 'uint256', name: 'fromChain', type: 'uint256' },
-      { internalType: 'uint256[]', name: '_ids', type: 'uint256[]' },
-    ],
-    name: 'pendingTxs',
-    outputs: [{ internalType: 'bool[]', name: 'unclaimedIds', type: 'bool[]' }],
+    inputs: [],
+    name: 'muonFeesScale',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
-    type: 'function',
+    type: 'function'
   },
   {
-    inputs: [
-      { internalType: 'bytes32', name: 'role', type: 'bytes32' },
-      { internalType: 'address', name: 'account', type: 'address' },
-    ],
-    name: 'renounceRole',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
+    inputs: [],
+    name: 'owner',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function'
   },
   {
-    inputs: [
-      { internalType: 'bytes32', name: 'role', type: 'bytes32' },
-      { internalType: 'address', name: 'account', type: 'address' },
-    ],
-    name: 'revokeRole',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
+    inputs: [],
+    name: 'presaleToken',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function'
   },
   {
-    inputs: [{ internalType: 'uint256', name: '_fee', type: 'uint256' }],
-    name: 'setFee',
+    inputs: [],
+    name: 'renounceOwnership',
     outputs: [],
     stateMutability: 'nonpayable',
-    type: 'function',
+    type: 'function'
   },
   {
-    inputs: [{ internalType: 'uint256', name: '_minReqSigs', type: 'uint256' }],
-    name: 'setMinReqSigs',
+    inputs: [],
+    name: 'running',
+    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [{ internalType: 'uint256', name: '_time', type: 'uint256' }],
+    name: 'setClaimTime',
     outputs: [],
     stateMutability: 'nonpayable',
-    type: 'function',
+    type: 'function'
+  },
+  {
+    inputs: [{ internalType: 'bool', name: 'val', type: 'bool' }],
+    name: 'setIsRunning',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [{ internalType: 'uint256', name: 'delay', type: 'uint256' }],
+    name: 'setMaxMuonDelay',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [{ internalType: 'address', name: 'addr', type: 'address' }],
     name: 'setMuonContract',
     outputs: [],
     stateMutability: 'nonpayable',
-    type: 'function',
+    type: 'function'
   },
   {
-    inputs: [{ internalType: 'uint256', name: '_network', type: 'uint256' }],
-    name: 'setNetworkID',
+    inputs: [{ internalType: 'address', name: 'addr', type: 'address' }],
+    name: 'setPresaleToken',
     outputs: [],
     stateMutability: 'nonpayable',
-    type: 'function',
+    type: 'function'
   },
   {
-    inputs: [{ internalType: 'bytes4', name: 'interfaceId', type: 'bytes4' }],
-    name: 'supportsInterface',
-    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+    inputs: [{ internalType: 'uint256', name: '_time', type: 'uint256' }],
+    name: 'setStartTime',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'startTime',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
-    type: 'function',
+    type: 'function'
   },
   {
-    inputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    name: 'tokens',
-    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    inputs: [{ internalType: 'address', name: '', type: 'address' }],
+    name: 'tokenBalances',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
-    type: 'function',
+    type: 'function'
   },
   {
-    inputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    name: 'txs',
-    outputs: [
-      { internalType: 'uint256', name: 'tokenId', type: 'uint256' },
-      { internalType: 'uint256', name: 'amount', type: 'uint256' },
-      { internalType: 'uint256', name: 'toChain', type: 'uint256' },
-      { internalType: 'address', name: 'user', type: 'address' },
+    inputs: [{ internalType: 'address', name: '', type: 'address' }],
+    name: 'tokenClaimed',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'totalBalance',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'totalTokenBalance',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [{ internalType: 'address', name: 'newOwner', type: 'address' }],
+    name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [
+      { internalType: 'address', name: '_tokenAddr', type: 'address' },
+      { internalType: 'address', name: '_to', type: 'address' },
+      { internalType: 'uint256', name: '_amount', type: 'uint256' }
     ],
-    stateMutability: 'view',
-    type: 'function',
+    name: 'withdrawERC20Tokens',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
+  {
+    inputs: [
+      { internalType: 'uint256', name: 'amount', type: 'uint256' },
+      { internalType: 'address', name: 'addr', type: 'address' }
+    ],
+    name: 'withdrawETH',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  }
 ]

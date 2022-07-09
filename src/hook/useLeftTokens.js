@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { MRC20Presale } from '../constants/contracts'
 import { IDO_PARTICIPANT_TOKENS } from '../constants/settings'
-import { getWeb3NoAccount } from '../helper/web3'
+import { getWeb3NoAccount } from '../utils/web3'
+import { useSwap } from '../state/swap/hooks'
 import { fromWei, getTotalTokenBalance } from '../utils/utils'
 
-const useTokenLeft = (fetch) => {
-  const [tokenLeft, setTokenLeft] = useState()
+const useLeftTokens = () => {
+  const [leftTokens, setLeftTokens] = useState()
+  const { fetch } = useSwap()
   useEffect(() => {
     // TODO await outside of for
     const fetchTotalTokenBalance = async () => {
@@ -22,16 +24,16 @@ const useTokenLeft = (fetch) => {
           }
         }
         let sum = Object.keys(totalTokenBalance).reduce((sum, chain) => sum + totalTokenBalance[chain], 0)
-        let tokenLeft = IDO_PARTICIPANT_TOKENS - sum
-        console.log('tokenLeft', tokenLeft)
-        setTokenLeft(tokenLeft)
+        let leftTokens = IDO_PARTICIPANT_TOKENS - sum
+        console.log('leftTokens', leftTokens)
+        setLeftTokens(leftTokens)
       } catch (error) {
-        console.log('Error happend in tokenLeft', error)
+        console.log('Error happend in leftTokens', error)
       }
     }
     fetchTotalTokenBalance()
   }, [fetch])
-  return tokenLeft
+  return leftTokens
 }
 
-export default useTokenLeft
+export default useLeftTokens
