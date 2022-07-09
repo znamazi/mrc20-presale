@@ -40,3 +40,8 @@ export const ERC20_FUN_MAP = {
 export const ErrorType = {
   AMOUNT_INPUT: 'amount-input',
 }
+
+export const LabelStatus = {
+  FROM: 'From',
+  TO: 'To',
+}

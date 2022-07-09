@@ -6,27 +6,27 @@ import { Button, ActionButton, ActionText } from '../button/Button'
 import { Type } from '../text/Text'
 import WalletModal from '../modal/WalletModal'
 import { ActionBtnType } from '../../constants/constants'
-import useActionBtnType from '../../hooks/useActionBtnType'
-import useActionBtnStatus from '../../hooks/useActionBtnStatus'
-import { useBridge } from '../../state/bridge/hooks'
+import useActionBtnType from '../../hook/useActionBtnType'
+import useActionBtnStatus from '../../hook/useActionBtnStatus'
 import { validChains } from '../../constants/settings'
 import { addRPC } from '../../utils/addRPC'
 import { NameChainMap } from '../../constants/chainsMap'
+import { useSwap } from '../../state/swap/hooks'
 
 const ActionButtonComponent = (props) => {
   const { handleApprove, handleDeposit, allowance } = props
   const [open, setOpen] = useState(false)
   const { account, chainId, error } = useWeb3React()
-  const bridge = useBridge()
+  const swap = useSwap()
   let actionBtn = useActionBtnType(allowance)
   const status = useActionBtnStatus()
 
   const wrongNetwork = !validChains[process.env.NEXT_PUBLIC_MODE].includes(chainId)
 
   let validChainId = null
-  if (bridge.fromChain) {
+  if (swap.chain) {
     // if (actionBtn === ActionBtnType.ADD_BRIDGE_TOKEN && bridge.toChain.id !== chainId) validChainId = bridge.toChain.id
-    if (bridge.fromChain.id !== chainId) validChainId = bridge.fromChain.id
+    if (swap.chain.id !== chainId) validChainId = swap.chain.id
   }
 
   const handleConnectWallet = () => {
@@ -50,15 +50,13 @@ const ActionButtonComponent = (props) => {
         cursor="pointer"
         onClick={() =>
           wrongNetwork
-            ? addRPC(bridge.fromChain ? bridge.fromChain.id : validChains[process.env.NEXT_PUBLIC_MODE][0])
+            ? addRPC(swap.chain ? swap.chain.id : validChains[process.env.NEXT_PUBLIC_MODE][0])
             : addRPC(validChainId)
         }
       >
         <Type.MD color={'rgba(49, 49, 68, 1)'} fontWeight="bold">
           {wrongNetwork
-            ? ` Switch to ${
-                NameChainMap[bridge.fromChain ? bridge.fromChain.id : validChains[process.env.NEXT_PUBLIC_MODE][0]]
-              }`
+            ? ` Switch to ${NameChainMap[swap.chain ? swap.chain.id : validChains[process.env.NEXT_PUBLIC_MODE][0]]}`
             : ` Switch to ${NameChainMap[validChainId]}`}
         </Type.MD>
       </Button>

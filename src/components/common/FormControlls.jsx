@@ -5,7 +5,7 @@ export const Selector = styled.div`
   justify-content: space-between;
   align-items: center;
   max-width: ${({ maxWidth }) => maxWidth};
-  width: 100%;
+  width: ${({ width }) => width};
   height: ${({ height }) => (height ? height : '45px')};
   background: ${({ background }) => (background ? background : '#E6ECF2')};
   border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius : '5px')};
