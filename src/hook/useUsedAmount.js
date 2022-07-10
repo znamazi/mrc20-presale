@@ -20,7 +20,6 @@ const useUsedAmount = () => {
         const web3 = getWeb3NoAccount(chainId)
 
         const amount = await getUsedAmount(account, chainId, web3)
-        console.log({ amount })
         sumUsed = new BigNumber(amount).plus(sumUsed)
       }
       setUsed(sumUsed)

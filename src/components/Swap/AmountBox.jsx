@@ -35,7 +35,6 @@ const AmountBox = (props) => {
   React.useEffect(() => {
     const fetchMaxAllocation = async () => {
       const userAllocationAmount = allocations[account]
-      console.log({ userAllocationAmount })
       if (userAllocationAmount) {
         updateUserNotExist(false)
         setMaxAllocation(userAllocationAmount)
@@ -53,8 +52,6 @@ const AmountBox = (props) => {
     try {
       console.log({ maxAllocation, usedAmount: usedAmount.toString() })
       if (maxAllocation && usedAmount) {
-        console.log('**************', new BigNumber(maxAllocation).minus(usedAmount))
-
         updateAllocation(new BigNumber(maxAllocation).minus(usedAmount).toFixed(3))
       }
     } catch (error) {
@@ -79,6 +76,19 @@ const AmountBox = (props) => {
     }
   }
 
+  const handleMax = (balance) => {
+    if (balance) {
+      try {
+        let token = tokensPrice[swap.token.symbol.toLowerCase()]
+
+        const max = getMaxAllow(token, balance, allocation, holderPublicTime)
+        handleAmount(max, LabelStatus.FROM)
+      } catch (error) {
+        console.log('Error happened in handleMax', error)
+      }
+    }
+  }
+
   return (
     <Wrapper margin={margin}>
       <Flex width="100%" justifyContent="space-between" alignItems="center">
@@ -94,7 +104,7 @@ const AmountBox = (props) => {
             }`}
           </Type.SM>
           {label === LabelStatus.FROM && (
-            <Max onClick={() => handleAmount(selectedToken.balance, label)} cursor={lock ? 'default' : 'pointer'}>
+            <Max onClick={() => handleMax(selectedToken.balance)} cursor={lock ? 'default' : 'pointer'}>
               <Type.SM color="#FFFFFF" fontSize="10px" cursor={lock ? 'default' : 'pointer'}>
                 Max
               </Type.SM>

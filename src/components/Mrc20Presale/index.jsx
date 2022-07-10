@@ -13,10 +13,18 @@ import useLeftTokens from '../../hook/useLeftTokens'
 import { useMuonLock } from '../../hook/useMuonLock'
 import { useAppState, useUpdateLock, useUpdateUserNotExist } from '../../state/application/hooks'
 import UserNotExistComponent from './UserNotExist'
+// import useAllowance from '../../hook/useAllowance'
 
 const MRC20Presale = () => {
   useMuonLock()
   const tx = useTx()
+  // const allowance = useAllowance(
+  //   sw.id,
+  //   bridge.token?.address,
+  //   MRC20Bridge[bridge.fromChain?.id],
+  //   ERC20_ABI,
+  //   bridge.fetch
+  // )
   const leftTokens = useLeftTokens()
   const { lock, publicTime, userNotExist } = useAppState()
   const updateUserNotExist = useUpdateUserNotExist()
