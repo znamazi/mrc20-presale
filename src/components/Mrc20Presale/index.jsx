@@ -13,18 +13,22 @@ import useLeftTokens from '../../hook/useLeftTokens'
 import { useMuonLock } from '../../hook/useMuonLock'
 import { useAppState, useUpdateLock, useUpdateUserNotExist } from '../../state/application/hooks'
 import UserNotExistComponent from './UserNotExist'
-// import useAllowance from '../../hook/useAllowance'
+import useAllowance from '../../hook/useAllowance'
+import { useSwap } from '../../state/swap/hooks'
+import { ERC20_ABI } from '../../constants/ABI'
+import { MRC20Presale } from '../../constants/contracts'
 
-const MRC20Presale = () => {
+const MRC20PresaleComponent = () => {
   useMuonLock()
   const tx = useTx()
-  // const allowance = useAllowance(
-  //   sw.id,
-  //   bridge.token?.address,
-  //   MRC20Bridge[bridge.fromChain?.id],
-  //   ERC20_ABI,
-  //   bridge.fetch
-  // )
+  const swap = useSwap()
+  const allowance = useAllowance(
+    swap.chain?.id,
+    swap.token?.address,
+    MRC20Presale[swap.chain?.id],
+    ERC20_ABI,
+    swap.fetch
+  )
   const leftTokens = useLeftTokens()
   const { lock, publicTime, userNotExist } = useAppState()
   const updateUserNotExist = useUpdateUserNotExist()
@@ -42,6 +46,8 @@ const MRC20Presale = () => {
     ) : (
       ''
     )
+
+  console.log({ allowance })
   return (
     <>
       {leftTokens < 10 && (
@@ -55,7 +61,7 @@ const MRC20Presale = () => {
         <Wrapper maxWidth="300px" width="100%"></Wrapper>
         <Wrapper maxWidth="470px" width="100%">
           <Swap leftTokens={leftTokens} />
-          <ActionButton leftTokens={leftTokens} />
+          <ActionButton leftTokens={leftTokens} allowance={allowance} />
 
           <Flex justifyContent="center" margin="50px 0 20px">
             <Type.SM color="#313144" fontSize="10px" padding="10px">
@@ -74,4 +80,4 @@ const MRC20Presale = () => {
   )
 }
 
-export default MRC20Presale
+export default MRC20PresaleComponent

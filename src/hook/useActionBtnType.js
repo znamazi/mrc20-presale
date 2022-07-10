@@ -11,16 +11,8 @@ const useActionBtnType = (allowance, lock, leftTokens) => {
     if (leftTokens < 10) action = ActionBtnType.SOLD_OUT
 
     if (allowance === '0' && swap.chain && swap.token) action = ActionBtnType.APPROVE
-    //   if (
-    //     allowance !== '0' &&
-    //     bridge.fromChain &&
-    //     bridge.token &&
-    //     bridge.amount &&
-    //     bridge.toChain &&
-    //     bridge.tokenOnOriginBridge &&
-    //     bridge.tokenOnDestBridge
-    //   )
-    //     action = ActionBtnType.DEPOSIT
+    if (allowance !== '0' && swap.chain && swap.token && swap.amountFrom && swap.amountTo)
+      action = ActionBtnType.DEPOSIT
     setActionBtnType(action)
   }, [swap, allowance])
 
