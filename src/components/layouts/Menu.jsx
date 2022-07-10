@@ -97,7 +97,6 @@ const Menu = ({ selectedChain }) => {
   }
 
   const validChainId = selectedChain ? selectedChain : validChains[process.env.NEXT_PUBLIC_MODE][0]
-  console.log({ account, chainId, error })
 
   return (
     <>

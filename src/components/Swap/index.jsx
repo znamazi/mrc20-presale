@@ -1,7 +1,7 @@
 import React from 'react'
 import { Flex } from 'rebass'
 import { ChainStatus, LabelStatus, LockType } from '../../constants/constants'
-import { presaleToken, title } from '../../constants/settings'
+import { title } from '../../constants/settings'
 import { Box } from '../container/Container'
 import { GradientTitle, Title } from '../text/Title'
 import InfoLeft from './InfoLeft'
@@ -11,6 +11,7 @@ import NetworkHint from '../common/NetworkHint'
 import AmountBox from './AmountBox'
 import { Container, TriangleDown } from './swap.style'
 import { useAppState } from '../../state/application/hooks'
+import useTokensList from '../../hook/useTokensList'
 // import RemainedAllocation from './RemainedAllocation'
 
 const Swap = (props) => {
@@ -19,6 +20,7 @@ const Swap = (props) => {
   const holderPublicTime = ''
 
   const swap = useSwap()
+  const { tokens, presaleToken } = useTokensList()
 
   return (
     <Flex flexDirection="column" justifyContent="center" alignItems="center" width="100%">
@@ -60,6 +62,7 @@ const Swap = (props) => {
                 label={LabelStatus.FROM}
                 amount={swap.amountFrom}
                 selectedToken={swap.token}
+                tokens={tokens}
                 // changeToken={changeToken}
                 // handleAmount={handleAmount}
                 // handleMax={handleMax}
