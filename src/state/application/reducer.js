@@ -1,8 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { updateSearchQuery, setError, removeError, updateLock, updateMuonLock } from './actions'
+import { setError, removeError, updateLock, updateMuonLock, updateUserNotExist } from './actions'
 
 const initialState = {
-  searchQuery: '',
   errorMessage: '',
   error: false,
   errorType: '',
@@ -12,16 +11,17 @@ const initialState = {
   holderPublicTime: '',
   showTimeLeft: '',
   claimTime: '',
+  userNotExist: false,
 }
 
 export default createReducer(initialState, (builder) => {
-  //Search Query Modal
-  builder.addCase(updateSearchQuery, (state, action) => {
-    return { ...state, searchQuery: action.payload }
-  })
-
   builder.addCase(setError, (state, action) => {
-    return { ...state, error: true, errorMessage: action.payload.message, errorType: action.payload.type }
+    return {
+      ...state,
+      error: action.payload.error,
+      errorMessage: action.payload.message,
+      errorType: action.payload.type,
+    }
   })
 
   builder.addCase(removeError, (state) => {
@@ -33,5 +33,9 @@ export default createReducer(initialState, (builder) => {
   })
   builder.addCase(updateMuonLock, (state, action) => {
     return { ...state, lock: action.payload.lock, lockType: action.payload.lockType }
+  })
+
+  builder.addCase(updateUserNotExist, (state, action) => {
+    return { ...state, userNotExist: action.payload }
   })
 })

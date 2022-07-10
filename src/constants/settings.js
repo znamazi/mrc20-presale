@@ -1,5 +1,5 @@
 import { ChainMap } from './chainsMap'
-import { USDC_ADDRESS, MAIN_TOKEN_ADDRESS } from './tokens'
+import { USDC_ADDRESS } from './tokens'
 
 export const title = 'Muon MRC20 '
 
@@ -16,20 +16,13 @@ export const validChains = {
 }
 
 export const tokens = [
-  {
-    logo: '/media/tokens/eth.svg',
-    symbol: 'ETH',
-    address: MAIN_TOKEN_ADDRESS,
-    decimals: 18,
-    chainId: 4,
-  },
-  {
-    logo: '/media/tokens/ert.svg',
-    symbol: 'ERT',
-    address: '0xb9B5FFC3e1404E3Bb7352e656316D6C5ce6940A1',
-    decimals: 18,
-    chainId: 4,
-  },
+  // {
+  //   logo: '/media/tokens/ert.svg',
+  //   symbol: 'ERT',
+  //   address: '0xb9B5FFC3e1404E3Bb7352e656316D6C5ce6940A1',
+  //   decimals: 18,
+  //   chainId: 4,
+  // },
   {
     logo: '/media/tokens/ert.svg',
     symbol: 'ERT_d6',
@@ -37,13 +30,20 @@ export const tokens = [
     decimals: 6,
     chainId: 4,
   },
-  {
-    logo: '/media/tokens/bnb.svg',
-    symbol: 'BNB',
-    address: MAIN_TOKEN_ADDRESS,
-    decimals: 18,
-    chainId: 97,
-  },
+  // {
+  //   logo: '/media/tokens/eth.svg',
+  //   symbol: 'ETH',
+  //   address: MAIN_TOKEN_ADDRESS,
+  //   decimals: 18,
+  //   chainId: 4,
+  // },
+  // {
+  //   logo: '/media/tokens/bnb.svg',
+  //   symbol: 'BNB',
+  //   address: MAIN_TOKEN_ADDRESS,
+  //   decimals: 18,
+  //   chainId: 97,
+  // },
   {
     logo: '/media/tokens/ert.svg',
     symbol: 'ERT_d6',

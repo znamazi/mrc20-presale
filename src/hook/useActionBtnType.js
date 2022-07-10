@@ -7,6 +7,7 @@ const useActionBtnType = (allowance) => {
   const swap = useSwap()
   useEffect(() => {
     let action = ActionBtnType.SELECT
+    // btnType: totalTokenLeft < 10 ? 'soldOut' : state.approve ? 'swap' : 'approve',
     //   if (bridge.tokenOnOriginBridge === '0' && bridge.fromChain && bridge.token) action = ActionBtnType.ADD_MAIN_TOKEN
     //   if (!bridge.tokenOnDestBridge && bridge.token) action = ActionBtnType.ADD_BRIDGE_TOKEN
 

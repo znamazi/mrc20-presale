@@ -18,7 +18,7 @@ const initialState = {
 export default createReducer(initialState, (builder) => {
   // add  chain
   builder.addCase(addChain, (state, action) => {
-    return { ...state, fromChain: action.payload }
+    return { ...state, chain: action.payload }
   })
 
   // add  Token

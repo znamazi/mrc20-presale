@@ -1,20 +1,11 @@
 import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks'
-import { updateSearchQuery, setError, removeError, updateLock, updateMuonLock } from './actions'
+import { setError, removeError, updateLock, updateMuonLock, updateUserNotExist } from './actions'
 
 export function useAppState() {
   return useAppSelector((state) => state.application)
 }
 
-export function useChangeSearchQuery() {
-  const dispatch = useAppDispatch()
-  return useCallback(
-    (query) => {
-      dispatch(updateSearchQuery(query))
-    },
-    [dispatch]
-  )
-}
 export function useError() {
   const dispatch = useAppDispatch()
 
@@ -44,6 +35,16 @@ export function useUpdateMuonLock() {
   return useCallback(
     (lockInfo) => {
       dispatch(updateMuonLock(lockInfo))
+    },
+    [dispatch]
+  )
+}
+
+export function useUpdateUserNotExist() {
+  const dispatch = useAppDispatch()
+  return useCallback(
+    (cond) => {
+      dispatch(updateUserNotExist(cond))
     },
     [dispatch]
   )

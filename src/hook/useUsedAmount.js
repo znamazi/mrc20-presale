@@ -2,11 +2,13 @@ import React from 'react'
 import { BigNumber } from 'bignumber.js'
 import { validChains } from '../constants/settings'
 import { getUsedAmount } from '../utils/utils'
-import { getWeb3NoAccount } from '../helper/web3'
+import { getWeb3NoAccount } from '../utils/web3'
 import { useWeb3React } from '@web3-react/core'
+import { useSwap } from '../state/swap/hooks'
 
-export const useUsedAmount = (fetch) => {
+const useUsedAmount = () => {
   const { account, chainId } = useWeb3React()
+  const { fetch } = useSwap()
   const [used, setUsed] = React.useState(null)
 
   React.useEffect(() => {
@@ -22,8 +24,10 @@ export const useUsedAmount = (fetch) => {
       }
       setUsed(sumUsed)
     }
-    if (account && validChains.includes(chainId)) get()
+    if (account && validChains[process.env.NEXT_PUBLIC_MODE].includes(chainId)) get()
   }, [account, validChains, chainId, fetch])
 
   return used
 }
+
+export default useUsedAmount

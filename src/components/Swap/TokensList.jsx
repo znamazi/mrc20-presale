@@ -7,17 +7,24 @@ import { Type } from '../text/Text'
 import Token from './Token'
 import { Arrow } from './swap.style'
 import { ContentItem, ModalItem } from '../modal/Modal.style'
+import { useAddToken } from '../../state/swap/hooks'
 
 const Modal = dynamic(() => import('../modal/Modal'))
 
 const TokensList = (props) => {
-  const { selectedToken, tokensList, changeToken } = props
+  const { selectedToken, tokensList } = props
+  const addToken = useAddToken()
 
   const [open, setOpen] = React.useState(false)
 
   const handleOpenModal = () => {
     setOpen(true)
   }
+
+  const changeToken = (token) => {
+    addToken(token)
+  }
+
   return (
     <>
       {tokensList.length > 1 ? (
@@ -63,7 +70,7 @@ const TokensList = (props) => {
           <ModalItem
             key={token.address}
             onClick={() => {
-              changeToken(token.address)
+              changeToken(token)
               setOpen(!open)
             }}
           >

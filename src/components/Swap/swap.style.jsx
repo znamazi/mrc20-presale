@@ -162,3 +162,58 @@ export const SoldOut = styled.div`
   background: #acaff3;
   justify-content: center;
 `
+
+export const Amount = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #2b2b3c;
+  border-radius: 5px;
+  padding: 5px 10px;
+  height: 45px;
+  border: ${({ error }) => (error ? '2px solid #DC5151' : '1px solid #ffffff')};
+`
+
+export const Wrapper = styled.div`
+  width: 100%;
+  margin: ${({ margin }) => (margin ? margin : '10px 0')};
+`
+export const Input = styled.input.attrs({
+  type: 'number',
+  autocomplete: 'off',
+  autocorrect: 'off',
+  spellcheck: 'false',
+})`
+  max-width: 450px;
+  width: 100%;
+  outline-style: none;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  color: #ffffff;
+  background: transparent;
+  border: transparent;
+  &:focus {
+    outline: none;
+  }
+  @media screen and (max-width: 576px) {
+    font-size: 16px;
+  }
+  ::placeholder {
+    color: #909090;
+    font-size: 12px;
+    opacity: 1; /* Firefox */
+  }
+
+  :-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: #909090;
+    font-size: 12px;
+  }
+
+  ::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: #909090;
+    font-size: 12px;
+  }
+`

@@ -8,7 +8,6 @@ import { fromWei } from '../utils/wei'
 import { MAIN_TOKEN_ADDRESS } from '../constants/tokens'
 
 const useBalances = (chains, tokens, presaleToken, fetch, refresh) => {
-  console.log({ chains, tokens })
   const { account } = useWeb3React()
   const [balances, setBalances] = React.useState(null)
   React.useEffect(() => {
