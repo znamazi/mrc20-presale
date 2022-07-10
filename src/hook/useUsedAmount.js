@@ -15,17 +15,18 @@ const useUsedAmount = () => {
     const get = async () => {
       let sumUsed = 0
 
-      for (let index = 0; index < validChains.length; index++) {
-        const chainId = validChains[index]
+      for (let index = 0; index < validChains[process.env.NEXT_PUBLIC_MODE].length; index++) {
+        const chainId = validChains[process.env.NEXT_PUBLIC_MODE][index]
         const web3 = getWeb3NoAccount(chainId)
 
         const amount = await getUsedAmount(account, chainId, web3)
+        console.log({ amount })
         sumUsed = new BigNumber(amount).plus(sumUsed)
       }
       setUsed(sumUsed)
     }
     if (account && validChains[process.env.NEXT_PUBLIC_MODE].includes(chainId)) get()
-  }, [account, validChains, chainId, fetch])
+  }, [account, validChains[process.env.NEXT_PUBLIC_MODE], chainId, fetch])
 
   return used
 }

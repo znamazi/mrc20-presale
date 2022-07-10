@@ -2,14 +2,13 @@ import { useState, useEffect } from 'react'
 import { ActionBtnType } from '../constants/constants'
 import { useSwap } from '../state/swap/hooks'
 
-const useActionBtnType = (allowance) => {
+const useActionBtnType = (allowance, lock, leftTokens) => {
   const [actionBtnType, setActionBtnType] = useState(ActionBtnType.SELECT)
   const swap = useSwap()
   useEffect(() => {
     let action = ActionBtnType.SELECT
-    // btnType: totalTokenLeft < 10 ? 'soldOut' : state.approve ? 'swap' : 'approve',
-    //   if (bridge.tokenOnOriginBridge === '0' && bridge.fromChain && bridge.token) action = ActionBtnType.ADD_MAIN_TOKEN
-    //   if (!bridge.tokenOnDestBridge && bridge.token) action = ActionBtnType.ADD_BRIDGE_TOKEN
+    if (lock) action = ActionBtnType.LOCK
+    if (leftTokens < 10) action = ActionBtnType.SOLD_OUT
 
     //   if (allowance === '0' && bridge.fromChain && bridge.token && bridge.toChain && bridge.tokenOnOriginBridge !== '0' && bridge.tokenOnDestBridge) action = ActionBtnType.APPROVE
     //   if (

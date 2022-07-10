@@ -1,6 +1,14 @@
 import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks'
-import { setError, removeError, updateLock, updateMuonLock, updateUserNotExist } from './actions'
+import {
+  setError,
+  removeError,
+  updateLock,
+  updateMuonLock,
+  updateUserNotExist,
+  updateShowTimeLeft,
+  updateAllocation,
+} from './actions'
 
 export function useAppState() {
   return useAppSelector((state) => state.application)
@@ -45,6 +53,26 @@ export function useUpdateUserNotExist() {
   return useCallback(
     (cond) => {
       dispatch(updateUserNotExist(cond))
+    },
+    [dispatch]
+  )
+}
+
+export function useUpdateShowTimeLeft() {
+  const dispatch = useAppDispatch()
+  return useCallback(
+    (showTimeLeft) => {
+      dispatch(updateShowTimeLeft(showTimeLeft))
+    },
+    [dispatch]
+  )
+}
+
+export function useUpdateAllocation() {
+  const dispatch = useAppDispatch()
+  return useCallback(
+    (allocation) => {
+      dispatch(updateAllocation(allocation))
     },
     [dispatch]
   )

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Flex } from 'rebass'
+import { useAppState } from '../../state/application/hooks'
 
 import { Image, Selector } from '../common/FormControlls'
 import { Wrapper } from '../container/Container'
@@ -8,6 +9,7 @@ import { Arrow } from './swap.style'
 
 const SelectBox = (props) => {
   const { label, placeholder, marginBottom, border, handleOpenModal, selectedValue, selectType } = props
+  const { lock } = useAppState()
 
   return (
     <Wrapper marginBottom={marginBottom}>
@@ -16,7 +18,13 @@ const SelectBox = (props) => {
           {label}
         </Type.SM>
       </Flex>
-      <Selector padding="0 18px 0 15px" onClick={handleOpenModal} border={border} cursor="pointer" width="100%">
+      <Selector
+        padding="0 18px 0 15px"
+        onClick={handleOpenModal}
+        border={border}
+        cursor={lock ? 'default' : 'pointer'}
+        width="100%"
+      >
         {selectedValue ? (
           <Flex alignItems="center">
             <Image

@@ -29,7 +29,7 @@ export const Max = styled.div`
   border-radius: 5px;
   text-align: center;
   padding: 2px 4px;
-  cursor: pointer;
+  cursor: ${({ cursor }) => cursor};
   &:hover {
     background-color: #6f6dc5;
     div {

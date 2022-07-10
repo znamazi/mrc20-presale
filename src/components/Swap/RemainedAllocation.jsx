@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Paragraph, RemainedAllocationContainer } from '.'
+import { Paragraph, RemainedAllocationContainer } from './swap.style'
 
 const RemainedAllocation = ({ remainedAllocation }) => {
   return (

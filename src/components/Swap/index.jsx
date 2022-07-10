@@ -10,15 +10,14 @@ import { useSwap } from '../../state/swap/hooks'
 import NetworkHint from '../common/NetworkHint'
 import AmountBox from './AmountBox'
 import { Container, TriangleDown } from './swap.style'
-import { useAppState } from '../../state/application/hooks'
+import { useAppState, useUpdateShowTimeLeft } from '../../state/application/hooks'
 import useTokensList from '../../hook/useTokensList'
-// import RemainedAllocation from './RemainedAllocation'
+import RemainedAllocation from './RemainedAllocation'
 
 const Swap = (props) => {
   const { leftTokens } = props
-  const { lock, lockType } = useAppState()
-  const holderPublicTime = ''
-
+  const { lock, lockType, publicTime, holderPublicTime, showTimeLeft, allocation } = useAppState()
+  const updateShowTimeLeft = useUpdateShowTimeLeft()
   const swap = useSwap()
   const { tokens, presaleToken } = useTokensList()
 
@@ -29,25 +28,25 @@ const Swap = (props) => {
       <Flex flexDirection="column" opacity={leftTokens < 10 ? '0.3' : '1'} width="100%">
         {lock && lockType === LockType.Allocation ? (
           <InfoLeft
-            // showTimeLeft={publicTime}
-            // setShowTimeLeft={() => setShowTimeLeft(publicTime)}
+            showTimeLeft={publicTime}
+            setShowTimeLeft={() => updateShowTimeLeft(publicTime)}
             leftTokens={leftTokens}
-            // publicTime={publicTime}
+            publicTime={publicTime}
           />
         ) : Date.now() < holderPublicTime ? (
           <InfoLeft
-            // showTimeLeft={showTimeLeft}
-            // setShowTimeLeft={() => setShowTimeLeft(publicTime)}
+            showTimeLeft={showTimeLeft}
+            setShowTimeLeft={() => updateShowTimeLeft(publicTime)}
             leftTokens={leftTokens}
-            // publicTime={publicTime}
+            publicTime={publicTime}
           />
         ) : (
           <>
             <InfoLeft
-              // showTimeLeft={publicTime}
-              // setShowTimeLeft={() => setShowTimeLeft(publicTime)}
+              showTimeLeft={publicTime}
+              setShowTimeLeft={() => updateShowTimeLeft(publicTime)}
               leftTokens={leftTokens}
-              // publicTime={publicTime}
+              publicTime={publicTime}
             />
           </>
         )}
@@ -84,12 +83,12 @@ const Swap = (props) => {
             />
           </Box>
         </Container>
-        {/* 
+
         {lock && lockType === LockType.Allocation
-          ? remainedAllocation !== undefined &&
+          ? allocation !== undefined &&
             Date.now() < publicTime && <RemainedAllocation remainedAllocation="Not eligible" />
-          : remainedAllocation !== undefined &&
-            Date.now() < holderPublicTime && <RemainedAllocation remainedAllocation={`$${remainedAllocation}`} />} */}
+          : allocation !== undefined &&
+            Date.now() < holderPublicTime && <RemainedAllocation remainedAllocation={`$${allocation}`} />}
       </Flex>
     </Flex>
   )

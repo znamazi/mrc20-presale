@@ -8,7 +8,7 @@ import Token from './Token'
 import { Max, Amount, Input, Wrapper } from './swap.style'
 
 import { LabelStatus } from '../../constants/constants'
-import { useAppState, useError, useUpdateUserNotExist } from '../../state/application/hooks'
+import { useAppState, useError, useUpdateAllocation, useUpdateUserNotExist } from '../../state/application/hooks'
 import { ErrorType } from '../../constants/constants'
 import TokensList from './TokensList'
 import { useAddAmount, useSwap } from '../../state/swap/hooks'
@@ -20,28 +20,29 @@ import useUsedAmount from '../../hook/useUsedAmount'
 
 const AmountBox = (props) => {
   let { label, selectedToken, margin, amount, tokens } = props
-  const { error, errorType, holderPublicTime } = useAppState()
+  const { error, errorType, holderPublicTime, allocation, lock } = useAppState()
   const { updateAmountFrom, updateAmountTo } = useAddAmount()
   const { setErrorInfo } = useError()
   const { account } = useWeb3React()
   const updateUserNotExist = useUpdateUserNotExist()
   const usedAmount = useUsedAmount()
   const swap = useSwap()
+  const updateAllocation = useUpdateAllocation()
 
   const [maxAllocation, setMaxAllocation] = React.useState()
-  const [allocation, setAllocation] = React.useState(0)
 
   // Max allocation
   React.useEffect(() => {
     const fetchMaxAllocation = async () => {
       const userAllocationAmount = allocations[account]
+      console.log({ userAllocationAmount })
       if (userAllocationAmount) {
         updateUserNotExist(false)
         setMaxAllocation(userAllocationAmount)
       } else {
         updateUserNotExist(true)
         setMaxAllocation(0)
-        setAllocation(0)
+        updateAllocation(0)
       }
     }
     if (account) fetchMaxAllocation()
@@ -50,8 +51,11 @@ const AmountBox = (props) => {
   // Set allocation
   React.useEffect(() => {
     try {
+      console.log({ maxAllocation, usedAmount: usedAmount.toString() })
       if (maxAllocation && usedAmount) {
-        setAllocation(new BigNumber(maxAllocation).minus(usedAmount).toFixed(3))
+        console.log('**************', new BigNumber(maxAllocation).minus(usedAmount))
+
+        updateAllocation(new BigNumber(maxAllocation).minus(usedAmount).toFixed(3))
       }
     } catch (error) {
       console.log('Error happened in set allocation')
@@ -60,10 +64,10 @@ const AmountBox = (props) => {
 
   const handleAmount = (value, label) => {
     try {
+      if (lock) return
       let token = tokensPrice[swap.token.symbol.toLowerCase()]
       let { valueFrom, valueTo } = calculateAmount(token, presaleToken, label, value)
       let max = getMaxAllow(token, valueFrom, allocation, holderPublicTime)
-      console.log(parseFloat(valueFrom) > parseFloat(max) || parseFloat(valueFrom) > parseFloat(swap.token.balance))
       setErrorInfo({
         error: parseFloat(valueFrom) > parseFloat(max) || parseFloat(valueFrom) > parseFloat(swap.token.balance),
         type: ErrorType.AMOUNT_INPUT,
@@ -90,8 +94,8 @@ const AmountBox = (props) => {
             }`}
           </Type.SM>
           {label === LabelStatus.FROM && (
-            <Max onClick={() => handleAmount(selectedToken.balance, label)}>
-              <Type.SM color="#FFFFFF" fontSize="10px" cursor="pointer">
+            <Max onClick={() => handleAmount(selectedToken.balance, label)} cursor={lock ? 'default' : 'pointer'}>
+              <Type.SM color="#FFFFFF" fontSize="10px" cursor={lock ? 'default' : 'pointer'}>
                 Max
               </Type.SM>
             </Max>
@@ -105,6 +109,7 @@ const AmountBox = (props) => {
           placeholder="Enter Amount"
           min={`0`}
           onChange={(e) => handleAmount(e.target.value, label)}
+          disabled={lock}
         />
         {label === LabelStatus.FROM ? (
           <TokensList selectedToken={selectedToken} tokensList={tokens} />

@@ -19,13 +19,13 @@ const useClaimable = (fetch) => {
         {
           address: MRC20Presale[chainId],
           name: 'tokenBalances',
-          params: [account]
+          params: [account],
         },
         {
           address: MRC20Presale[chainId],
           name: 'tokenClaimed',
-          params: [account]
-        }
+          params: [account],
+        },
       ]
       const result = await multicall(web3, MRC20Presale_ABI, calls, chainId)
       if (result && result.length > 0) {
@@ -35,7 +35,7 @@ const useClaimable = (fetch) => {
       }
     }
 
-    if (account && validChains.includes(chainId) && web3) fetchClaim()
+    if (account && validChains[process.env.NEXT_PUBLIC_MODE].includes(chainId) && web3) fetchClaim()
   }, [account, chainId, web3, fetch])
 
   return claim

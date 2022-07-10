@@ -5,8 +5,8 @@ import ReactModal from 'react-modal'
 import { Flex } from 'rebass'
 import styled from 'styled-components'
 import CountDown from '../common/CountDown'
-import { Button } from '../common/FormControlls'
-import { Type } from '../common/Text'
+import { Button } from '../button/Button'
+import { Type } from '../text/Text'
 
 if (typeof window !== 'undefined') {
   ReactModal.setAppElement('body')
@@ -34,9 +34,8 @@ const Close = styled.img`
   cursor: pointer;
 `
 
-const UserNotExist = (props) => {
+const UserNotExistComponent = (props) => {
   const { open, hide, lock, setLock } = props
-
   const customStyles = {
     overlay: {
       backgroundColor: 'rgba(0,0,0,0.5)',
@@ -82,4 +81,4 @@ const UserNotExist = (props) => {
   )
 }
 
-export default UserNotExist
+export default UserNotExistComponent
