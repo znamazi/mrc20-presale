@@ -11,7 +11,6 @@ import { useAddChain } from '../../state/swap/hooks'
 
 const Chain = (props) => {
   const { value, marginBottom, lock } = props
-  console.log(value)
   const [chains, setChains] = useState([])
   const addChain = useAddChain()
   const [open, setOpen] = useState(false)
@@ -34,7 +33,6 @@ const Chain = (props) => {
     setChains(chains)
   }
   const handleChangeChain = (data) => {
-    console.log(data)
     addChain(data)
   }
   return (

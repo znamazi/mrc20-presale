@@ -50,7 +50,6 @@ const AmountBox = (props) => {
   // Set allocation
   React.useEffect(() => {
     try {
-      console.log({ maxAllocation, usedAmount: usedAmount.toString() })
       if (maxAllocation && usedAmount) {
         updateAllocation(new BigNumber(maxAllocation).minus(usedAmount).toFixed(3))
       }

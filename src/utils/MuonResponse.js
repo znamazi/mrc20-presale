@@ -1,4 +1,4 @@
-import Muon from 'muon'
+import Muon from 'muon-client'
 
 const getErrorMessage = (error) => {
   switch (true) {

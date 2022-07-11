@@ -5,14 +5,12 @@ import { getContract } from '../utils/contractHelpers'
 import useWeb3 from './useWeb3'
 
 const useAllowance = (chain, contractAddress, spender, abi, fetch) => {
-  console.log({ chain, contractAddress, spender, fetch })
   const [allowance, setAllowance] = useState('0')
   const { account, chainId } = useWeb3React()
   const web3 = useWeb3()
 
   useEffect(() => {
     const fetchAllowance = async () => {
-      console.log('hiiiiiiiiiiiiii')
       try {
         if (chain !== chainId) return
         let allowance = ''
@@ -22,7 +20,6 @@ const useAllowance = (chain, contractAddress, spender, abi, fetch) => {
         } else {
           const contract = getContract(abi, contractAddress, web3)
           allowance = await contract.methods.allowance(account, spender).call()
-          console.log('*-*--', { allowance })
         }
 
         setAllowance(allowance)

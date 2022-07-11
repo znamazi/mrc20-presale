@@ -19,7 +19,6 @@ export const useMuonLock = () => {
           forAddress: account,
         })
         .call()
-      console.log(muonResponse)
       if (muonResponse.lock) {
         updateMuonLock({
           lock: muonResponse.expireAt,

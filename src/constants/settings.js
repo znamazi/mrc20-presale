@@ -16,13 +16,6 @@ export const validChains = {
 }
 
 export const tokens = [
-  // {
-  //   logo: '/media/tokens/ert.svg',
-  //   symbol: 'ERT',
-  //   address: '0xb9B5FFC3e1404E3Bb7352e656316D6C5ce6940A1',
-  //   decimals: 18,
-  //   chainId: 4,
-  // },
   {
     logo: '/media/tokens/ert.svg',
     symbol: 'ERT_d6',

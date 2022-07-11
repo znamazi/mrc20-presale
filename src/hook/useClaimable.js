@@ -4,14 +4,16 @@ import { useState, useEffect } from 'react'
 import { MRC20Presale_ABI } from '../constants/ABI'
 import { MRC20Presale } from '../constants/contracts'
 import { validChains } from '../constants/settings'
-import { getBalanceNumber } from '../helper/formatBalance'
-import multicall from '../helper/multicall'
+import multicall from '../utils/multicall'
+import { useSwap } from '../state/swap/hooks'
+import { fromWei } from '../utils/wei'
 import useWeb3 from './useWeb3'
 
-const useClaimable = (fetch) => {
+const useClaimable = () => {
   const { account, chainId } = useWeb3React()
   const [claim, setClaim] = useState(0)
   const web3 = useWeb3()
+  const { fetch } = useSwap()
 
   useEffect(() => {
     const fetchClaim = async () => {
@@ -30,7 +32,7 @@ const useClaimable = (fetch) => {
       const result = await multicall(web3, MRC20Presale_ABI, calls, chainId)
       if (result && result.length > 0) {
         let claim = new BigNumber(result[0]).minus(new BigNumber(result[1]))
-        claim = getBalanceNumber(claim, 18)
+        claim = fromWei(claim.toString(), 18)
         setClaim(claim)
       }
     }

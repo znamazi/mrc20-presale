@@ -10,9 +10,7 @@ export const LinkType = {
 }
 
 export const TransactionType = {
-  APPROVE: 'Approve',
+  APPROVE: 'Approv',
   DEPOSIT: 'Deposit',
   CLAIM: 'Claim',
-  GENERATE_BRIDGE_TOKEN: 'GENERATE_BRIDGE_TOKEN',
-  GENERATE_MAIN_TOKEN: 'GENERATE_MAIN_TOKEN',
 }

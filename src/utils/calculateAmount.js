@@ -5,7 +5,6 @@ const calculateAmount = (token, presaleToken, label, value) => {
   if (!value) {
     return { valueFrom: '', valueTo: '' }
   }
-  console.log({ token })
   let fixedValue = Number(value).toFixedDown(token.decimals).toString()
 
   let valueFrom, valueTo

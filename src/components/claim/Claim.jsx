@@ -1,11 +1,12 @@
 import React from 'react'
 import { Flex } from 'rebass'
 import { presaleToken } from '../../constants/settings'
-import { Box } from '../common/Container'
-import { Type } from '../common/Text'
-import { Button, Image } from '../common/FormControlls'
+import { Box } from '../container/Container'
+import { Type } from '../text/Text'
+import { Image } from '../common/FormControlls'
 import CountDown from '../common/CountDown'
 import styled from 'styled-components'
+import { Button } from '../button/Button'
 
 const ClaimWrap = styled(Box)`
   margin: auto;
@@ -14,11 +15,7 @@ const ClaimWrap = styled(Box)`
   border-radius: 15px;
   box-shadow: 0px 0px 9px 1px #98b7;
   padding: 15px 15px 5px;
-  background: linear-gradient(
-    0deg,
-    #e7ebf3 0%,
-    rgba(231, 235, 243, 0.25) 105.18%
-  );
+  background: linear-gradient(0deg, #e7ebf3 0%, rgba(231, 235, 243, 0.25) 105.18%);
 `
 
 const Claim = (props) => {
@@ -29,12 +26,7 @@ const Claim = (props) => {
       <Flex width="100%">
         <Type.SM>Claim Token</Type.SM>
       </Flex>
-      <Flex
-        width="100%"
-        justifyContent="space-between"
-        alignItems={'center'}
-        mt={'10px'}
-      >
+      <Flex width="100%" justifyContent="space-between" alignItems={'center'} mt={'10px'}>
         <Flex alignItems="center">
           <Image
             paddingRight="10px"
@@ -43,26 +35,14 @@ const Claim = (props) => {
             alt={presaleToken.symbol}
             width={'22px'}
           />
-          <Type.MD
-            fontWeight="bold"
-            color="#313144"
-            fontSize="15px"
-            fontFamily="Montserrat-bold"
-            ml="5px"
-          >
+          <Type.MD fontWeight="bold" color="#313144" fontSize="15px" fontFamily="Montserrat-bold" ml="5px">
             {presaleToken.symbol}
           </Type.MD>
         </Flex>
         <Type.MD fontWeight="bold">{parseFloat(amountClaim)}</Type.MD>
       </Flex>
       {lock && (
-        <Flex
-          justifyContent="space-between"
-          alignItems="center"
-          fontSize={'15px'}
-          width={'100%'}
-          marginTop="10px"
-        >
+        <Flex justifyContent="space-between" alignItems="center" fontSize={'15px'} width={'100%'} marginTop="10px">
           <Type.SM>claimable in</Type.SM>
           <CountDown date={claimTime} setLock={() => setLock(false)} />
         </Flex>

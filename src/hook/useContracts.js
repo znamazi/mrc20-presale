@@ -1,6 +1,6 @@
 import { useWeb3React } from '@web3-react/core'
 import { useMemo } from 'react'
-import { MRC20Bridge_ABI } from '../constants/ABI'
+import { MRC20Presale_ABI } from '../constants/ABI'
 import { getContract2 } from '../utils/contractHelpers'
 
 // returns null on errors
@@ -22,6 +22,6 @@ export function useContract(addressOrAddressMap, ABI, withSignerIfPossible) {
   }, [addressOrAddressMap, ABI, library, chainId, withSignerIfPossible, account])
 }
 
-export function useMRC20Bridge(address, withSignerIfPossible) {
-  return useContract(address, MRC20Bridge_ABI, withSignerIfPossible)
+export function useMRC20Presale(address, withSignerIfPossible) {
+  return useContract(address, MRC20Presale_ABI, withSignerIfPossible)
 }

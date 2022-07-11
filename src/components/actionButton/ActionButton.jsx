@@ -14,9 +14,10 @@ import { NameChainMap } from '../../constants/chainsMap'
 import { useSwap } from '../../state/swap/hooks'
 import { useAppState, useUpdateLock } from '../../state/application/hooks'
 import CountDown from '../common/CountDown'
+import { ImageSpin } from '../common/FormControlls'
 
 const ActionButtonComponent = (props) => {
-  const { handleApprove, handleDeposit, allowance, leftTokens } = props
+  const { handleApprove, handleDeposit, allowance, leftTokens, loading } = props
   const [open, setOpen] = useState(false)
   const { account, chainId, error } = useWeb3React()
   const swap = useSwap()
@@ -101,7 +102,8 @@ const ActionButtonComponent = (props) => {
       case ActionBtnType.DEPOSIT:
         contentBtn = (
           <ActionButton onClick={handleDeposit} active={!status.deposit}>
-            <ActionText active={!status.deposit}>{status.deposit ? 'Depositing ...' : 'Deposit Asset'}</ActionText>
+            <ActionText active={!status.deposit}>{status.deposit ? 'Depositing ...' : 'Deposit'}</ActionText>
+            {loading && <ImageSpin src={`/media/common/loading.svg`} />}
           </ActionButton>
         )
         break

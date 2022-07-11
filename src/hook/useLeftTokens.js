@@ -21,7 +21,6 @@ const useLeftTokens = () => {
           const chainId = Object.keys(MRC20Presale)[index]
           const web3 = getWeb3NoAccount(chainId)
           let purchase = await getTotalTokenBalance(chainId, web3)
-          console.log({ purchase })
           totalTokenBalance = {
             ...totalTokenBalance,
             [chainId]: parseFloat(fromWei(purchase)),
@@ -29,7 +28,6 @@ const useLeftTokens = () => {
         }
         let sum = Object.keys(totalTokenBalance).reduce((sum, chain) => sum + totalTokenBalance[chain], 0)
         let leftTokens = IDO_PARTICIPANT_TOKENS - sum
-        console.log('leftTokens', leftTokens)
         setLeftTokens(leftTokens)
       } catch (error) {
         console.log('Error happend in leftTokens', error)

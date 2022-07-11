@@ -57,7 +57,7 @@ export const walletConnect = new WalletConnectConnector({
 
 export const walletLink = new WalletLinkConnector({
   url: validRPC,
-  appName: 'MRC20-Bridge',
+  appName: 'MRC20-Presale',
 })
 
 export const fortmatic = new FortmaticConnector({
