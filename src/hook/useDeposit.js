@@ -83,6 +83,7 @@ const useDeposit = () => {
         if (swap.token.address === MAIN_TOKEN_ADDRESS) {
           payableValue = extraParameters[3]
         }
+        console.log(muonResponse)
         return sendTransaction(
           contract,
           'deposit',

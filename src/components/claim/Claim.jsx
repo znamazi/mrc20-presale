@@ -7,6 +7,8 @@ import { Image } from '../common/FormControlls'
 import CountDown from '../common/CountDown'
 import styled from 'styled-components'
 import { Button } from '../button/Button'
+import useClaim from '../../hook/useClaim'
+import { useSetFetch } from '../../state/swap/hooks'
 
 const ClaimWrap = styled(Box)`
   margin: auto;
@@ -19,8 +21,15 @@ const ClaimWrap = styled(Box)`
 `
 
 const Claim = (props) => {
-  const { amountClaim, claimTime, handleClaim } = props
+  const { amountClaim, claimTime } = props
   const [lock, setLock] = React.useState(Date.now() < claimTime)
+  const updateFetchData = useSetFetch()
+
+  const doClaim = useClaim()
+
+  const handleClaim = () => {
+    doClaim(amountClaim).then(() => updateFetchData(Date.now()))
+  }
   return (
     <ClaimWrap>
       <Flex width="100%">
@@ -56,7 +65,6 @@ const Claim = (props) => {
         height="35px"
       >
         <Type.MD color="#ffffff" fontWeight="bold">
-          {' '}
           Claim
         </Type.MD>
       </Button>
