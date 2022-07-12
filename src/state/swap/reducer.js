@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { addChain, addAmountFrom, addAmountTo, fetchData, addToken } from './actions'
+import { addChain, addAmountFrom, addAmountTo, fetchData, addToken, addAmountType } from './actions'
 import { validChains, tokens } from '../../constants/settings'
 import { NameChainMap, rpcConfig } from '../../constants/chainsMap'
 
@@ -13,6 +13,7 @@ const initialState = {
   amountFrom: '',
   amountTo: '',
   fetch: null,
+  amountType: '',
 }
 
 export default createReducer(initialState, (builder) => {
@@ -30,9 +31,14 @@ export default createReducer(initialState, (builder) => {
     return { ...state, amountFrom: action.payload }
   })
 
-  //   add amount From
+  //   add amount To
   builder.addCase(addAmountTo, (state, action) => {
     return { ...state, amountTo: action.payload }
+  })
+
+  //   add amount Type
+  builder.addCase(addAmountType, (state, action) => {
+    return { ...state, amountType: action.payload }
   })
 
   // update fetch

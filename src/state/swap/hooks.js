@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks'
-import { addAmountFrom, addAmountTo, addChain, addToken, fetchData } from './actions'
+import { addAmountFrom, addAmountTo, addAmountType, addChain, addToken, fetchData } from './actions'
 
 export function useSwap() {
   return useAppSelector((state) => state.swap)
@@ -41,7 +41,14 @@ export function useAddAmount() {
     [dispatch]
   )
 
-  return { updateAmountFrom, updateAmountTo }
+  const updateAmountType = useCallback(
+    (type) => {
+      dispatch(addAmountType(type))
+    },
+    [dispatch]
+  )
+
+  return { updateAmountFrom, updateAmountTo, updateAmountType }
 }
 
 export function useSetFetch() {

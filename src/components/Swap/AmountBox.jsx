@@ -21,7 +21,7 @@ import useUsedAmount from '../../hook/useUsedAmount'
 const AmountBox = (props) => {
   let { label, selectedToken, margin, amount, tokens } = props
   const { error, errorType, holderPublicTime, allocation, lock } = useAppState()
-  const { updateAmountFrom, updateAmountTo } = useAddAmount()
+  const { updateAmountFrom, updateAmountTo, updateAmountType } = useAddAmount()
   const { setErrorInfo } = useError()
   const { account } = useWeb3React()
   const updateUserNotExist = useUpdateUserNotExist()
@@ -58,9 +58,18 @@ const AmountBox = (props) => {
     }
   }, [usedAmount, maxAllocation])
 
+  // handle Amount
+  React.useEffect(() => {
+    if (tokensPrice && swap.amountFrom > 0) {
+      const value = swap.amountType === LabelStatus.FROM ? swap.amountFrom : swap.amountTo
+      handleAmount(value, swap.amountType)
+    }
+  }, [swap.token, tokensPrice])
+
   const handleAmount = (value, label) => {
     try {
       if (lock) return
+      updateAmountType(label)
       let token = tokensPrice[swap.token.symbol.toLowerCase()]
       let { valueFrom, valueTo } = calculateAmount(token, presaleToken, label, value)
       let max = getMaxAllow(token, valueFrom, allocation, holderPublicTime)
@@ -79,7 +88,6 @@ const AmountBox = (props) => {
     if (balance) {
       try {
         let token = tokensPrice[swap.token.symbol.toLowerCase()]
-
         const max = getMaxAllow(token, balance, allocation, holderPublicTime)
         handleAmount(max, LabelStatus.FROM)
       } catch (error) {

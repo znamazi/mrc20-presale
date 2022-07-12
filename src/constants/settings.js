@@ -1,5 +1,5 @@
 import { ChainMap } from './chainsMap'
-import { USDC_ADDRESS } from './tokens'
+import { MAIN_TOKEN_ADDRESS, USDC_ADDRESS } from './tokens'
 
 export const title = 'Muon MRC20 '
 
@@ -23,13 +23,13 @@ export const tokens = [
     decimals: 6,
     chainId: 4,
   },
-  // {
-  //   logo: '/media/tokens/eth.svg',
-  //   symbol: 'ETH',
-  //   address: MAIN_TOKEN_ADDRESS,
-  //   decimals: 18,
-  //   chainId: 4,
-  // },
+  {
+    logo: '/media/tokens/eth.svg',
+    symbol: 'ETH',
+    address: MAIN_TOKEN_ADDRESS,
+    decimals: 18,
+    chainId: 4,
+  },
   // {
   //   logo: '/media/tokens/bnb.svg',
   //   symbol: 'BNB',
@@ -80,6 +80,11 @@ export const tokensPrice = {
     decimals: 18,
     address: '0x701048911b1f1121E33834d3633227A954978d53',
     price: 1,
+  },
+  eth: {
+    decimals: 18,
+    address: MAIN_TOKEN_ADDRESS,
+    price: 1000,
   },
 }
 export const presaleToken = {
